@@ -4,8 +4,9 @@ export {
   getAriaChecked,
   isChecked,
   toggleChecked,
-  type CheckedState,
   type CheckboxContext,
+  type CheckboxDataState,
   type CheckboxEvent,
   type CheckboxProps,
+  type CheckedState,
 } from "./checkbox.types";

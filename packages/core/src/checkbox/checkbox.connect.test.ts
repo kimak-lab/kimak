@@ -1,5 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { checkboxSpec } from "@kimak/spec";
 import { identityPropTypes } from "../types";
+import { dataAttrKeys, expectedDataAttrKeys, machineParts } from "../spec-contract";
 import { connectCheckbox } from "./checkbox.connect";
 import { createCheckboxMachine } from "./checkbox.machine";
 
@@ -9,6 +11,10 @@ function api(props: Parameters<typeof createCheckboxMachine>[0] = { id: "cb" }) 
     service,
     current: () => connectCheckbox(service, identityPropTypes),
   };
+}
+
+function keyEvent(key: string) {
+  return { key, preventDefault: vi.fn() } as unknown as KeyboardEvent;
 }
 
 describe("checkbox connect", () => {
@@ -21,6 +27,37 @@ describe("checkbox connect", () => {
     expect(root["data-state"]).toBe("unchecked");
     expect(control.role).toBe("checkbox");
     expect(control["aria-checked"]).toBe("false");
+  });
+
+  it("emits exact spec data-* and aria on every machine part", () => {
+    const { current } = api({
+      id: "cb",
+      disabled: true,
+      invalid: true,
+      readOnly: true,
+      required: true,
+    });
+    const propsBySlot = {
+      root: current().getRootProps(),
+      label: current().getLabelProps(),
+      control: current().getControlProps(),
+      indicator: current().getIndicatorProps(),
+      hiddenInput: current().getHiddenInputProps(),
+    };
+
+    for (const [slot, part] of machineParts(checkboxSpec.parts)) {
+      const props = propsBySlot[slot as keyof typeof propsBySlot];
+      expect(dataAttrKeys(props)).toEqual(expectedDataAttrKeys(part));
+      if (part.dataStates && props["data-state"] != null) {
+        expect(part.dataStates).toContain(props["data-state"]);
+      }
+      if (part.role) {
+        expect(props.role).toBe(part.role);
+      }
+      for (const attr of part.ariaAttrs ?? []) {
+        expect(props).toHaveProperty(attr);
+      }
+    }
   });
 
   it("toggles uncontrolled state", () => {
@@ -56,5 +93,20 @@ describe("checkbox connect", () => {
     expect(current().indeterminate).toBe(true);
     expect(current().getControlProps()["aria-checked"]).toBe("mixed");
     expect(current().getControlProps()["data-state"]).toBe("indeterminate");
+  });
+
+  it("toggles on Space and not on Enter", () => {
+    const { current } = api();
+    const onKeyDown = current().getControlProps().onKeyDown as (event: KeyboardEvent) => void;
+
+    const enter = keyEvent("Enter");
+    onKeyDown(enter);
+    expect(enter.preventDefault).not.toHaveBeenCalled();
+    expect(current().checked).toBe(false);
+
+    const space = keyEvent(" ");
+    onKeyDown(space);
+    expect(space.preventDefault).toHaveBeenCalled();
+    expect(current().checked).toBe(true);
   });
 });

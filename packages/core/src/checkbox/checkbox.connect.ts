@@ -52,15 +52,6 @@ export function connectCheckbox(
     ...props.ids,
   };
 
-  const shared = {
-    "data-state": dataState,
-    "data-disabled": dataIf(disabled),
-    "data-invalid": dataIf(invalid),
-    "data-readonly": dataIf(readOnly),
-    "data-required": dataIf(required),
-    dir: props.dir ?? "ltr",
-  };
-
   return {
     checked: isChecked(checked),
     indeterminate: checked === "indeterminate",
@@ -74,20 +65,30 @@ export function connectCheckbox(
     getRootProps: () =>
       normalize.label({
         ...checkboxAnatomy.root.attrs(),
-        ...shared,
+        "data-state": dataState,
+        "data-disabled": dataIf(disabled),
+        "data-invalid": dataIf(invalid),
+        "data-readonly": dataIf(readOnly),
+        "data-required": dataIf(required),
+        dir: props.dir ?? "ltr",
         id: ids.root,
         htmlFor: ids.hiddenInput,
       }),
     getLabelProps: () =>
       normalize.element({
         ...checkboxAnatomy.label.attrs(),
-        ...shared,
+        "data-state": dataState,
+        "data-disabled": dataIf(disabled),
         id: ids.label,
       }),
     getControlProps: () =>
       normalize.element({
         ...checkboxAnatomy.control.attrs(),
-        ...shared,
+        "data-state": dataState,
+        "data-disabled": dataIf(disabled),
+        "data-invalid": dataIf(invalid),
+        "data-readonly": dataIf(readOnly),
+        "data-required": dataIf(required),
         id: ids.control,
         role: "checkbox",
         tabIndex: disabled ? undefined : 0,
@@ -101,7 +102,7 @@ export function connectCheckbox(
           service.send({ type: "TOGGLE" });
         },
         onKeyDown: (event: KeyboardEvent) => {
-          if (event.key === " " || event.key === "Enter") {
+          if (event.key === " ") {
             event.preventDefault();
             service.send({ type: "TOGGLE" });
           }

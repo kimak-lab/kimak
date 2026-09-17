@@ -2,7 +2,7 @@ import { dialogAnatomy } from "@kimak/spec";
 import { createIds } from "../platform/ids";
 import { cycleTab } from "../platform/focus";
 import { getPresenceState } from "../platform/presence";
-import type { PropTypes } from "../types";
+import { dataIf, type PropTypes } from "../types";
 import type { Service } from "../machine";
 import type { DialogContext, DialogEvent, DialogProps } from "./dialog.types";
 
@@ -53,7 +53,7 @@ export function connectDialog(
         type: "button",
         disabled: props.disabled,
         "data-state": dataState,
-        "data-disabled": props.disabled ? "" : undefined,
+        "data-disabled": dataIf(props.disabled),
         "aria-haspopup": "dialog",
         "aria-expanded": open,
         "aria-controls": ids.content,

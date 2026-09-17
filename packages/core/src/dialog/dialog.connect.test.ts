@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { dialogSpec } from "@kimak/spec";
 import { identityPropTypes } from "../types";
+import { dataAttrKeys, expectedDataAttrKeys, machineParts } from "../spec-contract";
 import { connectDialog } from "./dialog.connect";
 import { createDialogMachine } from "./dialog.machine";
 
@@ -19,6 +21,34 @@ describe("dialog connect", () => {
     expect(current().getTriggerProps()["aria-expanded"]).toBe(false);
     expect(current().getContentProps().role).toBe("dialog");
     expect(current().getContentProps()["data-state"]).toBe("closed");
+  });
+
+  it("emits exact spec data-* and aria on every machine part", () => {
+    const { current } = api({ id: "dlg", disabled: true });
+    const propsBySlot = {
+      root: current().getRootProps(),
+      trigger: current().getTriggerProps(),
+      backdrop: current().getBackdropProps(),
+      positioner: current().getPositionerProps(),
+      content: current().getContentProps(),
+      title: current().getTitleProps(),
+      description: current().getDescriptionProps(),
+      close: current().getCloseTriggerProps(),
+    };
+
+    for (const [slot, part] of machineParts(dialogSpec.parts)) {
+      const props = propsBySlot[slot as keyof typeof propsBySlot];
+      expect(dataAttrKeys(props)).toEqual(expectedDataAttrKeys(part));
+      if (part.dataStates && props["data-state"] != null) {
+        expect(part.dataStates).toContain(props["data-state"]);
+      }
+      if (part.role) {
+        expect(props.role).toBe(part.role);
+      }
+      for (const attr of part.ariaAttrs ?? []) {
+        expect(props).toHaveProperty(attr);
+      }
+    }
   });
 
   it("opens and closes through the machine", () => {
@@ -41,5 +71,10 @@ describe("dialog connect", () => {
     current().setOpen(true);
     expect(current().open).toBe(false);
     expect(seen).toEqual([true]);
+  });
+
+  it("honors alertdialog role on content", () => {
+    const { current } = api({ id: "dlg", role: "alertdialog" });
+    expect(current().getContentProps().role).toBe("alertdialog");
   });
 });

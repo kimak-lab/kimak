@@ -1,3 +1,5 @@
+import type { CheckboxDataState, CommonProps as SpecCommonProps, Direction } from "@kimak/spec";
+
 export type Dict = Record<string, unknown>;
 
 export type NormalizeFn = <T extends Dict>(props: T) => T;
@@ -16,17 +18,15 @@ export const identityPropTypes: PropTypes = {
   input: (props) => props,
 };
 
-export type Direction = "ltr" | "rtl";
+export type { Direction };
 
-export interface CommonProps {
-  id?: string;
-  dir?: Direction;
+export interface CommonProps extends SpecCommonProps {
   getRootNode?: () => Document | ShadowRoot;
 }
 
 export function getCheckedState(
   checked: boolean | "indeterminate",
-): "checked" | "unchecked" | "indeterminate" {
+): CheckboxDataState {
   if (checked === "indeterminate") return "indeterminate";
   return checked ? "checked" : "unchecked";
 }

@@ -1,11 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { checkboxSpec } from "@kimak/spec";
 import { Checkbox } from "./checkbox";
 
-function Example() {
+function Example(props: { disabled?: boolean; readOnly?: boolean; defaultChecked?: boolean | "indeterminate" }) {
   return (
-    <Checkbox.Root>
+    <Checkbox.Root {...props}>
       <Checkbox.Control>
         <Checkbox.Indicator />
       </Checkbox.Control>
@@ -28,15 +29,6 @@ describe("Checkbox", () => {
     expect(control).toHaveAttribute("data-state", "checked");
   });
 
-  it("toggles with Space when focused", async () => {
-    const user = userEvent.setup();
-    render(<Example />);
-    const control = screen.getByRole("checkbox");
-    control.focus();
-    await user.keyboard(" ");
-    expect(control).toHaveAttribute("aria-checked", "true");
-  });
-
   it("merges render onto the consumer label", () => {
     render(
       <Checkbox.Root render={<label data-testid="custom" />}>
@@ -48,5 +40,47 @@ describe("Checkbox", () => {
     expect(root.tagName).toBe("LABEL");
     expect(root).toHaveAttribute("data-scope", "checkbox");
     expect(root).toHaveAttribute("data-slot", "root");
+  });
+
+  it("exposes mixed as aria-checked=mixed", () => {
+    render(<Example defaultChecked="indeterminate" />);
+    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
+    expect(screen.getByRole("checkbox")).toHaveAttribute("data-state", "indeterminate");
+  });
+
+  it("does not toggle when disabled", async () => {
+    const user = userEvent.setup();
+    render(<Example disabled />);
+    const control = screen.getByRole("checkbox");
+    await user.click(control);
+    expect(control).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("does not toggle when readOnly", async () => {
+    const user = userEvent.setup();
+    render(<Example readOnly />);
+    const control = screen.getByRole("checkbox");
+    control.focus();
+    await user.keyboard(" ");
+    expect(control).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("Enter does not toggle the checkbox", async () => {
+    const user = userEvent.setup();
+    render(<Example />);
+    const control = screen.getByRole("checkbox");
+    control.focus();
+    await user.keyboard("{Enter}");
+    expect(control).toHaveAttribute("aria-checked", "false");
+  });
+
+  it.each(checkboxSpec.keyboard)("$code on $slot toggles the checkbox", async (binding) => {
+    expect(`${binding.code}:${binding.slot}`).toBe("Space:control");
+    const user = userEvent.setup();
+    render(<Example />);
+    const control = screen.getByRole("checkbox");
+    control.focus();
+    await user.keyboard(" ");
+    expect(control).toHaveAttribute("aria-checked", "true");
   });
 });

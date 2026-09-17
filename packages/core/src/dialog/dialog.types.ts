@@ -1,19 +1,8 @@
-import type { Direction } from "../types";
+import type { DialogEvents, DialogProps as DialogSpecProps } from "@kimak/spec";
 
-export interface DialogProps {
-  id?: string;
-  ids?: Partial<Record<"trigger" | "content" | "title" | "description" | "backdrop", string>>;
-  dir?: Direction;
-  open?: boolean;
-  defaultOpen?: boolean;
-  modal?: boolean;
-  closeOnEscape?: boolean;
-  closeOnInteractOutside?: boolean;
-  forceMount?: boolean;
-  disabled?: boolean;
-  role?: "dialog" | "alertdialog";
-  onOpenChange?: (details: { open: boolean }) => void;
-}
+export type { DialogDataState, DialogRole } from "@kimak/spec";
+
+export interface DialogProps extends DialogSpecProps, DialogEvents {}
 
 export interface DialogContext {
   open: boolean;

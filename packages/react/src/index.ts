@@ -1,5 +1,5 @@
-export { Checkbox } from "./checkbox";
-export { Dialog } from "./dialog";
+export { Checkbox, checkboxAnatomy } from "./checkbox";
+export { Dialog, dialogAnatomy } from "./dialog";
 export { DirectionProvider, useDirection } from "./direction";
 export { mergeProps } from "./merge-props";
 export { Portal } from "./portal";

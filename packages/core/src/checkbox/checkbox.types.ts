@@ -1,22 +1,12 @@
-import type { Direction } from "../types";
+import type {
+  CheckboxEvents,
+  CheckboxProps as CheckboxSpecProps,
+  CheckedState,
+} from "@kimak/spec";
 
-export type CheckedState = boolean | "indeterminate";
+export type { CheckboxDataState, CheckedState } from "@kimak/spec";
 
-export interface CheckboxProps {
-  id?: string;
-  ids?: Partial<Record<"root" | "control" | "hiddenInput" | "label", string>>;
-  dir?: Direction;
-  disabled?: boolean;
-  invalid?: boolean;
-  required?: boolean;
-  readOnly?: boolean;
-  name?: string;
-  form?: string;
-  value?: string;
-  checked?: CheckedState;
-  defaultChecked?: CheckedState;
-  onCheckedChange?: (details: { checked: CheckedState }) => void;
-}
+export interface CheckboxProps extends CheckboxSpecProps, CheckboxEvents {}
 
 export interface CheckboxContext {
   checked: CheckedState;

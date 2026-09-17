@@ -1,14 +1,16 @@
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@kimak/react": path.resolve(__dirname, "../../packages/react/src/index.ts"),
       "@kimak/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
       "@kimak/spec": path.resolve(__dirname, "../../packages/spec/src/index.ts"),
+      "@kimak/tailwind": path.resolve(__dirname, "../../packages/tailwind/src/index.ts"),
     },
   },
   server: {
