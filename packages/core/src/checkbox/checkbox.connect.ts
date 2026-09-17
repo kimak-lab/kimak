@@ -1,44 +1,35 @@
 import { checkboxAnatomy } from "@kimak/spec";
 import { createIds } from "../platform/ids";
-import { getCheckedState, dataIf, type PropTypes } from "../types";
+import { visuallyHiddenStyle } from "../platform/hidden";
+import { dataIf } from "../types";
+import type { DictPropTypes, NormalizeProps, PropTypes } from "../normalize";
 import type { Service } from "../machine";
 import {
   getAriaChecked,
+  getCheckedState,
   isChecked,
   type CheckboxContext,
   type CheckboxEvent,
   type CheckboxProps,
 } from "./checkbox.types";
 
-export interface CheckboxApi {
+export interface CheckboxApi<T extends PropTypes = DictPropTypes> {
   checked: boolean;
   indeterminate: boolean;
   disabled: boolean;
   setChecked: (checked: CheckboxProps["checked"] & {}) => void;
   toggle: () => void;
-  getRootProps: () => Record<string, unknown>;
-  getLabelProps: () => Record<string, unknown>;
-  getControlProps: () => Record<string, unknown>;
-  getIndicatorProps: () => Record<string, unknown>;
-  getHiddenInputProps: () => Record<string, unknown>;
+  getRootProps: () => T["label"];
+  getLabelProps: () => T["element"];
+  getControlProps: () => T["element"];
+  getIndicatorProps: () => T["element"];
+  getHiddenInputProps: () => T["input"];
 }
 
-const visuallyHidden: Record<string, string> = {
-  border: "0",
-  clip: "rect(0 0 0 0)",
-  height: "1px",
-  margin: "-1px",
-  overflow: "hidden",
-  padding: "0",
-  position: "absolute",
-  width: "1px",
-  whiteSpace: "nowrap",
-};
-
-export function connectCheckbox(
+export function connectCheckbox<T extends PropTypes>(
   service: Service<CheckboxContext, CheckboxProps, CheckboxEvent>,
-  normalize: PropTypes,
-): CheckboxApi {
+  normalize: NormalizeProps<T>,
+): CheckboxApi<T> {
   const snapshot = service.getSnapshot();
   const { props, context } = snapshot;
   const checked = props.checked ?? context.checked;
@@ -127,7 +118,7 @@ export function connectCheckbox(
         readOnly,
         "aria-hidden": true,
         tabIndex: -1,
-        style: visuallyHidden,
+        style: visuallyHiddenStyle,
         ref: (node: HTMLInputElement | null) => {
           service.refs.hiddenInput = node;
           if (node) node.indeterminate = checked === "indeterminate";

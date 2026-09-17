@@ -59,6 +59,8 @@ Visual size is a host attribute, not a machine prop:
 
 v1 publishes `@kimak/react`. Vue and Svelte adapters are not in this repo yet. `@kimak/tailwind` is already adapter-agnostic.
 
+The portable contract is `connect(service, normalize)`, not JSX. `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, callback `ref`). A future adapter remaps those keys with `createNormalizer` and binds the service with the equivalent of `useMachine`. Compound `render` / portal / context stay in the adapter. Product sugar is per adapter, never in `@kimak/core`.
+
 ## Golden pair
 
 The catalog does not start until these two are proven:

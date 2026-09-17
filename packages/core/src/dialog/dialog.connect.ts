@@ -2,27 +2,28 @@ import { dialogAnatomy } from "@kimak/spec";
 import { createIds } from "../platform/ids";
 import { cycleTab } from "../platform/focus";
 import { getPresenceState } from "../platform/presence";
-import { dataIf, type PropTypes } from "../types";
+import { dataIf } from "../types";
+import type { DictPropTypes, NormalizeProps, PropTypes } from "../normalize";
 import type { Service } from "../machine";
 import type { DialogContext, DialogEvent, DialogProps } from "./dialog.types";
 
-export interface DialogApi {
+export interface DialogApi<T extends PropTypes = DictPropTypes> {
   open: boolean;
   setOpen: (open: boolean) => void;
-  getRootProps: () => Record<string, unknown>;
-  getTriggerProps: () => Record<string, unknown>;
-  getBackdropProps: () => Record<string, unknown>;
-  getPositionerProps: () => Record<string, unknown>;
-  getContentProps: () => Record<string, unknown>;
-  getTitleProps: () => Record<string, unknown>;
-  getDescriptionProps: () => Record<string, unknown>;
-  getCloseTriggerProps: () => Record<string, unknown>;
+  getRootProps: () => T["element"];
+  getTriggerProps: () => T["button"];
+  getBackdropProps: () => T["element"];
+  getPositionerProps: () => T["element"];
+  getContentProps: () => T["element"];
+  getTitleProps: () => T["element"];
+  getDescriptionProps: () => T["element"];
+  getCloseTriggerProps: () => T["button"];
 }
 
-export function connectDialog(
+export function connectDialog<T extends PropTypes>(
   service: Service<DialogContext, DialogProps, DialogEvent>,
-  normalize: PropTypes,
-): DialogApi {
+  normalize: NormalizeProps<T>,
+): DialogApi<T> {
   const { props, context } = service.getSnapshot();
   const open = props.open ?? context.open;
   const modal = props.modal !== false;
@@ -70,6 +71,7 @@ export function connectDialog(
     getPositionerProps: () =>
       normalize.element({
         ...dialogAnatomy.positioner.attrs(),
+        id: ids.positioner,
         "data-state": dataState,
       }),
     getContentProps: () =>

@@ -16,22 +16,24 @@ import {
   handleEscapeKey,
   handleInteractOutside,
   lockScroll,
+  splitProps,
   type DialogApi,
   type DialogProps as CoreDialogProps,
   type Direction,
 } from "@kimak/core";
 import { useDirection } from "../direction";
 import { mergeProps } from "../merge-props";
-import { normalizeProps } from "../normalize-props";
+import { normalizeProps, type ReactPropTypes } from "../normalize-props";
 import { Portal as KimakPortal } from "../portal";
 import { Presence } from "../presence";
 import { Primitive } from "../primitive";
-import { splitProps } from "../split-props";
 import { useMachine } from "../use-machine";
 import type { WithRender } from "../use-render";
 
+type ReactDialogApi = DialogApi<ReactPropTypes>;
+
 interface DialogContextValue {
-  api: DialogApi;
+  api: ReactDialogApi;
   forceMount: boolean;
 }
 

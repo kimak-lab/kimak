@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { checkboxSpec } from "@kimak/spec";
-import { identityPropTypes } from "../types";
+import { identityPropTypes } from "../normalize";
 import { dataAttrKeys, expectedDataAttrKeys, machineParts } from "../spec-contract";
 import { connectCheckbox } from "./checkbox.connect";
 import { createCheckboxMachine } from "./checkbox.machine";
@@ -93,6 +93,19 @@ describe("checkbox connect", () => {
     expect(current().indeterminate).toBe(true);
     expect(current().getControlProps()["aria-checked"]).toBe("mixed");
     expect(current().getControlProps()["data-state"]).toBe("indeterminate");
+  });
+
+  it("emits the kernel prop dialect adapters must remap", () => {
+    const { current } = api();
+    const root = current().getRootProps();
+    const control = current().getControlProps();
+    const input = current().getHiddenInputProps();
+    expect(root).toHaveProperty("htmlFor");
+    expect(control).toHaveProperty("onClick");
+    expect(control).toHaveProperty("onKeyDown");
+    expect(input).toHaveProperty("onChange");
+    expect(input).toHaveProperty("ref");
+    expect(input).toHaveProperty("style");
   });
 
   it("toggles on Space and not on Enter", () => {

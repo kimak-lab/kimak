@@ -10,21 +10,23 @@ import {
 import {
   connectCheckbox,
   createCheckboxMachine,
+  splitProps,
   type CheckboxApi,
   type CheckboxProps as CoreCheckboxProps,
   type Direction,
 } from "@kimak/core";
 import { mergeProps } from "../merge-props";
-import { normalizeProps } from "../normalize-props";
+import { normalizeProps, type ReactPropTypes } from "../normalize-props";
 import { Primitive } from "../primitive";
-import { splitProps } from "../split-props";
 import { useDirection } from "../direction";
 import { useMachine } from "../use-machine";
 import type { WithRender } from "../use-render";
 
-const CheckboxContext = createContext<CheckboxApi | null>(null);
+type ReactCheckboxApi = CheckboxApi<ReactPropTypes>;
 
-function useCheckboxApi(): CheckboxApi {
+const CheckboxContext = createContext<ReactCheckboxApi | null>(null);
+
+function useCheckboxApi(): ReactCheckboxApi {
   const api = useContext(CheckboxContext);
   if (!api) {
     throw new Error("[kimak] Checkbox parts must be wrapped in Checkbox.Root");

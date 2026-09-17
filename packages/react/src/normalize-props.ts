@@ -1,3 +1,16 @@
-import { identityPropTypes, type PropTypes } from "@kimak/core";
+import type {
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+  InputHTMLAttributes,
+  LabelHTMLAttributes,
+} from "react";
+import { createNormalizer } from "@kimak/core";
 
-export const normalizeProps: PropTypes = identityPropTypes;
+export interface ReactPropTypes {
+  element: HTMLAttributes<HTMLElement>;
+  button: ButtonHTMLAttributes<HTMLButtonElement>;
+  label: LabelHTMLAttributes<HTMLLabelElement>;
+  input: InputHTMLAttributes<HTMLInputElement>;
+}
+
+export const normalizeProps = createNormalizer<ReactPropTypes>();

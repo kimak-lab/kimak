@@ -2,6 +2,7 @@ export { connectCheckbox, type CheckboxApi } from "./checkbox.connect";
 export { createCheckboxMachine } from "./checkbox.machine";
 export {
   getAriaChecked,
+  getCheckedState,
   isChecked,
   toggleChecked,
   type CheckboxContext,

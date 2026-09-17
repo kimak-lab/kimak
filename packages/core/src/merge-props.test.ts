@@ -21,6 +21,11 @@ describe("mergeProps", () => {
     expect(merged.style).toEqual({ color: "red", opacity: 0.5 });
   });
 
+  it("concatenates class for non-React adapters", () => {
+    const merged = mergeProps({ class: "root" }, { class: "open" });
+    expect(merged.class).toBe("root open");
+  });
+
   it("lets later defined values win", () => {
     const merged = mergeProps({ id: "a", role: "checkbox" }, { id: "b" });
     expect(merged.id).toBe("b");

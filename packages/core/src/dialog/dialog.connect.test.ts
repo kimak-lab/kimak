@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { dialogSpec } from "@kimak/spec";
-import { identityPropTypes } from "../types";
+import { identityPropTypes } from "../normalize";
 import { dataAttrKeys, expectedDataAttrKeys, machineParts } from "../spec-contract";
 import { connectDialog } from "./dialog.connect";
 import { createDialogMachine } from "./dialog.machine";
@@ -49,6 +49,14 @@ describe("dialog connect", () => {
         expect(props).toHaveProperty(attr);
       }
     }
+  });
+
+  it("emits the kernel prop dialect adapters must remap", () => {
+    const { current } = api();
+    expect(current().getTriggerProps()).toHaveProperty("onClick");
+    expect(current().getCloseTriggerProps()).toHaveProperty("onClick");
+    expect(current().getContentProps()).toHaveProperty("onKeyDown");
+    expect(current().getContentProps()).toHaveProperty("ref");
   });
 
   it("opens and closes through the machine", () => {
