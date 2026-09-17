@@ -1,0 +1,10 @@
+import { defineConfig } from "tsup";
+
+export default defineConfig({
+  entry: ["src/index.ts", "src/checkbox/index.ts", "src/dialog/index.ts"],
+  format: ["esm"],
+  dts: true,
+  clean: true,
+  sourcemap: true,
+  treeshake: true,
+});

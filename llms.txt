@@ -1,0 +1,7 @@
+# Kimak
+
+Headless UI library. React-first. Kernel in `@kimak/core`, adapter in `@kimak/react`.
+
+Styling contract: `[data-scope][data-slot][data-state]`. No design tokens.
+
+Golden pair: Checkbox, Dialog. Do not expand the catalog until those two share spec, connect(), and tests.

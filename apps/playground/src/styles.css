@@ -1,0 +1,118 @@
+:root {
+  color-scheme: light dark;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  background: Canvas;
+  color: CanvasText;
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, CanvasText 60%, Canvas);
+}
+
+.lede {
+  color: color-mix(in srgb, CanvasText 70%, Canvas);
+}
+
+section {
+  margin-top: 2.5rem;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.9em;
+}
+
+[data-scope="checkbox"][data-slot="root"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+[data-scope="checkbox"][data-slot="control"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1.5px solid currentColor;
+  display: grid;
+  place-items: center;
+}
+
+[data-scope="checkbox"][data-slot="indicator"] {
+  display: none;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+[data-scope="checkbox"][data-slot="indicator"][data-state="checked"],
+[data-scope="checkbox"][data-slot="indicator"][data-state="indeterminate"] {
+  display: block;
+}
+
+[data-scope="checkbox"][data-slot="control"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+[data-scope="dialog"][data-slot="trigger"],
+[data-scope="dialog"][data-slot="close"] {
+  font: inherit;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid currentColor;
+  background: Canvas;
+  color: CanvasText;
+  cursor: pointer;
+}
+
+[data-scope="dialog"][data-slot="backdrop"] {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, CanvasText 35%, transparent);
+}
+
+[data-scope="dialog"][data-slot="positioner"] {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+[data-scope="dialog"][data-slot="content"] {
+  width: min(24rem, 100%);
+  background: Canvas;
+  color: CanvasText;
+  border: 1px solid currentColor;
+  padding: 1.25rem;
+}
+
+[data-scope="dialog"][data-slot="title"] {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+}
+
+[data-scope="dialog"][data-slot="description"] {
+  margin: 0 0 1rem;
+}
+
+[data-scope="dialog"][data-slot="content"]:focus {
+  outline: none;
+}
+
+[data-scope="dialog"][data-slot="content"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
