@@ -33,7 +33,7 @@ export function App() {
       <section>
         <h2>Dialog</h2>
         <Dialog.Root>
-          <Dialog.Trigger>Open dialog</Dialog.Trigger>
+          <Dialog.Trigger render={<button type="button" />}>Open dialog</Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Backdrop />
             <Dialog.Positioner>

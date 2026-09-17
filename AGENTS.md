@@ -16,7 +16,7 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 - Spec is the source of truth for docs, types, and a11y tests. JSX is not.
 - Core `connect(service, normalize)` yields props per part. Adapters pass a `normalize` map.
-- React 19: `ref` is a prop. No `forwardRef`. Compound parts. `asChild` + `mergeProps` on Trigger and Root.
+- React 19: `ref` is a prop. No `forwardRef`. Compound parts. `render` + `mergeProps` on Trigger and Root (Base UI composition, not Radix `asChild`).
 
 ## Adding a component
 

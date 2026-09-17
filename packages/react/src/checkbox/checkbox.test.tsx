@@ -37,13 +37,11 @@ describe("Checkbox", () => {
     expect(control).toHaveAttribute("aria-checked", "true");
   });
 
-  it("merges asChild onto the consumer label", () => {
+  it("merges render onto the consumer label", () => {
     render(
-      <Checkbox.Root asChild>
-        <label data-testid="custom">
-          <Checkbox.Control />
-          <Checkbox.HiddenInput />
-        </label>
+      <Checkbox.Root render={<label data-testid="custom" />}>
+        <Checkbox.Control />
+        <Checkbox.HiddenInput />
       </Checkbox.Root>,
     );
     const root = screen.getByTestId("custom");

@@ -20,6 +20,7 @@ import { Primitive } from "../primitive";
 import { splitProps } from "../split-props";
 import { useDirection } from "../direction";
 import { useMachine } from "../use-machine";
+import type { WithRender } from "../use-render";
 
 const CheckboxContext = createContext<CheckboxApi | null>(null);
 
@@ -47,11 +48,11 @@ const MACHINE_KEYS = [
 ] as const;
 
 export interface CheckboxRootProps
-  extends Omit<ComponentProps<"label">, "dir" | "color" | "defaultChecked">, CoreCheckboxProps {
-  asChild?: boolean;
-}
+  extends Omit<ComponentProps<"label">, "dir" | "color" | "defaultChecked">,
+    CoreCheckboxProps,
+    WithRender {}
 
-function Root({ children, asChild, id, ...props }: CheckboxRootProps) {
+function Root({ children, render, id, ...props }: CheckboxRootProps) {
   const reactId = useId();
   const [machineProps, rest] = splitProps(props, MACHINE_KEYS);
   const dir = useDirection(machineProps.dir as Direction | undefined);
@@ -65,31 +66,30 @@ function Root({ children, asChild, id, ...props }: CheckboxRootProps) {
 
   return (
     <CheckboxContext.Provider value={api}>
-      <Primitive.label asChild={asChild} {...merged}>
+      <Primitive.label render={render} {...merged}>
         {children}
       </Primitive.label>
     </CheckboxContext.Provider>
   );
 }
 
-function Label({ asChild, ...props }: ComponentProps<"span"> & { asChild?: boolean }) {
+function Label(props: WithRender<ComponentProps<"span">>) {
   const api = useCheckboxApi();
-  return <Primitive.span asChild={asChild} {...mergeProps(api.getLabelProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.span render={render} {...mergeProps(api.getLabelProps(), rest)} />;
 }
 
-function Control({ asChild, ...props }: ComponentProps<"span"> & { asChild?: boolean }) {
+function Control(props: WithRender<ComponentProps<"span">>) {
   const api = useCheckboxApi();
-  return <Primitive.span asChild={asChild} {...mergeProps(api.getControlProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.span render={render} {...mergeProps(api.getControlProps(), rest)} />;
 }
 
-function Indicator({
-  children,
-  asChild,
-  ...props
-}: ComponentProps<"span"> & { asChild?: boolean; children?: ReactNode }) {
+function Indicator(props: WithRender<ComponentProps<"span"> & { children?: ReactNode }>) {
   const api = useCheckboxApi();
+  const { render, children, ...rest } = props;
   return (
-    <Primitive.span asChild={asChild} {...mergeProps(api.getIndicatorProps(), props)}>
+    <Primitive.span render={render} {...mergeProps(api.getIndicatorProps(), rest)}>
       {children}
     </Primitive.span>
   );

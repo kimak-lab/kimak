@@ -6,10 +6,8 @@ import { Dialog } from "./dialog";
 function Example() {
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <button type="button" data-testid="open">
-          Open
-        </button>
+      <Dialog.Trigger render={<button type="button" data-testid="open" />}>
+        Open
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Backdrop />
@@ -26,7 +24,7 @@ function Example() {
 }
 
 describe("Dialog", () => {
-  it("opens from an asChild trigger and exposes dialog anatomy", async () => {
+  it("opens from a render trigger and exposes dialog anatomy", async () => {
     const user = userEvent.setup();
     render(<Example />);
     const trigger = screen.getByTestId("open");

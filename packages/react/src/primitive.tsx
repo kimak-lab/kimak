@@ -1,19 +1,18 @@
 "use client";
 
-import { createElement, type ReactNode } from "react";
-import { Slot } from "./slot";
+import type { ReactNode } from "react";
+import { useRender, type RenderProp } from "./use-render";
 
 type PrimitiveTag = "button" | "div" | "span" | "label" | "input" | "p" | "h2";
 
 type PrimitiveProps = Record<string, unknown> & {
-  asChild?: boolean;
+  render?: RenderProp;
   children?: ReactNode;
 };
 
 function createPrimitive(tag: PrimitiveTag) {
-  function Primitive({ asChild, ...props }: PrimitiveProps) {
-    if (asChild) return <Slot {...props} />;
-    return createElement(tag, props);
+  function Primitive({ render, ...props }: PrimitiveProps) {
+    return useRender({ defaultTagName: tag, render, props });
   }
   Primitive.displayName = `Primitive.${tag}`;
   return Primitive;

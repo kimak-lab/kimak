@@ -28,6 +28,7 @@ import { Presence } from "../presence";
 import { Primitive } from "../primitive";
 import { splitProps } from "../split-props";
 import { useMachine } from "../use-machine";
+import type { WithRender } from "../use-render";
 
 interface DialogContextValue {
   api: DialogApi;
@@ -59,12 +60,11 @@ const MACHINE_KEYS = [
 ] as const;
 
 export interface DialogRootProps
-  extends Omit<ComponentProps<"div">, "dir" | "role" | "color">, CoreDialogProps {
-  asChild?: boolean;
+  extends Omit<ComponentProps<"div">, "dir" | "role" | "color">, CoreDialogProps, WithRender {
   children?: ReactNode;
 }
 
-function Root({ children, asChild, id, ...props }: DialogRootProps) {
+function Root({ children, render, id, ...props }: DialogRootProps) {
   const reactId = useId();
   const [machineProps, rest] = splitProps(props, MACHINE_KEYS);
   const dir = useDirection(machineProps.dir as Direction | undefined);
@@ -117,16 +117,17 @@ function Root({ children, asChild, id, ...props }: DialogRootProps) {
 
   return (
     <DialogContext.Provider value={{ api, forceMount: Boolean(machineProps.forceMount) }}>
-      <Primitive.div asChild={asChild} {...merged}>
+      <Primitive.div render={render} {...merged}>
         {children}
       </Primitive.div>
     </DialogContext.Provider>
   );
 }
 
-function Trigger({ asChild, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
+function Trigger(props: WithRender<ComponentProps<"button">>) {
   const { api } = useDialogContext();
-  return <Primitive.button asChild={asChild} {...mergeProps(api.getTriggerProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.button render={render} {...mergeProps(api.getTriggerProps(), rest)} />;
 }
 
 function Portal({
@@ -144,19 +145,22 @@ function Portal({
   );
 }
 
-function Backdrop({ asChild, ...props }: ComponentProps<"div"> & { asChild?: boolean }) {
+function Backdrop(props: WithRender<ComponentProps<"div">>) {
   const { api } = useDialogContext();
-  return <Primitive.div asChild={asChild} {...mergeProps(api.getBackdropProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.div render={render} {...mergeProps(api.getBackdropProps(), rest)} />;
 }
 
-function Positioner({ asChild, ...props }: ComponentProps<"div"> & { asChild?: boolean }) {
+function Positioner(props: WithRender<ComponentProps<"div">>) {
   const { api } = useDialogContext();
-  return <Primitive.div asChild={asChild} {...mergeProps(api.getPositionerProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.div render={render} {...mergeProps(api.getPositionerProps(), rest)} />;
 }
 
-function Content({ asChild, children, ...props }: ComponentProps<"div"> & { asChild?: boolean }) {
+function Content(props: WithRender<ComponentProps<"div">>) {
   const { api } = useDialogContext();
-  const merged = mergeProps(api.getContentProps(), props);
+  const { render, children, ...rest } = props;
+  const merged = mergeProps(api.getContentProps(), rest);
 
   useEffect(() => {
     if (!api.open) return undefined;
@@ -169,25 +173,28 @@ function Content({ asChild, children, ...props }: ComponentProps<"div"> & { asCh
   }, [api.open, merged.id]);
 
   return (
-    <Primitive.div asChild={asChild} {...merged}>
+    <Primitive.div render={render} {...merged}>
       {children}
     </Primitive.div>
   );
 }
 
-function Title({ asChild, ...props }: ComponentProps<"h2"> & { asChild?: boolean }) {
+function Title(props: WithRender<ComponentProps<"h2">>) {
   const { api } = useDialogContext();
-  return <Primitive.h2 asChild={asChild} {...mergeProps(api.getTitleProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.h2 render={render} {...mergeProps(api.getTitleProps(), rest)} />;
 }
 
-function Description({ asChild, ...props }: ComponentProps<"p"> & { asChild?: boolean }) {
+function Description(props: WithRender<ComponentProps<"p">>) {
   const { api } = useDialogContext();
-  return <Primitive.p asChild={asChild} {...mergeProps(api.getDescriptionProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.p render={render} {...mergeProps(api.getDescriptionProps(), rest)} />;
 }
 
-function Close({ asChild, ...props }: ComponentProps<"button"> & { asChild?: boolean }) {
+function Close(props: WithRender<ComponentProps<"button">>) {
   const { api } = useDialogContext();
-  return <Primitive.button asChild={asChild} {...mergeProps(api.getCloseTriggerProps(), props)} />;
+  const { render, ...rest } = props;
+  return <Primitive.button render={render} {...mergeProps(api.getCloseTriggerProps(), rest)} />;
 }
 
 export const Dialog = {

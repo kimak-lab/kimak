@@ -8,7 +8,9 @@ Kimak owns behavior, keyboard, focus, and ARIA. You own CSS. There is no theme, 
 import { Dialog } from "@kimak/react";
 
 <Dialog.Root>
-  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Trigger render={<button type="button" className="my-trigger" />}>
+    Open
+  </Dialog.Trigger>
   <Dialog.Portal>
     <Dialog.Backdrop />
     <Dialog.Positioner>
@@ -22,7 +24,7 @@ import { Dialog } from "@kimak/react";
 </Dialog.Root>
 ```
 
-Style parts with the anatomy contract:
+`render` replaces the default DOM node (Base UI composition). Children stay children. Style parts with the anatomy contract:
 
 ```css
 [data-scope="dialog"][data-slot="content"][data-state="open"] { }
@@ -34,7 +36,7 @@ Style parts with the anatomy contract:
 | --- | --- |
 | `@kimak/spec` | Component contracts: parts, props, keyboard, ARIA |
 | `@kimak/core` | Machines, `connect()`, platform primitives |
-| `@kimak/react` | React 19 adapter (`ref` as a prop, `asChild`, compound parts) |
+| `@kimak/react` | React 19 adapter (`ref` as a prop, `render`, compound parts) |
 
 v1 publishes `@kimak/react` only. Vue and Svelte adapters wait until this kernel is boring.
 
@@ -43,7 +45,7 @@ v1 publishes `@kimak/react` only. Vue and Svelte adapters wait until this kernel
 The catalog does not start until these two are proven:
 
 - **Checkbox** — checked / indeterminate, label wiring, form input, keyboard
-- **Dialog** — portal, focus trap, scroll lock, Escape, `asChild` on Trigger
+- **Dialog** — portal, focus trap, scroll lock, Escape, `render` on Trigger
 
 ## Scripts
 
