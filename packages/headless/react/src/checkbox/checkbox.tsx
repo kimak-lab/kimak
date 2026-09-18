@@ -47,6 +47,7 @@ const MACHINE_KEYS = [
   "dir",
   "ids",
   "onCheckedChange",
+  "getRootNode",
 ] as const;
 
 export interface CheckboxRootProps

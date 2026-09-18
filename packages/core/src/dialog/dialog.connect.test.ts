@@ -54,6 +54,7 @@ describe("dialog connect", () => {
   it("emits the kernel prop dialect adapters must remap", () => {
     const { current } = api();
     expect(current().getTriggerProps()).toHaveProperty("onClick");
+    expect(current().getTriggerProps()).toHaveProperty("ref");
     expect(current().getCloseTriggerProps()).toHaveProperty("onClick");
     expect(current().getContentProps()).toHaveProperty("onKeyDown");
     expect(current().getContentProps()).toHaveProperty("ref");

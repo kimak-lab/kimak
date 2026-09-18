@@ -108,6 +108,16 @@ describe("checkbox connect", () => {
     expect(input).toHaveProperty("style");
   });
 
+  it("stops control clicks from reaching the wrapping label", () => {
+    const { current } = api();
+    const onClick = current().getControlProps().onClick as (event: MouseEvent) => void;
+    const event = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as MouseEvent;
+    onClick(event);
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.stopPropagation).toHaveBeenCalled();
+    expect(current().checked).toBe(true);
+  });
+
   it("toggles on Space and not on Enter", () => {
     const { current } = api();
     const onKeyDown = current().getControlProps().onKeyDown as (event: KeyboardEvent) => void;

@@ -37,12 +37,29 @@ export function handleEscapeKey(event: KeyboardEvent): void {
 
 export function handleInteractOutside(
   event: Event,
-  content: EventTarget | null,
+  details: {
+    id: string;
+    content: EventTarget | null;
+    exclude?: Array<EventTarget | null | undefined>;
+  },
 ): void {
   const top = getTopDismissLayer();
-  if (!top || top.closeOnInteractOutside === false) return;
-  if (content && event.target instanceof Node && content instanceof Node) {
-    if (content.contains(event.target)) return;
+  if (!top || top.id !== details.id || top.closeOnInteractOutside === false) return;
+
+  const target = event.target;
+  if (target) {
+    const insides = [details.content, ...(details.exclude ?? [])];
+    for (const node of insides) {
+      if (containsTarget(node, target)) return;
+    }
   }
+
   top.onDismiss();
+}
+
+function containsTarget(container: EventTarget | null | undefined, target: EventTarget): boolean {
+  if (!container) return false;
+  if (container === target) return true;
+  const contains = (container as { contains?: (node: EventTarget) => boolean }).contains;
+  return typeof contains === "function" && contains.call(container, target);
 }

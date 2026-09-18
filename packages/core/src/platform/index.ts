@@ -1,5 +1,6 @@
 export { createCollection, type Collection, type CollectionItem } from "./collection";
 export { getDirection, getLogicalNav } from "./direction";
+export { getOwnerDocument } from "./dom";
 export {
   addDismissLayer,
   getTopDismissLayer,

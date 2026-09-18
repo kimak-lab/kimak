@@ -13,6 +13,7 @@ import {
   connectDialog,
   createDialogMachine,
   focusFirst,
+  getOwnerDocument,
   handleEscapeKey,
   handleInteractOutside,
   lockScroll,
@@ -59,6 +60,7 @@ const MACHINE_KEYS = [
   "dir",
   "ids",
   "onOpenChange",
+  "getRootNode",
 ] as const;
 
 export interface DialogRootProps
@@ -83,6 +85,7 @@ function Root({ children, render, id, ...props }: DialogRootProps) {
     if (!api.open) return undefined;
 
     const layerId = String(id ?? reactId);
+    const doc = getOwnerDocument(machineProps.getRootNode);
     const removeLayer = addDismissLayer({
       id: layerId,
       closeOnEscape: machineProps.closeOnEscape,
@@ -94,17 +97,21 @@ function Root({ children, render, id, ...props }: DialogRootProps) {
       handleEscapeKey(event);
     };
     const onPointerDown = (event: PointerEvent) => {
-      handleInteractOutside(event, service.refs.content ?? null);
+      handleInteractOutside(event, {
+        id: layerId,
+        content: service.refs.content ?? null,
+        exclude: [service.refs.trigger],
+      });
     };
 
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown);
-    const unlock = modal ? lockScroll(document) : () => undefined;
+    doc.addEventListener("keydown", onKeyDown);
+    doc.addEventListener("pointerdown", onPointerDown);
+    const unlock = modal ? lockScroll(doc) : () => undefined;
 
     return () => {
       removeLayer();
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown);
+      doc.removeEventListener("keydown", onKeyDown);
+      doc.removeEventListener("pointerdown", onPointerDown);
       unlock();
     };
   }, [
@@ -112,6 +119,7 @@ function Root({ children, render, id, ...props }: DialogRootProps) {
     id,
     machineProps.closeOnEscape,
     machineProps.closeOnInteractOutside,
+    machineProps.getRootNode,
     modal,
     reactId,
     service,
@@ -167,8 +175,12 @@ function Content(props: WithRender<ComponentProps<"div">>) {
   useEffect(() => {
     if (!api.open) return undefined;
     const node = document.getElementById(String(merged.id ?? ""));
-    if (node) focusFirst(node);
-    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    if (!node) return undefined;
+    const previous =
+      node.ownerDocument.activeElement instanceof HTMLElement
+        ? node.ownerDocument.activeElement
+        : null;
+    focusFirst(node);
     return () => {
       previous?.focus();
     };

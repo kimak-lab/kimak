@@ -58,6 +58,9 @@ export function connectDialog<T extends PropTypes>(
         "aria-haspopup": "dialog",
         "aria-expanded": open,
         "aria-controls": ids.content,
+        ref: (node: HTMLElement | null) => {
+          service.refs.trigger = node;
+        },
         onClick: () => {
           service.send({ type: "TOGGLE" });
         },

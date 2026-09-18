@@ -90,6 +90,7 @@ export function connectCheckbox<T extends PropTypes>(
         "aria-readonly": readOnly || undefined,
         onClick: (event: MouseEvent) => {
           event.preventDefault();
+          event.stopPropagation();
           service.send({ type: "TOGGLE" });
         },
         onKeyDown: (event: KeyboardEvent) => {

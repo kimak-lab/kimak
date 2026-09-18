@@ -4,6 +4,7 @@ import type {
   CheckboxProps as CheckboxSpecProps,
   CheckedState,
 } from "@kimak/spec";
+import type { CommonProps } from "../types";
 
 export type { CheckboxDataState, CheckedState } from "@kimak/spec";
 
@@ -12,7 +13,7 @@ export function getCheckedState(checked: boolean | "indeterminate"): CheckboxDat
   return checked ? "checked" : "unchecked";
 }
 
-export interface CheckboxProps extends CheckboxSpecProps, CheckboxEvents {}
+export interface CheckboxProps extends CheckboxSpecProps, CheckboxEvents, CommonProps {}
 
 export interface CheckboxContext {
   checked: CheckedState;

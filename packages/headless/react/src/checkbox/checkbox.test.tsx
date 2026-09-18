@@ -1,10 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState, type FormEvent } from "react";
 import { describe, expect, it } from "vitest";
 import { checkboxSpec } from "@kimak/spec";
 import { Checkbox } from "./checkbox";
 
-function Example(props: { disabled?: boolean; readOnly?: boolean; defaultChecked?: boolean | "indeterminate" }) {
+function Example(props: {
+  disabled?: boolean;
+  readOnly?: boolean;
+  defaultChecked?: boolean | "indeterminate";
+  name?: string;
+  value?: string;
+}) {
   return (
     <Checkbox.Root {...props}>
       <Checkbox.Control>
@@ -81,6 +88,53 @@ describe("Checkbox", () => {
     const control = screen.getByRole("checkbox");
     control.focus();
     await user.keyboard(" ");
+    expect(control).toHaveAttribute("aria-checked", "true");
+  });
+
+  it("toggles once from the label and once from the control", async () => {
+    const user = userEvent.setup();
+    render(<Example />);
+    const control = screen.getByRole("checkbox");
+    await user.click(screen.getByText("Accept terms"));
+    expect(control).toHaveAttribute("aria-checked", "true");
+    await user.click(control);
+    expect(control).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("submits the hidden input with the form when checked", async () => {
+    const user = userEvent.setup();
+    let submitted: FormData | undefined;
+    render(
+      <form
+        onSubmit={(event: FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          submitted = new FormData(event.currentTarget);
+        }}
+      >
+        <Example name="terms" value="yes" />
+        <button type="submit">Save</button>
+      </form>,
+    );
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: "Save" }));
+    expect(submitted?.get("terms")).toBe("yes");
+  });
+
+  it("syncs a controlled checked value", async () => {
+    const user = userEvent.setup();
+    function Controlled() {
+      const [checked, setChecked] = useState(false);
+      return (
+        <Checkbox.Root checked={checked} onCheckedChange={(details) => setChecked(details.checked === true)}>
+          <Checkbox.Control />
+          <Checkbox.Label>Controlled</Checkbox.Label>
+          <Checkbox.HiddenInput />
+        </Checkbox.Root>
+      );
+    }
+    render(<Controlled />);
+    const control = screen.getByRole("checkbox");
+    await user.click(control);
     expect(control).toHaveAttribute("aria-checked", "true");
   });
 });
