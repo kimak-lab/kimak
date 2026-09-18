@@ -36,6 +36,7 @@ export function App() {
             <Button data-size="md">Medium</Button>
             <Button data-size="lg">Large</Button>
             <Button disabled>Disabled</Button>
+            <Button loading>Loading</Button>
             <LoadingButton />
             <Button className="rounded-full">Custom class</Button>
           </div>

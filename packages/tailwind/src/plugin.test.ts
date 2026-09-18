@@ -36,6 +36,7 @@ describe("@kimak/tailwind", () => {
     expect(css).toContain(buttonAnatomy.root.selector);
     expect(css).toContain(buttonAnatomy.indicator.selector);
     expect(css).toContain('[data-loading]');
+    expect(css).toContain("kimak-button-spin");
     expect(css).toContain('[data-variant="outline"]');
     expect(css).toContain(checkboxAnatomy.root.selector);
     expect(css).toContain(checkboxAnatomy.control.selector);

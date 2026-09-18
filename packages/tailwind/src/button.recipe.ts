@@ -77,6 +77,21 @@ function variantLook(variant: Variant): CssInJs {
   }
 }
 
+function spinnerLook(size: Size): CssInJs {
+  return {
+    display: "inline-block",
+    boxSizing: "border-box",
+    ...spinnerBox(size),
+    flexShrink: "0",
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: "currentColor",
+    borderRightColor: "transparent",
+    borderRadius: "50%",
+    animation: "kimak-button-spin 0.65s linear infinite",
+  };
+}
+
 function variantHover(variant: Variant): CssInJs {
   switch (variant) {
     case "default":
@@ -92,11 +107,6 @@ function variantHover(variant: Variant): CssInJs {
     default:
       return assertNever(variant);
   }
-}
-
-function glyphMask(path: string): string {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="none" stroke="black" stroke-width="1.75" d="${path}"/></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") center / contain no-repeat`;
 }
 
 export function buttonChrome(): CssInJs {
@@ -124,33 +134,32 @@ export function buttonChrome(): CssInJs {
 export function buttonRecipe(): CssInJs {
   const root = buttonAnatomy.root.selector;
   const indicator = buttonAnatomy.indicator.selector;
-  const spinner = glyphMask("M8 2.5a5.5 5.5 0 1 1-3.89 1.61");
+  const loadingIndicator = `${root}[data-loading] ${indicator}:empty, ${indicator}[data-loading]:empty`;
 
   const recipe: CssInJs = {
+    "@keyframes kimak-button-spin": {
+      to: { transform: "rotate(360deg)" },
+    },
     [root]: buttonChrome(),
     [`${root}:hover`]: variantHover("default"),
-    [`${root}[data-disabled], ${root}[data-loading]`]: {
+    [`${root}[data-disabled]`]: {
       pointerEvents: "none",
       opacity: "0.5",
+    },
+    [`${root}[data-loading]`]: {
+      pointerEvents: "none",
+      opacity: "1",
+      cursor: "wait",
     },
     [`${root}:focus-visible`]: focusRing(),
     [indicator]: {
       display: "none",
-      ...spinnerBox("md"),
       flexShrink: "0",
     },
     [`${root}[data-loading] ${indicator}, ${indicator}[data-loading]`]: {
-      display: "block",
+      display: "inline-flex",
     },
-    [`${indicator}:empty::after`]: {
-      content: '""',
-      display: "block",
-      width: "100%",
-      height: "100%",
-      backgroundColor: "currentColor",
-      mask: spinner,
-      WebkitMask: spinner,
-    },
+    [loadingIndicator]: spinnerLook("md"),
   };
 
   for (const variant of variants) {
@@ -174,7 +183,7 @@ export function buttonRecipe(): CssInJs {
 
   for (const size of sizes) {
     recipe[`${root}[data-size="${size}"]`] = sizeLook(size);
-    recipe[`${root}[data-size="${size}"] ${indicator}`] = spinnerBox(size);
+    recipe[`${root}[data-size="${size}"] ${indicator}:empty`] = spinnerBox(size);
   }
 
   return recipe;
