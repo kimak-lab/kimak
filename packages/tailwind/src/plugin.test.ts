@@ -1,5 +1,5 @@
 import { compile } from "@tailwindcss/node";
-import { checkboxAnatomy, dialogAnatomy } from "@kimak/spec";
+import { buttonAnatomy, checkboxAnatomy, dialogAnatomy } from "@kimak/spec";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -27,6 +27,9 @@ describe("@kimak/tailwind", () => {
     const css = await compilePluginCss();
 
     expect(css).toContain("--color-kimak-accent");
+    expect(css).toContain(buttonAnatomy.root.selector);
+    expect(css).toContain(buttonAnatomy.indicator.selector);
+    expect(css).toContain('[data-loading]');
     expect(css).toContain(checkboxAnatomy.root.selector);
     expect(css).toContain(checkboxAnatomy.control.selector);
     expect(css).toContain(checkboxAnatomy.indicator.selector);

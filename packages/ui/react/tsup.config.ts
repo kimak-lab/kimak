@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "tsup";
 
-const entries = ["dist/index.js", "dist/checkbox.js", "dist/dialog.js"];
+const entries = ["dist/index.js", "dist/button.js", "dist/checkbox.js", "dist/dialog.js"];
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/checkbox.tsx", "src/dialog.tsx"],
+  entry: ["src/index.ts", "src/button.tsx", "src/checkbox.tsx", "src/dialog.tsx"],
   format: ["esm"],
   dts: true,
   clean: true,

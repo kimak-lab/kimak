@@ -5,7 +5,9 @@ Headless UI primitives. React-first. Framework-agnostic kernel.
 Kimak owns behavior, keyboard, focus, and ARIA. You own CSS — or opt into the Tailwind plugin. There is no `variant="primary"` and no token package in the kernel.
 
 ```tsx
-import { Checkbox, Dialog } from "@kimak/ui-react";
+import { Button, Checkbox, Dialog } from "@kimak/ui-react";
+
+<Button data-size="sm" className="rounded-full">Save</Button>
 
 <Checkbox data-size="sm">I agree</Checkbox>
 
@@ -21,7 +23,7 @@ import { Checkbox, Dialog } from "@kimak/ui-react";
 
 `@kimak/ui-react` is React product sugar over the headless parts. Compound anatomy stays on `@kimak/headless-react` (`Checkbox.Root`, `Dialog.Portal`, …). Look is still the Tailwind plugin — empty checkbox indicators paint a check/dash via CSS, so Vue/Svelte will inherit the same glyphs.
 
-`render` replaces the default DOM node (Base UI composition). Children stay children. Style parts with the anatomy contract:
+`render` replaces the default DOM node (Base UI composition). Children stay children. Pass `className` on any part — it is a host DOM prop, not a machine prop, and `mergeProps` concatenates it with any class from `render`. Style parts with the anatomy contract:
 
 ```css
 [data-scope="dialog"][data-slot="content"][data-state="open"] { }

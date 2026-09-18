@@ -1,4 +1,20 @@
-import { Checkbox, Dialog } from "@kimak/ui-react";
+import { useState } from "react";
+import { Button, Checkbox, Dialog } from "@kimak/ui-react";
+
+function LoadingButton() {
+  const [loading, setLoading] = useState(false);
+  return (
+    <Button
+      loading={loading}
+      onPress={() => {
+        setLoading(true);
+        window.setTimeout(() => setLoading(false), 1200);
+      }}
+    >
+      Save
+    </Button>
+  );
+}
 
 export function App() {
   return (
@@ -11,6 +27,18 @@ export function App() {
         <code>@plugin "@kimak/tailwind"</code> targeting anatomy <code>data-*</code>{" "}
         attributes.
       </p>
+
+      <section>
+        <h2>Button</h2>
+        <div className="row">
+          <Button data-size="sm">Small</Button>
+          <Button data-size="md">Medium</Button>
+          <Button data-size="lg">Large</Button>
+          <Button disabled>Disabled</Button>
+          <LoadingButton />
+          <Button className="rounded-full btn-accent">Custom class</Button>
+        </div>
+      </section>
 
       <section>
         <h2>Checkbox</h2>
