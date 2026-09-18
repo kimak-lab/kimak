@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Dialog as Parts } from "@kimak/headless-svelte";
+  import { Dialog, type DialogRootProps } from "@kimak/headless-svelte";
   import type { Snippet } from "svelte";
 
   let {
@@ -9,9 +9,9 @@
   }: { children?: Snippet; container?: HTMLElement | null } & Record<string, unknown> = $props();
 </script>
 
-<Parts.Portal {container}>
-  <Parts.Backdrop />
-  <Parts.Positioner>
-    <Parts.Content {...props}>{@render children?.()}</Parts.Content>
-  </Parts.Positioner>
-</Parts.Portal>
+<Dialog.Portal {container}>
+  <Dialog.Backdrop />
+  <Dialog.Positioner>
+    <Dialog.Content {...props}>{@render children?.()}</Dialog.Content>
+  </Dialog.Positioner>
+</Dialog.Portal>

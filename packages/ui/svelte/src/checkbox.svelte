@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Checkbox as Parts, type CheckboxRootProps } from "@kimak/headless-svelte";
+  import { Checkbox, type CheckboxRootProps } from "@kimak/headless-svelte";
   import type { Snippet } from "svelte";
 
   let {
@@ -9,12 +9,12 @@
   }: CheckboxRootProps & { children?: Snippet; indicator?: Snippet } = $props();
 </script>
 
-<Parts.Root {...props}>
-  <Parts.Control>
-    <Parts.Indicator>{@render indicator?.()}</Parts.Indicator>
-  </Parts.Control>
+<Checkbox.Root {...props}>
+  <Checkbox.Control>
+    <Checkbox.Indicator>{@render indicator?.()}</Checkbox.Indicator>
+  </Checkbox.Control>
   {#if children}
-    <Parts.Label>{@render children()}</Parts.Label>
+    <Checkbox.Label>{@render children()}</Checkbox.Label>
   {/if}
-  <Parts.HiddenInput />
-</Parts.Root>
+  <Checkbox.HiddenInput />
+</Checkbox.Root>
