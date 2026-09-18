@@ -65,16 +65,16 @@ Visual size and variant are host attributes, not machine props:
 | `packages/spec` | `@kimak/spec` | Component contracts: parts, props, keyboard, ARIA |
 | `packages/core` | `@kimak/core` | Machines, `connect()`, platform primitives |
 | `packages/headless/react` | `@kimak/headless-react` | React 19 adapter (`ref` as a prop, `render`, compound parts) |
-| `packages/headless/vue` | `@kimak/headless-vue` | Vue 3 adapter scaffold (`useMachine`, `normalizeProps`, portal/presence stubs) |
-| `packages/headless/svelte` | `@kimak/headless-svelte` | Svelte 5 adapter scaffold (`useMachine`, `normalizeProps`, portal/presence stubs) |
+| `packages/headless/vue` | `@kimak/headless-vue` | Vue 3 adapter (`useMachine`, `normalizeProps`, compound parts) |
+| `packages/headless/svelte` | `@kimak/headless-svelte` | Svelte 5 adapter (`useMachine`, `normalizeProps`, compound parts) |
 | `packages/ui/react` | `@kimak/ui-react` | React product sugar over the adapter. Not a kernel. |
-| `packages/ui/vue` | `@kimak/ui-vue` | Vue product sugar shell (re-exports headless until components land) |
-| `packages/ui/svelte` | `@kimak/ui-svelte` | Svelte product sugar shell (re-exports headless until components land) |
+| `packages/ui/vue` | `@kimak/ui-vue` | Vue product sugar over the adapter. Not a kernel. |
+| `packages/ui/svelte` | `@kimak/ui-svelte` | Svelte product sugar over the adapter. Not a kernel. |
 | `packages/tailwind` | `@kimak/tailwind` | Optional Tailwind v4 plugin + shadcn `theme.css` |
 
 Folders are layer then framework (`headless/react`, `ui/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath of `@kimak/headless`, not a package.
 
-v1 publishes `@kimak/headless-react` and `@kimak/ui-react`. Vue and Svelte packages are scaffolded in-repo (`@kimak/headless-vue`, `@kimak/headless-svelte`, `@kimak/ui-vue`, `@kimak/ui-svelte`) but not published until Button, Checkbox, and Dialog are ported. `@kimak/tailwind` is already adapter-agnostic.
+v1 publishes `@kimak/headless-react` and `@kimak/ui-react`. Vue and Svelte adapters now have Button, Checkbox, and Dialog in-repo (`@kimak/headless-vue`, `@kimak/headless-svelte`, `@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet. `@kimak/tailwind` is already adapter-agnostic.
 
 The portable contract is `connect(service, normalize)`, not JSX. `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, callback `ref`). A future adapter remaps those keys with `createNormalizer` and binds the service with the equivalent of `useMachine`. Compound `render` / portal / context stay in the adapter. Product sugar is per adapter, never in `@kimak/core`.
 

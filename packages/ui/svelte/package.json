@@ -4,16 +4,18 @@
   "description": "Svelte product layer over @kimak/headless-svelte. Look still comes from @kimak/tailwind.",
   "type": "module",
   "sideEffects": false,
+  "svelte": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
       "import": "./dist/index.js"
     }
   },
   "files": ["dist"],
   "scripts": {
-    "build": "tsup",
-    "typecheck": "tsc --noEmit",
+    "build": "svelte-package -i src -o dist",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "clean": "rm -rf dist"
   },
@@ -24,9 +26,11 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "tsup": "catalog:",
+    "@sveltejs/package": "catalog:",
+    "@sveltejs/vite-plugin-svelte": "catalog:",
+    "svelte": "catalog:",
+    "svelte-check": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:",
-    "svelte": "catalog:"
+    "vitest": "catalog:"
   }
 }

@@ -8,12 +8,11 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 - Look lives only in `@kimak/tailwind` (optional plugin). Hex, CSS variables, and component recipes are allowed there. They must target anatomy selectors, never leak into machines.
 - The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`); button look is `data-variant`. Neither is a machine prop.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
-- Do not add Vue, Svelte, or HTML **component ports** until Checkbox and Dialog are boring on React 19. Adapter **scaffolding** (packages, `useMachine`, `normalizeProps`, playgrounds) may land earlier; full Button/Checkbox/Dialog ports stay gated.
-- Do not start DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
+- Vue and Svelte adapters now have Button, Checkbox, and Dialog. Keep those three in lockstep with React. Do not start DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
 
 ## Package graph
 
-`@kimak/spec` → `@kimak/core` → adapters (`@kimak/headless-react` now; `@kimak/headless-vue`, `@kimak/headless-svelte` scaffolded) → product sugar (`@kimak/ui-react` now; `@kimak/ui-vue`, `@kimak/ui-svelte` scaffolded)
+`@kimak/spec` → `@kimak/core` → adapters (`@kimak/headless-react`, `@kimak/headless-vue`, `@kimak/headless-svelte`) → product sugar (`@kimak/ui-react`, `@kimak/ui-vue`, `@kimak/ui-svelte`)
 
 `@kimak/spec` → `@kimak/tailwind` (optional look; `@plugin` in the consumer CSS)
 
@@ -50,7 +49,7 @@ The portable surface is `@kimak/spec` + `connect()`. A future Vue/Svelte adapter
 4. Keep look out of the adapter. No `className`, hex, or tokens except `visuallyHiddenStyle` on form `hiddenInput` (core).
 5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
 
-Do not add Vue, Svelte, or HTML **component packages** in this pass. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence) when porting Checkbox and Dialog to Vue/Svelte after they are boring on React 19.
+Do not add Vue, Svelte, or HTML **component packages** beyond Button, Checkbox, and Dialog until the React family for that component is in lockstep. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence, compound parts) when porting the next family.
 
 ## Adding a component
 

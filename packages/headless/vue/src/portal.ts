@@ -1,4 +1,12 @@
-import { defineComponent, onMounted, ref, type PropType, type VNode } from "vue";
+import {
+  Teleport,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  type PropType,
+  type VNode,
+} from "vue";
 
 export const Portal = defineComponent({
   name: "KimakPortal",
@@ -8,7 +16,7 @@ export const Portal = defineComponent({
       default: null,
     },
   },
-  setup(_props, { slots }) {
+  setup(props, { slots }) {
     const mounted = ref(false);
     onMounted(() => {
       mounted.value = true;
@@ -16,8 +24,7 @@ export const Portal = defineComponent({
 
     return (): VNode | VNode[] | null | undefined => {
       if (!mounted.value) return null;
-      // Teleport wiring lands with Dialog port.
-      return slots.default?.();
+      return h(Teleport as never, { to: props.container ?? "body" }, slots.default?.());
     };
   },
 });

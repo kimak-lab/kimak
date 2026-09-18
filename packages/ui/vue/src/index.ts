@@ -1,12 +1,3 @@
-export {
-  DirectionProvider,
-  mergeProps,
-  normalizeProps,
-  Portal,
-  Presence,
-  useDirection,
-  useMachine,
-  type VuePropTypes,
-} from "@kimak/headless-vue";
-
-// Component sugar (Button, Checkbox, Dialog) lands after headless ports.
+export { Button, type ButtonProps } from "./button";
+export { Checkbox, type CheckboxProps } from "./checkbox";
+export { Dialog, type DialogContentProps } from "./dialog";

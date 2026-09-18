@@ -1,9 +1,28 @@
+# dependencies
 node_modules
+
+# build
 dist
+.svelte-kit
+.output
 .turbo
-coverage
-*.log
-.DS_Store
 .vite
 .cache
-apps/playground/dist
+coverage
+*.tsbuildinfo
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+
+# os
+.DS_Store
+Thumbs.db
+
+# vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

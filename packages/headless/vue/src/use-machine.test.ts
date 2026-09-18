@@ -12,8 +12,14 @@ function createCounterMachine(props: CounterProps) {
     props,
     context: (initial) => initial.count,
     on: (context, event) => {
-      if (event.type === "INCREMENT") return context + 1;
-      throw new Error("Unhandled counter event");
+      switch (event.type) {
+        case "INCREMENT":
+          return context + 1;
+        default: {
+          const exhaustive: never = event.type;
+          return exhaustive;
+        }
+      }
     },
   });
 }

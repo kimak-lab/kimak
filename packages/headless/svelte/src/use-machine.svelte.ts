@@ -8,10 +8,6 @@ export function useMachine<TContext, TProps, TEvent extends { type: string }>(
   let revision = $state(0);
 
   $effect(() => {
-    service.setProps(getProps());
-  });
-
-  $effect(() => {
     return service.subscribe(() => {
       revision += 1;
     });
@@ -20,6 +16,7 @@ export function useMachine<TContext, TProps, TEvent extends { type: string }>(
   return {
     getSnapshot: () => {
       revision;
+      service.setProps(getProps());
       return service.getSnapshot();
     },
     send: (event: TEvent) => service.send(event),

@@ -16,6 +16,7 @@ export function useMachine<TContext, TProps, TEvent extends { type: string }>(
 
   watchEffect(() => {
     service.setProps(getProps());
+    version.value += 1;
   });
 
   if (getCurrentInstance()) {

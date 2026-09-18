@@ -16,13 +16,13 @@ describe("normalizeProps", () => {
     });
   });
 
-  it("preserves onClick and callback ref", () => {
+  it("remaps React event keys to Vue listeners", () => {
     const onClick = () => {};
-    const ref = () => {};
-    expect(normalizeProps.button({ onClick, ref, "data-scope": "button" })).toEqual({
+    const onKeyDown = () => {};
+    expect(normalizeProps.button({ onClick, onKeyDown, type: "button" })).toEqual({
       onClick,
-      ref,
-      "data-scope": "button",
+      onKeydown: onKeyDown,
+      type: "button",
     });
   });
 });
