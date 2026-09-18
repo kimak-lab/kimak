@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/checkbox.ts", "src/dialog.ts"],
+  entry: ["src/index.ts", "src/checkbox/index.ts", "src/dialog/index.ts"],
   format: ["esm"],
   dts: true,
   clean: true,
