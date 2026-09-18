@@ -4,7 +4,7 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 ## Locked product decisions
 
-- Kimak is headless. If a className, hex color, or theme token lands in `@kimak/core` or `@kimak/react`, it is a bug. The one exception is visually-hidden styles on form `hiddenInput`.
+- Kimak is headless. If a className, hex color, or theme token lands in `@kimak/core` or `@kimak/headless-react`, it is a bug. The one exception is visually-hidden styles on form `hiddenInput`.
 - Look lives only in `@kimak/tailwind` (optional plugin). Hex, CSS variables, and component recipes are allowed there. They must target anatomy selectors, never leak into machines.
 - The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`); it is not a machine prop.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
@@ -13,16 +13,28 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 ## Package graph
 
-`@kimak/spec` → `@kimak/core` → adapters (`@kimak/react` now; Vue/Svelte later)
+`@kimak/spec` → `@kimak/core` → adapters (`@kimak/headless-react` now; Vue/Svelte later) → product sugar (`@kimak/ui-react` now)
 
 `@kimak/spec` → `@kimak/tailwind` (optional look; `@plugin` in the consumer CSS)
+
+Directories state the layer first, then the framework:
+
+```
+packages/spec
+packages/core
+packages/tailwind
+packages/headless/react   → @kimak/headless-react
+packages/ui/react         → @kimak/ui-react
+```
+
+npm names use a hyphen (`@kimak/headless-react`) because a slash after the scope is a subpath, not a package. Future adapters sit beside React: `packages/headless/vue`, `packages/ui/svelte`.
 
 - Spec is the source of truth for docs, types, and a11y tests. JSX is not.
 - Core `connect(service, normalize)` yields props per part. Adapters pass a `NormalizeProps` map from `createNormalizer`.
 - `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, object `style`, callback `ref`). Remap in the adapter, not in the machine.
 - React 19: `ref` is a prop. No `forwardRef`. Compound parts. `render` + `mergeProps` on Trigger and Root (Base UI composition, not Radix `asChild`). Composition APIs (`render`, `as`, snippets) are adapter-local and not a portable contract.
 - `@kimak/tailwind` maps `anatomy.selector` to CSS. It must not depend on React.
-- Product sugar (`<Checkbox>Label</Checkbox>`) is per adapter if it exists at all. Never in `@kimak/core`.
+- Product sugar (`<Checkbox>Label</Checkbox>`) lives in `@kimak/ui-react`, not `@kimak/core` or `@kimak/headless-react`. Vue/Svelte will get their own sugar packages later. Default check/dash glyphs are CSS in `@kimak/tailwind` (`:empty::after`) so every adapter inherits them.
 
 ## Adapter contract
 
@@ -34,16 +46,17 @@ The portable surface is `@kimak/spec` + `connect()`. A future Vue/Svelte adapter
 4. Keep look out of the adapter. No `className`, hex, or tokens except `visuallyHiddenStyle` on form `hiddenInput` (core).
 5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
 
-Do not add Vue, Svelte, or HTML packages in this pass. Copy `@kimak/react` (`use-machine`, `normalize-props`, portal/presence) when Checkbox and Dialog are boring on React 19.
+Do not add Vue, Svelte, or HTML packages in this pass. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence) when Checkbox and Dialog are boring on React 19.
 
 ## Adding a component
 
 1. Write the spec and anatomy in `@kimak/spec`.
 2. Write the machine + `connect()` in `@kimak/core`. Type `*Api<T extends PropTypes>` so adapters substitute vnode props.
-3. Write a thin compound shell in `@kimak/react`.
+3. Write a thin compound shell in `@kimak/headless-react`.
 4. Add keyboard / ARIA / `data-state` tests. No pixel snapshots of look.
 5. Add recipes in `@kimak/tailwind` that target the new anatomy selectors.
 6. Playground chrome stays in `apps/playground`. Component look lives in the plugin.
+7. Optional product sugar in `@kimak/ui-react`. Do not put default trees in core.
 
 ## Exhaustive events
 

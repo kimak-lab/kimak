@@ -47,11 +47,30 @@ function rootGap(size: Size): string {
   }
 }
 
+function glyphMask(path: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="none" stroke="black" stroke-width="1.75" d="${path}"/></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") center / contain no-repeat`;
+}
+
+function emptyGlyph(mask: string): CssInJs {
+  return {
+    content: '""',
+    display: "block",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "currentColor",
+    mask: mask,
+    WebkitMask: mask,
+  };
+}
+
 export function checkboxRecipe(): CssInJs {
   const root = checkboxAnatomy.root.selector;
   const control = checkboxAnatomy.control.selector;
   const indicator = checkboxAnatomy.indicator.selector;
   const label = checkboxAnatomy.label.selector;
+  const check = glyphMask("M3.5 8.5 6.5 11.5 12.5 4.5");
+  const dash = glyphMask("M3.5 8h9");
 
   const recipe: CssInJs = {
     [root]: {
@@ -91,6 +110,8 @@ export function checkboxRecipe(): CssInJs {
     [`${indicator}[data-state="checked"], ${indicator}[data-state="indeterminate"]`]: {
       display: "block",
     },
+    [`${indicator}[data-state="checked"]:empty::after`]: emptyGlyph(check),
+    [`${indicator}[data-state="indeterminate"]:empty::after`]: emptyGlyph(dash),
   };
 
   for (const size of sizes) {

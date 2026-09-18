@@ -7,7 +7,11 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@kimak/react": path.resolve(__dirname, "../../packages/react/src/index.ts"),
+      "@kimak/headless-react": path.resolve(
+        __dirname,
+        "../../packages/headless/react/src/index.ts",
+      ),
+      "@kimak/ui-react": path.resolve(__dirname, "../../packages/ui/react/src/index.ts"),
       "@kimak/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
       "@kimak/spec": path.resolve(__dirname, "../../packages/spec/src/index.ts"),
       "@kimak/tailwind": path.resolve(__dirname, "../../packages/tailwind/src/index.ts"),

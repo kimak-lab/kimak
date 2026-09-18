@@ -32,6 +32,8 @@ describe("@kimak/tailwind", () => {
     expect(css).toContain(checkboxAnatomy.indicator.selector);
     expect(css).toContain('[data-state="checked"]');
     expect(css).toContain('[data-state="indeterminate"]');
+    expect(css).toContain(":empty::after");
+    expect(css).toContain("data:image/svg+xml");
     expect(css).toContain('[data-size="sm"]');
     expect(css).toContain(dialogAnatomy.content.selector);
     expect(css).toContain(dialogAnatomy.trigger.selector);

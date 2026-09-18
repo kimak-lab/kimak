@@ -10,8 +10,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@kimak/react": "workspace:*",
+    "@kimak/headless-react": "workspace:*",
     "@kimak/tailwind": "workspace:*",
+    "@kimak/ui-react": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

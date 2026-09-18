@@ -1,5 +1,9 @@
 packages:
-  - packages/*
+  - packages/spec
+  - packages/core
+  - packages/tailwind
+  - packages/headless/*
+  - packages/ui/*
   - apps/*
 
 allowBuilds:

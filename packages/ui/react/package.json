@@ -1,7 +1,7 @@
 {
-  "name": "@kimak/headless-react",
+  "name": "@kimak/ui-react",
   "version": "0.0.0",
-  "description": "React 19 headless adapter for Kimak. Parts only; look lives in @kimak/tailwind.",
+  "description": "React product layer over @kimak/headless-react. Look still comes from @kimak/tailwind.",
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -10,12 +10,12 @@
       "import": "./dist/index.js"
     },
     "./checkbox": {
-      "types": "./dist/checkbox/index.d.ts",
-      "import": "./dist/checkbox/index.js"
+      "types": "./dist/checkbox.d.ts",
+      "import": "./dist/checkbox.js"
     },
     "./dialog": {
-      "types": "./dist/dialog/index.d.ts",
-      "import": "./dist/dialog/index.js"
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
     }
   },
   "files": ["dist"],
@@ -26,14 +26,14 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@kimak/core": "workspace:*",
-    "@kimak/spec": "workspace:*"
+    "@kimak/headless-react": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@kimak/core": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@testing-library/user-event": "catalog:",

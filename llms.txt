@@ -1,6 +1,8 @@
 # Kimak
 
-Headless UI library. React-first. Kernel in `@kimak/core`, adapter in `@kimak/react`.
+Headless UI library. React-first. Kernel in `@kimak/core`, adapter in `@kimak/headless-react`, product sugar in `@kimak/ui-react`.
+
+Directories: `packages/headless/react`, `packages/ui/react`.
 
 Styling contract: `[data-scope][data-slot][data-state]`. No design tokens.
 
