@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "description": "Optional Tailwind v4 plugin that styles Kimak anatomy selectors.",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": ["**/*.css"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./src/index.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./theme.css": "./src/theme.css"
   },
   "files": ["dist", "src"],
   "scripts": {

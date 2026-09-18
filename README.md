@@ -35,17 +35,28 @@ The plugin targets the same `data-scope` / `data-slot` / `data-state` attributes
 
 ```css
 @import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
 @plugin "@kimak/tailwind";
 ```
 
-Visual size is a host attribute, not a machine prop:
+`theme.css` is the shadcn token contract: raw values on `:root` / `.dark`, mapped through `@theme inline` to utilities (`bg-primary`, `text-muted-foreground`, `rounded-md`). Override **raw** tokens after the import — not `--color-*`:
+
+```css
+:root {
+  --primary: oklch(0.55 0.2 264);
+  --radius: 0.5rem;
+}
+```
+
+Visual size and variant are host attributes, not machine props:
 
 ```tsx
+<Button data-size="sm" data-variant="outline">Save</Button>
 <Checkbox data-size="sm">Small</Checkbox>
 <Dialog.Content data-size="lg">…</Dialog.Content>
 ```
 
-`data-size` is `sm` | `md` | `lg`. Omit it for the `md` default.
+`data-size` is `sm` | `md` | `lg`. Omit it for the `md` default. Button `data-variant` is `default` | `secondary` | `outline` | `ghost` | `destructive`.
 
 ## Packages
 
@@ -55,7 +66,7 @@ Visual size is a host attribute, not a machine prop:
 | `packages/core` | `@kimak/core` | Machines, `connect()`, platform primitives |
 | `packages/headless/react` | `@kimak/headless-react` | React 19 adapter (`ref` as a prop, `render`, compound parts) |
 | `packages/ui/react` | `@kimak/ui-react` | React product sugar over the adapter. Not a kernel. |
-| `packages/tailwind` | `@kimak/tailwind` | Optional Tailwind v4 plugin for anatomy selectors |
+| `packages/tailwind` | `@kimak/tailwind` | Optional Tailwind v4 plugin + shadcn `theme.css` |
 
 Folders are layer then framework (`headless/react`, `ui/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath of `@kimak/headless`, not a package.
 

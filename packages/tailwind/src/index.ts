@@ -1,11 +1,9 @@
 import plugin from "tailwindcss/plugin";
-import { buttonRecipe } from "./button";
-import { checkboxRecipe } from "./checkbox";
-import { dialogRecipe } from "./dialog";
-import { themeBase } from "./theme";
+import { buttonRecipe } from "./button.recipe";
+import { checkboxRecipe } from "./checkbox.recipe";
+import { dialogRecipe } from "./dialog.recipe";
 
 export default plugin(({ addBase }) => {
-  addBase(themeBase);
   addBase({
     ...buttonRecipe(),
     ...checkboxRecipe(),

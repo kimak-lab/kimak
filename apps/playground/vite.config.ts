@@ -7,6 +7,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
+      "@kimak/tailwind/theme.css": path.resolve(
+        __dirname,
+        "../../packages/tailwind/src/theme.css",
+      ),
       "@kimak/headless-react": path.resolve(
         __dirname,
         "../../packages/headless/react/src/index.ts",
@@ -21,3 +25,4 @@ export default defineConfig({
     port: 5173,
   },
 });
+

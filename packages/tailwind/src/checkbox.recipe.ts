@@ -1,4 +1,6 @@
-import { checkboxAnatomy } from "@kimak/spec";
+// Deep import: jiti's plugin loader drops named re-exports from the @kimak/spec barrel.
+import { checkboxAnatomy } from "../../spec/src/checkbox/checkbox.anatomy";
+import { focusRing, mix, t } from "./theme";
 import type { CssInJs } from "./types";
 
 const sizes = ["sm", "md", "lg"] as const;
@@ -11,11 +13,11 @@ function assertNever(value: never): never {
 function controlBox(size: Size): CssInJs {
   switch (size) {
     case "sm":
-      return { width: "0.9rem", height: "0.9rem" };
+      return { width: "0.875rem", height: "0.875rem" };
     case "md":
-      return { width: "1.15rem", height: "1.15rem" };
+      return { width: "1rem", height: "1rem" };
     case "lg":
-      return { width: "1.4rem", height: "1.4rem" };
+      return { width: "1.25rem", height: "1.25rem" };
     default:
       return assertNever(size);
   }
@@ -26,9 +28,9 @@ function indicatorBox(size: Size): CssInJs {
     case "sm":
       return { width: "0.65rem", height: "0.65rem" };
     case "md":
-      return { width: "0.85rem", height: "0.85rem" };
+      return { width: "0.75rem", height: "0.75rem" };
     case "lg":
-      return { width: "1.05rem", height: "1.05rem" };
+      return { width: "0.95rem", height: "0.95rem" };
     default:
       return assertNever(size);
   }
@@ -39,9 +41,9 @@ function rootGap(size: Size): string {
     case "sm":
       return "0.45rem";
     case "md":
-      return "0.6rem";
+      return "0.5rem";
     case "lg":
-      return "0.75rem";
+      return "0.65rem";
     default:
       return assertNever(size);
   }
@@ -78,7 +80,7 @@ export function checkboxRecipe(): CssInJs {
       alignItems: "center",
       gap: rootGap("md"),
       cursor: "pointer",
-      color: "var(--color-kimak-fg)",
+      color: t.foreground,
     },
     [`${root}[data-disabled]`]: {
       cursor: "not-allowed",
@@ -90,19 +92,27 @@ export function checkboxRecipe(): CssInJs {
     [control]: {
       boxSizing: "border-box",
       ...controlBox("md"),
-      border: "1.5px solid var(--color-kimak-border)",
+      border: `1px solid ${t.input}`,
+      borderRadius: "4px",
       display: "grid",
       placeItems: "center",
-      backgroundColor: "var(--color-kimak-bg)",
+      backgroundColor: t.background,
+      color: t.primaryForeground,
       flexShrink: "0",
+      boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+      transition: "color 150ms, background-color 150ms, box-shadow 150ms, border-color 150ms",
     },
+    [`${root}[data-state="checked"] ${control}, ${root}[data-state="indeterminate"] ${control}, ${control}[data-state="checked"], ${control}[data-state="indeterminate"]`]:
+      {
+        backgroundColor: t.primary,
+        borderColor: t.primary,
+        color: t.primaryForeground,
+      },
     [`${root}[data-invalid] ${control}, ${control}[data-invalid]`]: {
-      borderColor: "var(--color-kimak-danger)",
+      borderColor: t.destructive,
+      boxShadow: `0 0 0 3px ${mix(t.destructive, 20)}`,
     },
-    [`${control}:focus-visible`]: {
-      outline: "2px solid var(--color-kimak-ring)",
-      outlineOffset: "3px",
-    },
+    [`${control}:focus-visible`]: focusRing(),
     [indicator]: {
       display: "none",
       ...indicatorBox("md"),

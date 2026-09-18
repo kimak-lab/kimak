@@ -6,7 +6,7 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 - Kimak is headless. If a className, hex color, or theme token lands in `@kimak/core` or `@kimak/headless-react`, it is a bug. The one exception is visually-hidden styles on form `hiddenInput`.
 - Look lives only in `@kimak/tailwind` (optional plugin). Hex, CSS variables, and component recipes are allowed there. They must target anatomy selectors, never leak into machines.
-- The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`); it is not a machine prop.
+- The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`); button look is `data-variant`. Neither is a machine prop.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
 - Do not add Vue, Svelte, or HTML adapters until Checkbox and Dialog are boring on React 19. The Tailwind look plugin is allowed now because it is adapter-agnostic.
 - Do not start DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.

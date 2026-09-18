@@ -1,4 +1,7 @@
-import { dialogAnatomy } from "@kimak/spec";
+// Deep import: jiti's plugin loader drops named re-exports from the @kimak/spec barrel.
+import { dialogAnatomy } from "../../spec/src/dialog/dialog.anatomy";
+import { buttonChrome } from "./button.recipe";
+import { focusRing, mix, t } from "./theme";
 import type { CssInJs } from "./types";
 
 const sizes = ["sm", "md", "lg"] as const;
@@ -13,23 +16,12 @@ function contentWidth(size: Size): string {
     case "sm":
       return "min(20rem, 100%)";
     case "md":
-      return "min(24rem, 100%)";
+      return "min(32rem, calc(100% - 2rem))";
     case "lg":
-      return "min(36rem, 100%)";
+      return "min(36rem, calc(100% - 2rem))";
     default:
       return assertNever(size);
   }
-}
-
-function buttonLook(): CssInJs {
-  return {
-    font: "inherit",
-    padding: "0.4rem 0.75rem",
-    border: "1px solid var(--color-kimak-border)",
-    backgroundColor: "var(--color-kimak-bg)",
-    color: "var(--color-kimak-fg)",
-    cursor: "pointer",
-  };
 }
 
 export function dialogRecipe(): CssInJs {
@@ -40,22 +32,23 @@ export function dialogRecipe(): CssInJs {
   const content = dialogAnatomy.content.selector;
   const title = dialogAnatomy.title.selector;
   const description = dialogAnatomy.description.selector;
+  const chrome = buttonChrome();
 
   const recipe: CssInJs = {
-    [trigger]: buttonLook(),
-    [close]: buttonLook(),
+    [trigger]: chrome,
+    [close]: chrome,
+    [`${trigger}:hover, ${close}:hover`]: {
+      backgroundColor: mix(t.primary, 90),
+    },
     [`${trigger}[data-disabled]`]: {
-      cursor: "not-allowed",
+      pointerEvents: "none",
       opacity: "0.5",
     },
-    [`${trigger}:focus-visible, ${close}:focus-visible`]: {
-      outline: "2px solid var(--color-kimak-ring)",
-      outlineOffset: "3px",
-    },
+    [`${trigger}:focus-visible, ${close}:focus-visible`]: focusRing(),
     [backdrop]: {
       position: "fixed",
       inset: "0",
-      backgroundColor: "var(--color-kimak-backdrop)",
+      backgroundColor: "rgb(0 0 0 / 0.5)",
     },
     [`${backdrop}[data-state="open"], ${content}[data-state="open"]`]: {
       pointerEvents: "auto",
@@ -73,24 +66,28 @@ export function dialogRecipe(): CssInJs {
     [content]: {
       boxSizing: "border-box",
       width: contentWidth("md"),
-      backgroundColor: "var(--color-kimak-bg)",
-      color: "var(--color-kimak-fg)",
-      border: "1px solid var(--color-kimak-border)",
-      padding: "1.25rem",
+      backgroundColor: t.background,
+      color: t.foreground,
+      border: `1px solid ${t.border}`,
+      borderRadius: t.radiusLg,
+      padding: "1.5rem",
+      boxShadow:
+        "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
     },
     [`${content}:focus`]: {
       outline: "none",
     },
-    [`${content}:focus-visible`]: {
-      outline: "2px solid var(--color-kimak-ring)",
-      outlineOffset: "3px",
-    },
+    [`${content}:focus-visible`]: focusRing(),
     [title]: {
       margin: "0 0 0.4rem",
-      fontSize: "1.15rem",
+      fontSize: "1.125rem",
+      fontWeight: "600",
+      lineHeight: "1.25",
     },
     [description]: {
       margin: "0 0 1rem",
+      fontSize: "0.875rem",
+      color: t.mutedForeground,
     },
   };
 

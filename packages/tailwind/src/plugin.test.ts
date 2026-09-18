@@ -6,11 +6,13 @@ import { describe, expect, it } from "vitest";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const pluginPath = path.resolve(here, "index.ts");
+const themeCssPath = path.resolve(here, "theme.css");
 
 async function compilePluginCss(): Promise<string> {
   const { build } = await compile(
     `
       @import "tailwindcss";
+      @import ${JSON.stringify(themeCssPath)};
       @plugin ${JSON.stringify(pluginPath)};
     `,
     {
@@ -19,17 +21,22 @@ async function compilePluginCss(): Promise<string> {
     },
   );
 
-  return build([]);
+  return build(["bg-primary"]);
 }
 
 describe("@kimak/tailwind", () => {
-  it("emits anatomy selectors and visual state/size variants", async () => {
+  it("emits shadcn tokens, anatomy selectors, and visual state/size/variant", async () => {
     const css = await compilePluginCss();
 
-    expect(css).toContain("--color-kimak-accent");
+    expect(css).toContain("--primary");
+    expect(css).toContain("--radius");
+    expect(css).toContain("--radius-md");
+    expect(css).toContain(".bg-primary");
+    expect(css).toContain("background-color: var(--primary)");
     expect(css).toContain(buttonAnatomy.root.selector);
     expect(css).toContain(buttonAnatomy.indicator.selector);
     expect(css).toContain('[data-loading]');
+    expect(css).toContain('[data-variant="outline"]');
     expect(css).toContain(checkboxAnatomy.root.selector);
     expect(css).toContain(checkboxAnatomy.control.selector);
     expect(css).toContain(checkboxAnatomy.indicator.selector);

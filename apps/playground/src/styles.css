@@ -1,18 +1,28 @@
 @import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
 @plugin "@kimak/tailwind";
 
-/* Playground chrome only; component look lives in the Tailwind plugin. */
-
+/* Recolor / reshape / restyle: override raw tokens, not --color-*. */
 :root {
-  color-scheme: light dark;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  line-height: 1.5;
+  --primary: oklch(0.55 0.2 264);
+  --primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.55 0.2 264);
+  --radius: 0.5rem;
 }
 
-body {
-  margin: 0;
-  background: Canvas;
-  color: CanvasText;
+.dark {
+  --primary: oklch(0.7 0.18 264);
+  --primary-foreground: oklch(0.2 0.04 264);
+  --ring: oklch(0.7 0.18 264);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.5;
+  }
 }
 
 main {
@@ -25,11 +35,6 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.75rem;
-  color: color-mix(in srgb, CanvasText 60%, Canvas);
-}
-
-.lede {
-  color: color-mix(in srgb, CanvasText 70%, Canvas);
 }
 
 section {
@@ -48,13 +53,6 @@ section {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
-}
-
-.btn-accent {
-  background-color: CanvasText;
-  color: Canvas;
-  border-color: CanvasText;
-  padding: 0.4rem 0.85rem;
 }
 
 code {
