@@ -6,7 +6,7 @@ const entries = ["dist/index.js", "dist/button/index.js"];
 export default defineConfig({
   entry: ["src/index.ts", "src/button/index.ts"],
   format: ["esm"],
-  dts: true,
+  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   clean: true,
   sourcemap: true,
   treeshake: true,

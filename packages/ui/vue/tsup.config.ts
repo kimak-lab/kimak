@@ -8,7 +8,7 @@ export default defineConfig({
     "button-group": "src/button-group/index.ts",
   },
   format: ["esm"],
-  dts: true,
+  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   clean: true,
   sourcemap: true,
   treeshake: true,

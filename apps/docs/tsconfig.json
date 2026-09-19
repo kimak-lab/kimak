@@ -4,7 +4,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "verbatimModuleSyntax": true,
-    "baseUrl": ".",
     "paths": {
       "@kimak/spec": ["../../packages/spec/src/index.ts"],
       "@kimak/core": ["../../packages/core/src/index.ts"],
