@@ -1,4 +1,4 @@
-export { Button, type ButtonRootProps } from "./button";
+export { Button, type ButtonAs, type ButtonRootProps } from "./button";
 export { default as DirectionProvider } from "./direction-provider.svelte";
 export { provideDirection, useDirection, type DirectionProviderProps } from "./direction";
 export { mergeProps } from "./merge-props";

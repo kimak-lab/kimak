@@ -1,0 +1,45 @@
+{
+  "name": "@kimak/docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 5176",
+    "build": "astro build",
+    "preview": "astro preview --port 5176",
+    "typecheck": "astro check",
+    "clean": "rm -rf dist .astro"
+  },
+  "dependencies": {
+    "@kimak/headless-react": "workspace:*",
+    "@kimak/headless-svelte": "workspace:*",
+    "@kimak/headless-vue": "workspace:*",
+    "@kimak/spec": "workspace:*",
+    "@kimak/tailwind": "workspace:*",
+    "@kimak/ui-react": "workspace:*",
+    "@kimak/ui-svelte": "workspace:*",
+    "@kimak/ui-vue": "workspace:*",
+    "@lucide/svelte": "^1.47.0",
+    "@lucide/vue": "^1.47.0",
+    "gsap": "catalog:",
+    "lucide-react": "^1.47.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "svelte": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/react": "^5.0.6",
+    "@astrojs/svelte": "^8.1.2",
+    "@astrojs/vue": "^6.0.1",
+    "@tailwindcss/vite": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "astro": "^6.4.8",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}

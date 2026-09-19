@@ -1,0 +1,52 @@
+---
+title: Getting started
+description: Install Kimak, import Button, and keep look in the Tailwind plugin.
+order: 10
+section: Start
+---
+
+import ButtonDemo from "../../components/ButtonDemo.astro";
+
+Kimak is headless. Behavior lives in `@kimak/core` machines. Adapters bind `connect()`. Product sugar (`@kimak/ui-*`) is a default tree over those parts. Look is optional and lives in `@kimak/tailwind`.
+
+## React (published path)
+
+```bash
+pnpm add @kimak/ui-react @kimak/tailwind
+```
+
+```tsx
+import { Button } from "@kimak/ui-react";
+
+<Button data-size="sm">Save</Button>
+```
+
+## Vue and Svelte (in-repo)
+
+Vue and Svelte adapters have Button in this repo (`@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet. Consume them from the workspace.
+
+```vue
+<script setup>
+import { Button } from "@kimak/ui-vue";
+</script>
+
+<template>
+  <Button data-size="sm">Save</Button>
+</template>
+```
+
+```svelte
+<script>
+  import { Button } from "@kimak/ui-svelte";
+</script>
+
+<Button data-size="sm">Save</Button>
+```
+
+## Live preview
+
+Switch React, Vue, or Svelte. The selected framework is stored in `localStorage` and used across the docs.
+
+<ButtonDemo />
+
+Next: [Installation](/docs/installation) for the CSS plugin, then [Button](/docs/components/button) for anatomy, props, and ARIA.

@@ -1,0 +1,138 @@
+---
+import type {
+  ComponentSpec,
+  EventContract,
+  KeyBinding,
+  PartContract,
+  PropContract,
+} from "@kimak/spec";
+
+interface Props {
+  spec: ComponentSpec;
+}
+
+const { spec } = Astro.props;
+const parts = Object.entries(spec.parts) as Array<[string, PartContract]>;
+const props = Object.entries(spec.props) as Array<[string, PropContract]>;
+const events = Object.entries(spec.events) as Array<[string, EventContract]>;
+const keyboard = spec.keyboard as readonly KeyBinding[];
+const aria = [...spec.aria];
+---
+
+<section>
+  <h2>Anatomy</h2>
+  <p class="muted">{spec.description}</p>
+  <div class="spec-table-wrap">
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Tag</th>
+          <th>data-*</th>
+          <th>ARIA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          parts.map(([name, part]) => (
+            <tr>
+              <td><code>{name}</code></td>
+              <td><code>{part.tag}</code></td>
+              <td>{part.dataAttrs.join(", ") || "—"}</td>
+              <td>{part.ariaAttrs?.join(", ") || "—"}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Props</h2>
+  <div class="spec-table-wrap">
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Prop</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          props.map(([name, prop]) => (
+            <tr>
+              <td><code>{name}</code></td>
+              <td><code>{prop.type}</code></td>
+              <td>{prop.default ? <code>{prop.default}</code> : "—"}</td>
+              <td>{prop.description}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Events</h2>
+  <div class="spec-table-wrap">
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Payload</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          events.map(([name, event]) => (
+            <tr>
+              <td><code>{name}</code></td>
+              <td><code>{event.payload}</code></td>
+              <td>{event.description}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Keyboard</h2>
+  <div class="spec-table-wrap">
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Slot</th>
+          <th>When</th>
+          <th>Then</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          keyboard.map((binding) => (
+            <tr>
+              <td><kbd>{binding.key}</kbd></td>
+              <td><code>{binding.slot}</code></td>
+              <td>{binding.when}</td>
+              <td>{binding.then}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>ARIA</h2>
+  <ul class="spec-list">
+    {aria.map((rule) => <li>{rule}</li>)}
+  </ul>
+</section>

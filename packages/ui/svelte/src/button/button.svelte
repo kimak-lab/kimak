@@ -1,15 +1,18 @@
 <script lang="ts">
   import { Button, type ButtonRootProps } from "@kimak/headless-svelte";
-  import type { ButtonMotion } from "@kimak/motion-gsap";
   import type { Snippet } from "svelte";
+  import type { HTMLButtonAttributes } from "svelte/elements";
   import { buttonAttrs, type ButtonSize, type ButtonVariant } from "./button-attrs";
-  import { bindButtonMotion } from "./button-motion";
+  import { bindButtonMotion, type ButtonMotion } from "./button-motion";
 
-  export interface ButtonProps extends ButtonRootProps {
+  export interface ButtonProps
+    extends ButtonRootProps,
+      Omit<HTMLButtonAttributes, keyof ButtonRootProps> {
     children?: Snippet;
     ref?: (node: HTMLElement | null) => void;
     variant?: ButtonVariant;
     size?: ButtonSize;
+    href?: string;
   }
 
   let {

@@ -61,6 +61,22 @@ describe("Button sugar", () => {
     await user.click(root);
     expect(onPress).not.toHaveBeenCalled();
   });
+
+  it("composes onto an anchor without native button attrs", () => {
+    render(
+      <Button render={<a href="/docs" />}>
+        Docs
+      </Button>,
+    );
+    const root = screen.getByRole("link", { name: "Docs" });
+    expect(root.tagName).toBe("A");
+    expect(root).toHaveAttribute("href", "/docs");
+    expect(root).toHaveAttribute("data-scope", "button");
+    expect(root).toHaveAttribute("data-slot", "root");
+    expect(root).not.toHaveAttribute("type");
+    expect(root).not.toHaveAttribute("disabled");
+    expect(document.querySelectorAll("button")).toHaveLength(0);
+  });
 });
 
 describe("buttonAttrs", () => {

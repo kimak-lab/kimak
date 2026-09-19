@@ -1,0 +1,23 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "verbatimModuleSyntax": true,
+    "baseUrl": ".",
+    "paths": {
+      "@kimak/spec": ["../../packages/spec/src/index.ts"],
+      "@kimak/core": ["../../packages/core/src/index.ts"],
+      "@kimak/ui-react": ["../../packages/ui/react/src/index.ts"],
+      "@kimak/ui-vue": ["../../packages/ui/vue/src/index.ts"],
+      "@kimak/ui-svelte": ["../../packages/ui/svelte/src/index.ts"],
+      "@kimak/headless-react": ["../../packages/headless/react/src/index.ts"],
+      "@kimak/headless-vue": ["../../packages/headless/vue/src/index.ts"],
+      "@kimak/headless-svelte": ["../../packages/headless/svelte/src/index.ts"],
+      "@kimak/motion-gsap": ["../../packages/motion/gsap/src/index.ts"],
+      "@kimak/tailwind": ["../../packages/tailwind/src/index.ts"]
+    }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}

@@ -1,4 +1,4 @@
-export { Button, type ButtonRootProps } from "./button";
+export { Button, type ButtonAs, type ButtonRootProps } from "./button";
 export { DirectionProvider, useDirection } from "./direction";
 export { mergeProps } from "./merge-props";
 export { normalizeProps, type VuePropTypes } from "./normalize-props";

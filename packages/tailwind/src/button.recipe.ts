@@ -1,12 +1,13 @@
 // Deep import: jiti's plugin loader drops named re-exports from the @kimak/spec barrel.
 import { buttonAnatomy } from "../../spec/src/button/button.anatomy";
+import { spinnerGlyph, spinKeyframes } from "./spin";
 import { focusRing, mix, t } from "./theme";
 import type { CssInJs } from "./types";
 
-const sizes = ["sm", "md", "lg"] as const;
+const sizes = ["xs", "sm", "md", "lg", "icon-xs", "icon-sm", "icon", "icon-lg"] as const;
 type Size = (typeof sizes)[number];
 
-const variants = ["default", "secondary", "outline", "ghost", "destructive"] as const;
+const variants = ["default", "secondary", "outline", "ghost", "destructive", "link"] as const;
 type Variant = (typeof variants)[number];
 
 function assertNever(value: never): never {
@@ -15,24 +16,40 @@ function assertNever(value: never): never {
 
 function sizeLook(size: Size): CssInJs {
   switch (size) {
+    case "xs":
+      return { height: "1.75rem", padding: "0 0.5rem", gap: "0.25rem", fontSize: "0.75rem" };
     case "sm":
       return { height: "2rem", padding: "0 0.75rem", gap: "0.375rem", fontSize: "0.875rem" };
     case "md":
       return { height: "2.25rem", padding: "0.5rem 1rem", gap: "0.5rem", fontSize: "0.875rem" };
     case "lg":
       return { height: "2.5rem", padding: "0 1.5rem", gap: "0.5rem", fontSize: "0.875rem" };
+    case "icon-xs":
+      return { width: "1.75rem", height: "1.75rem", padding: "0", gap: "0" };
+    case "icon-sm":
+      return { width: "2rem", height: "2rem", padding: "0", gap: "0" };
+    case "icon":
+      return { width: "2.25rem", height: "2.25rem", padding: "0", gap: "0" };
+    case "icon-lg":
+      return { width: "2.5rem", height: "2.5rem", padding: "0", gap: "0" };
     default:
       return assertNever(size);
   }
 }
 
-function spinnerBox(size: Size): CssInJs {
+function iconBox(size: Size): CssInJs {
   switch (size) {
+    case "xs":
+    case "icon-xs":
+      return { width: "0.75rem", height: "0.75rem" };
     case "sm":
+    case "icon-sm":
       return { width: "0.75rem", height: "0.75rem" };
     case "md":
+    case "icon":
       return { width: "1rem", height: "1rem" };
     case "lg":
+    case "icon-lg":
       return { width: "1.05rem", height: "1.05rem" };
     default:
       return assertNever(size);
@@ -72,24 +89,20 @@ function variantLook(variant: Variant): CssInJs {
         color: "white",
         borderColor: "transparent",
       };
+    case "link":
+      return {
+        backgroundColor: "transparent",
+        color: t.primary,
+        borderColor: "transparent",
+        boxShadow: "none",
+        textDecorationLine: "underline",
+        textUnderlineOffset: "4px",
+        height: "auto",
+        padding: "0",
+      };
     default:
       return assertNever(variant);
   }
-}
-
-function spinnerLook(size: Size): CssInJs {
-  return {
-    display: "inline-block",
-    boxSizing: "border-box",
-    ...spinnerBox(size),
-    flexShrink: "0",
-    borderWidth: "2px",
-    borderStyle: "solid",
-    borderColor: "currentColor",
-    borderRightColor: "transparent",
-    borderRadius: "50%",
-    animation: "kimak-button-spin 0.65s linear infinite",
-  };
 }
 
 function variantHover(variant: Variant): CssInJs {
@@ -104,6 +117,8 @@ function variantHover(variant: Variant): CssInJs {
       return { backgroundColor: t.accent, color: t.accentForeground };
     case "destructive":
       return { backgroundColor: mix(t.destructive, 90) };
+    case "link":
+      return { color: mix(t.primary, 80) };
     default:
       return assertNever(variant);
   }
@@ -124,6 +139,7 @@ export function buttonChrome(): CssInJs {
     borderRadius: t.radiusMd,
     borderWidth: "1px",
     borderStyle: "solid",
+    textDecorationLine: "none",
     transition: "color 150ms, background-color 150ms, box-shadow 150ms, border-color 150ms",
     cursor: "default",
     ...sizeLook("md"),
@@ -135,11 +151,10 @@ export function buttonRecipe(): CssInJs {
   const root = buttonAnatomy.root.selector;
   const indicator = buttonAnatomy.indicator.selector;
   const loadingIndicator = `${root}[data-loading] ${indicator}:empty, ${indicator}[data-loading]:empty`;
+  const iconTarget = `${root} svg, ${root} [data-icon]`;
 
   const recipe: CssInJs = {
-    "@keyframes kimak-button-spin": {
-      to: { transform: "rotate(360deg)" },
-    },
+    ...spinKeyframes(),
     [root]: buttonChrome(),
     [`${root}:hover`]: variantHover("default"),
     [`${root}[data-disabled]`]: {
@@ -159,7 +174,18 @@ export function buttonRecipe(): CssInJs {
     [`${root}[data-loading] ${indicator}, ${indicator}[data-loading]`]: {
       display: "inline-flex",
     },
-    [loadingIndicator]: spinnerLook("md"),
+    [loadingIndicator]: spinnerGlyph(iconBox("md")),
+    [iconTarget]: {
+      pointerEvents: "none",
+      flexShrink: "0",
+      ...iconBox("md"),
+    },
+    [`${root} [data-icon="inline-start"]`]: {
+      marginInlineEnd: "0.125rem",
+    },
+    [`${root} [data-icon="inline-end"]`]: {
+      marginInlineStart: "0.125rem",
+    },
   };
 
   for (const variant of variants) {
@@ -183,8 +209,13 @@ export function buttonRecipe(): CssInJs {
 
   for (const size of sizes) {
     recipe[`${root}[data-size="${size}"]`] = sizeLook(size);
-    recipe[`${root}[data-size="${size}"] ${indicator}:empty`] = spinnerBox(size);
+    recipe[`${root}[data-size="${size}"] ${indicator}:empty`] = iconBox(size);
+    recipe[`${root}[data-size="${size}"] svg, ${root}[data-size="${size}"] [data-icon]`] =
+      iconBox(size);
   }
+
+  recipe[`${root}[data-variant="link"]`] = variantLook("link");
+  recipe[`${root}[data-variant="link"]:hover`] = variantHover("link");
 
   return recipe;
 }

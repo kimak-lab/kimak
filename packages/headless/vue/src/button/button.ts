@@ -18,7 +18,10 @@ import { createKimakId } from "../create-id";
 import { useDirection } from "../direction";
 import { mergeProps } from "../merge-props";
 import { normalizeProps, type VuePropTypes } from "../normalize-props";
+import { omitNativeButtonAttrs } from "../omit-native-button-attrs";
 import { useMachine } from "../use-machine";
+
+export type ButtonAs = "button" | "a";
 
 type VueButtonApi = ButtonApi<VuePropTypes>;
 type GetButtonApi = () => VueButtonApi;
@@ -49,6 +52,7 @@ export const ButtonRoot = defineComponent({
     ids: Object as PropType<CoreButtonProps["ids"]>,
     onPress: Function as PropType<CoreButtonProps["onPress"]>,
     getRootNode: Function as PropType<CoreButtonProps["getRootNode"]>,
+    as: String as PropType<ButtonAs | undefined>,
   },
   setup(props, { slots, attrs }) {
     const uid = createKimakId();
@@ -73,7 +77,9 @@ export const ButtonRoot = defineComponent({
 
     return (): VNode => {
       const merged = mergeProps(getApi().getRootProps(), attrs);
-      return h("button", merged, slots.default?.());
+      const tag = props.as === "a" ? "a" : "button";
+      const host = tag === "a" ? omitNativeButtonAttrs(merged) : merged;
+      return h(tag, host, slots.default?.());
     };
   },
 });
@@ -95,4 +101,6 @@ export const Button = {
   Indicator: ButtonIndicator,
 };
 
-export type ButtonRootProps = CoreButtonProps;
+export interface ButtonRootProps extends CoreButtonProps {
+  as?: ButtonAs;
+}

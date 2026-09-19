@@ -12,6 +12,14 @@
     "./button": {
       "types": "./dist/button/index.d.ts",
       "import": "./dist/button/index.js"
+    },
+    "./spinner": {
+      "types": "./dist/spinner/index.d.ts",
+      "import": "./dist/spinner/index.js"
+    },
+    "./button-group": {
+      "types": "./dist/button-group/index.d.ts",
+      "import": "./dist/button-group/index.js"
     }
   },
   "files": ["dist"],

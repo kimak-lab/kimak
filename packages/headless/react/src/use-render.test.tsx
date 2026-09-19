@@ -38,6 +38,7 @@ describe("render / mergeProps", () => {
     expect(host.tagName).toBe("A");
     expect(host).toHaveAttribute("data-slot", "trigger");
     expect(host).toHaveTextContent("Open");
+    expect(host).not.toHaveAttribute("type");
   });
 
   it("composes refs and className", () => {

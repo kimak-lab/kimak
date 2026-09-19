@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/button/index.ts"],
+  entry: ["src/index.ts", "src/button/index.ts", "src/spinner/index.ts", "src/button-group/index.ts"],
   format: ["esm"],
   dts: true,
   clean: true,

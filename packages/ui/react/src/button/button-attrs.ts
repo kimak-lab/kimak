@@ -4,11 +4,21 @@ export const buttonVariants = [
   "outline",
   "ghost",
   "destructive",
+  "link",
 ] as const;
 
 export type ButtonVariant = (typeof buttonVariants)[number];
 
-export const buttonSizes = ["sm", "md", "lg"] as const;
+export const buttonSizes = [
+  "xs",
+  "sm",
+  "md",
+  "lg",
+  "icon-xs",
+  "icon-sm",
+  "icon",
+  "icon-lg",
+] as const;
 
 export type ButtonSize = (typeof buttonSizes)[number];
 
@@ -21,7 +31,8 @@ export interface ButtonAttrsInput {
 
 /**
  * Anatomy attrs for a Kimak button look target. Apply to a host `<button>` or
- * to an `<a>` styled as a button — do not render `<Button>` as a link.
+ * to an `<a>` styled as a button. Product `<Button render>` / `as="a"` also
+ * compose onto a link when you need machine behavior.
  */
 export function buttonAttrs(input: ButtonAttrsInput = {}) {
   const dataVariant = input["data-variant"] ?? input.variant;

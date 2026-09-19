@@ -1,0 +1,54 @@
+---
+title: Installation
+description: Workspace packages, Tailwind v4 look, and what is published versus in-repo.
+order: 20
+section: Start
+---
+
+v1 publishes `@kimak/headless-react` and `@kimak/ui-react`. `@kimak/tailwind` is adapter-agnostic. Vue and Svelte Button packages exist in-repo and are not on npm yet.
+
+## React
+
+```bash
+pnpm add @kimak/ui-react @kimak/headless-react @kimak/tailwind
+```
+
+`@kimak/ui-react` is product sugar over `@kimak/headless-react`. Compound anatomy stays on the headless package if you want to assemble parts yourself.
+
+Peer: React 19. Optional press motion needs `gsap` because `@kimak/ui-react` binds `@kimak/motion-gsap`.
+
+```bash
+pnpm add gsap
+```
+
+Do not put `gsap` in core or a headless adapter. Playgrounds and this docs app consume `<Button>` only — they do not re-bind GSAP.
+
+## Vue / Svelte (workspace)
+
+```bash
+pnpm add @kimak/ui-vue @kimak/headless-vue
+pnpm add @kimak/ui-svelte @kimak/headless-svelte
+```
+
+Those names resolve from this monorepo until they are published.
+
+## Tailwind plugin
+
+Requires Tailwind CSS v4. Look targets anatomy `data-*` attributes, so any adapter that emits them is styled.
+
+```css
+@import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
+@plugin "@kimak/tailwind";
+```
+
+`theme.css` is the shadcn token contract: raw values on `:root` / `.dark`, mapped through `@theme inline` to utilities (`bg-primary`, `text-muted-foreground`, `rounded-md`). Override **raw** tokens after the import — not `--color-*`:
+
+```css
+:root {
+  --primary: oklch(0.55 0.2 264);
+  --radius: 0.5rem;
+}
+```
+
+See [Styling](/docs/styling) for `data-size`, `data-variant`, and `buttonAttrs()`.

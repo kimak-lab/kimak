@@ -111,4 +111,16 @@ describe("Button", () => {
     await user.keyboard("{Enter}");
     expect(onSubmit).not.toHaveBeenCalled();
   });
+
+  it("composes onto an anchor without native button attrs", () => {
+    render(Example, { as: "a", href: "/docs" });
+    const root = screen.getByRole("link", { name: "Save" });
+    expect(root.tagName).toBe("A");
+    expect(root).toHaveAttribute("href", "/docs");
+    expect(root).toHaveAttribute("data-scope", "button");
+    expect(root).toHaveAttribute("data-slot", "root");
+    expect(root).not.toHaveAttribute("type");
+    expect(root).not.toHaveAttribute("disabled");
+    expect(document.querySelector("button")).toBeNull();
+  });
 });

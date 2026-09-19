@@ -1,0 +1,57 @@
+---
+title: Styling
+description: Anatomy selectors are the public look API. Size and variant are host attributes, not machine props.
+order: 30
+section: Guides
+---
+
+The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`). Button look is `data-variant`. Neither is a machine prop.
+
+If a className, hex color, or theme token lands in `@kimak/core` or a headless adapter, it is a bug. Look lives in `@kimak/tailwind` (optional plugin) and in your CSS.
+
+## Anatomy selectors
+
+```css
+[data-scope="button"][data-slot="root"][data-variant="outline"] { }
+```
+
+Product sugar also accepts `variant` / `size` and writes the same `data-*`:
+
+```tsx
+<Button data-size="sm" data-variant="outline">Save</Button>
+<Button variant="outline" size="sm">Save</Button>
+```
+
+`data-size` is `sm` | `md` | `lg`. Omit it for the `md` default. Button `data-variant` is `default` | `secondary` | `outline` | `ghost` | `destructive`.
+
+## Tokens
+
+Override raw tokens after importing `theme.css`:
+
+```css
+@import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
+@plugin "@kimak/tailwind";
+
+:root {
+  --primary: oklch(0.55 0.2 264);
+  --primary-foreground: oklch(0.985 0 0);
+  --radius: 0.5rem;
+}
+```
+
+Loading spinner motion stays in the Tailwind keyframes. Optional JS press motion is `@kimak/motion-gsap` bound by `@kimak/ui-*`.
+
+## Links are not buttons
+
+Apply `buttonAttrs()` on an `<a>`. Do not render `<Button render={<a/>}>`.
+
+```tsx
+import { buttonAttrs } from "@kimak/ui-react";
+
+<a href="/docs" {...buttonAttrs({ variant: "outline" })}>
+  Docs
+</a>
+```
+
+`className` on a part is a host DOM prop, not a machine prop. Adapters concatenate it with any class from `render`.

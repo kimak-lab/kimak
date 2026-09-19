@@ -1,0 +1,45 @@
+---
+title: Architecture
+description: Spec is the source of truth. Core owns machines. Adapters bind connect(). Product sugar is per framework.
+order: 40
+section: Guides
+---
+
+Kimak is a kernel plus thin adapters. React is first, not the source of behavior.
+
+## Layers
+
+<div class="package-graph">
+  <div>@kimak/spec → docs, types, a11y tests</div>
+  <div>@kimak/core → machines, connect(), platform primitives</div>
+  <div>adapters → @kimak/headless-react | vue | svelte</div>
+  <div>product sugar → @kimak/ui-react | vue | svelte</div>
+  <div>optional look → @kimak/tailwind</div>
+  <div>optional motion → @kimak/motion-gsap</div>
+</div>
+
+Folders are layer then framework (`packages/headless/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath, not a package.
+
+## `connect()`
+
+`connect(service, normalize)` yields props per part. Adapters pass a `NormalizeProps` map from `createNormalizer`.
+
+`connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, object `style`, callback `ref`). Remap in the adapter, not in the machine.
+
+React 19: `ref` is a prop. No `forwardRef`. Compound parts. `render` + `mergeProps` on Trigger and Root (Base UI composition, not Radix `asChild`).
+
+Composition APIs (`render`, `as`, snippets) are adapter-local and not a portable contract.
+
+## Adapter contract
+
+1. Bind `createService` to the framework store (React: `useMachine` / `useSyncExternalStore`).
+2. Pass `createNormalizer` (identity on React; remap keys on Vue/Svelte).
+3. Render compound parts. Spec parts with `owner: "adapter"` are not emitted by `connect()`.
+4. Keep look out of the adapter.
+5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
+
+## Catalog
+
+Button is first. Do not add Checkbox, Dialog, DatePicker, Command, or Toast until Button is proven and the form / disclosure / overlay / menu / selection families exist.
+
+The tables on [Button](/docs/components/button) are generated from `buttonSpec` in `@kimak/spec`. JSX is not the source of truth.

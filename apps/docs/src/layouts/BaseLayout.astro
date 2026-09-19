@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Headless UI primitives. React-first. Framework-agnostic kernel." } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-framework="react">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        try {
+          const theme = localStorage.getItem("kimak.docs.theme");
+          const dark =
+            theme === "dark" ||
+            (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          root.classList.toggle("dark", dark);
+          const framework = localStorage.getItem("kimak.docs.framework");
+          if (framework === "react" || framework === "vue" || framework === "svelte") {
+            root.dataset.framework = framework;
+          }
+        } catch {
+          /* private mode */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+    <script src="../scripts/prefs.ts"></script>
+  </body>
+</html>

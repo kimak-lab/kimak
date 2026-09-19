@@ -5,9 +5,8 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "build": "turbo run build",
-    "dev:react": "turbo run dev --filter=@kimak/playground",
-    "dev:vue": "turbo run dev --filter=@kimak/playground-vue",
-    "dev:svelte": "turbo run dev --filter=@kimak/playground-svelte",
+    "dev": "turbo run dev --filter=@kimak/docs",
+    "dev:docs": "turbo run dev --filter=@kimak/docs",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean && rm -rf node_modules"

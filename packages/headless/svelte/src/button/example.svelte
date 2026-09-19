@@ -9,6 +9,8 @@
     onPress,
     name,
     value,
+    as,
+    href,
     class: className,
     "data-size": dataSize,
   }: {
@@ -19,6 +21,8 @@
     onPress?: () => void;
     name?: string;
     value?: string;
+    as?: "button" | "a";
+    href?: string;
     class?: string;
     "data-size"?: string;
   } = $props();
@@ -32,6 +36,8 @@
   {onPress}
   {name}
   {value}
+  {as}
+  {href}
   class={className}
   data-size={dataSize}
 >

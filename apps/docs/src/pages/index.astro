@@ -1,0 +1,37 @@
+---
+import HomeLayout from "../layouts/HomeLayout.astro";
+import ButtonDemo from "../components/ButtonDemo.astro";
+import LinkButton from "../components/LinkButton.astro";
+---
+
+<HomeLayout
+  title="Kimak"
+  description="Headless UI primitives. React-first. Framework-agnostic kernel."
+>
+  <p class="eyebrow">Headless UI</p>
+  <div class="hero">
+    <h1>Behavior in the kernel. Look in your CSS.</h1>
+    <p class="lede">
+      Kimak owns keyboard, focus, and ARIA. Spec is the contract. React is the first adapter. Vue
+      and Svelte ship Button in lockstep. Style with anatomy selectors — or opt into the Tailwind
+      plugin.
+    </p>
+    <div class="hero-actions">
+      <LinkButton href="/docs/getting-started">Get started</LinkButton>
+      <LinkButton href="/docs/components/button" variant="outline">View Button</LinkButton>
+    </div>
+  </div>
+
+  <ButtonDemo />
+
+  <h2>Package graph</h2>
+  <div class="package-graph">
+    <div>@kimak/spec → @kimak/core → adapters → @kimak/ui-*</div>
+    <div>@kimak/spec → @kimak/tailwind</div>
+    <div>@kimak/spec → @kimak/motion-gsap</div>
+  </div>
+  <p class="muted">
+    The portable surface is <code>connect()</code>, not JSX. Product sugar lives in
+    <code>@kimak/ui-*</code>. Look never enters the machine.
+  </p>
+</HomeLayout>

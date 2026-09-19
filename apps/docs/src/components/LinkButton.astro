@@ -1,0 +1,13 @@
+---
+import { buttonAttrs } from "@kimak/ui-react";
+
+interface Props {
+  href: string;
+  variant?: "default" | "secondary" | "outline" | "ghost" | "destructive";
+}
+
+const { href, variant } = Astro.props;
+const look = buttonAttrs({ variant });
+---
+
+<a href={href} {...look}><slot /></a>

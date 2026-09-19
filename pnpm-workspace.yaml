@@ -9,6 +9,7 @@ packages:
 
 allowBuilds:
   esbuild: true
+  sharp: true
 
 catalog:
   "@sveltejs/vite-plugin-svelte": ^6.2.0
@@ -44,3 +45,4 @@ catalogMode: prefer
 
 onlyBuiltDependencies:
   - esbuild
+  - sharp

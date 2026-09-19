@@ -1,0 +1,27 @@
+---
+import { nav } from "../lib/nav";
+
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
+const normalized = current.replace(/\/$/, "") || "/";
+---
+
+<aside class="docs-sidebar">
+  <nav aria-label="Docs">
+    {
+      nav.map((section) => (
+        <div>
+          <p class="nav-section">{section.title}</p>
+          {section.items.map((item) => (
+            <a href={item.href} aria-current={normalized === item.href ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))}
+        </div>
+      ))
+    }
+  </nav>
+</aside>

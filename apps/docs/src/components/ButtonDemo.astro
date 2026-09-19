@@ -1,0 +1,13 @@
+---
+import FrameworkTabs from "./FrameworkTabs.astro";
+import { ButtonPreview as ButtonPreviewReact } from "../demos/button/ButtonPreview.tsx";
+import ButtonPreviewVue from "../demos/button/ButtonPreview.vue";
+import ButtonPreviewSvelte from "../demos/button/ButtonPreview.svelte";
+import { buttonSnippets } from "../lib/snippets/button";
+---
+
+<FrameworkTabs snippets={buttonSnippets}>
+  <ButtonPreviewReact client:load slot="react" />
+  <ButtonPreviewVue client:load slot="vue" />
+  <ButtonPreviewSvelte client:load slot="svelte" />
+</FrameworkTabs>

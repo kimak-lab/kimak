@@ -91,6 +91,24 @@ describe("Button sugar", () => {
     expect(onPress).not.toHaveBeenCalled();
     wrapper.unmount();
   });
+
+  it("composes onto an anchor without native button attrs", () => {
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => h(Button, { as: "a", href: "/docs" }, () => "Docs");
+        },
+      }),
+      { attachTo: document.body },
+    );
+    const root = wrapper.get("a").element;
+    expect(root.tagName).toBe("A");
+    expect(root).toHaveAttribute("href", "/docs");
+    expect(root).toHaveAttribute("data-slot", "root");
+    expect(root).not.toHaveAttribute("type");
+    expect(wrapper.find("button").exists()).toBe(false);
+    wrapper.unmount();
+  });
 });
 
 describe("buttonAttrs", () => {

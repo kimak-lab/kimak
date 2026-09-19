@@ -1,12 +1,14 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "tsup";
 
-const entries = ["dist/index.js", "dist/button.js"];
+const entries = ["dist/index.js", "dist/button.js", "dist/spinner.js", "dist/button-group.js"];
 
 export default defineConfig({
   entry: {
     index: "src/index.ts",
     button: "src/button/index.ts",
+    spinner: "src/spinner/index.ts",
+    "button-group": "src/button-group/index.ts",
   },
   format: ["esm"],
   dts: true,

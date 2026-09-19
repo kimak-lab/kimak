@@ -1,5 +1,5 @@
 import { compile } from "@tailwindcss/node";
-import { buttonAnatomy } from "@kimak/spec";
+import { buttonAnatomy, buttonGroupAnatomy, spinnerAnatomy } from "@kimak/spec";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -25,7 +25,7 @@ async function compilePluginCss(): Promise<string> {
 }
 
 describe("@kimak/tailwind", () => {
-  it("emits shadcn tokens, anatomy selectors, and visual state/size/variant", async () => {
+  it("emits shadcn tokens, anatomy selectors, and visual state/size/variant", { timeout: 20_000 }, async () => {
     const css = await compilePluginCss();
 
     expect(css).toContain("--primary");
@@ -38,6 +38,12 @@ describe("@kimak/tailwind", () => {
     expect(css).toContain('[data-loading]');
     expect(css).toContain("kimak-button-spin");
     expect(css).toContain('[data-variant="outline"]');
+    expect(css).toContain('[data-variant="link"]');
     expect(css).toContain('[data-size="sm"]');
+    expect(css).toContain('[data-size="icon"]');
+    expect(css).toContain('[data-icon="inline-start"]');
+    expect(css).toContain(spinnerAnatomy.root.selector);
+    expect(css).toContain(buttonGroupAnatomy.root.selector);
+    expect(css).toContain('[data-orientation="horizontal"]');
   });
 });

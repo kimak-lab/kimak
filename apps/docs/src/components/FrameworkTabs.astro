@@ -1,0 +1,43 @@
+---
+import { Code } from "astro:components";
+import { FRAMEWORKS } from "../lib/nav";
+
+interface Props {
+  snippets: {
+    react: string;
+    vue: string;
+    svelte: string;
+  };
+}
+
+const { snippets } = Astro.props;
+const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
+---
+
+<div class="fw-block">
+  <div class="fw-toolbar">
+    <div class="fw-tabs" role="tablist" aria-label="Framework preview">
+      {
+        FRAMEWORKS.map((framework) => (
+          <button type="button" data-set-framework={framework} aria-pressed={framework === "react"}>
+            {framework[0]?.toUpperCase() + framework.slice(1)}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+  <div class="fw-preview">
+    <div data-fw="react"><slot name="react" /></div>
+    <div data-fw="vue"><slot name="vue" /></div>
+    <div data-fw="svelte"><slot name="svelte" /></div>
+  </div>
+  <div class="fw-code">
+    {
+      FRAMEWORKS.map((framework) => (
+        <div data-fw={framework}>
+          <Code code={snippets[framework]} lang={langs[framework]} />
+        </div>
+      ))
+    }
+  </div>
+</div>

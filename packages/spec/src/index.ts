@@ -7,6 +7,8 @@ export {
   type ButtonProps,
   type ButtonType,
 } from "./button";
+export { buttonGroupAnatomy, type ButtonGroupPart } from "./button-group";
+export { spinnerAnatomy, type SpinnerPart } from "./spinner";
 export type {
   CommonProps,
   ComponentSpec,

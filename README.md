@@ -4,12 +4,28 @@ Headless UI primitives. React-first. Framework-agnostic kernel.
 
 Kimak owns behavior, keyboard, focus, and ARIA. You own CSS — or opt into the Tailwind plugin. There is no `variant="primary"` and no token package in the kernel.
 
-The catalog is Button first. Other components stay out until this one is proven across spec, core, adapters, product sugar, and look.
+The catalog is Button first. Other primitives stay out until this one is proven across spec, core, adapters, product sugar, and look. Spinner and Button Group are look-only sugar in that catalog, not new machines.
+
+## Installation
+
+```bash
+pnpm add @kimak/ui-react @kimak/tailwind
+```
+
+```css
+@import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
+@plugin "@kimak/tailwind";
+```
+
+Vue and Svelte sugar packages exist in-repo (`@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet.
+
+## Usage
 
 ```tsx
-import { Button } from "@kimak/ui-react";
+import { Button } from "@kimak/ui-react"
 
-<Button data-size="sm" className="rounded-full">Save</Button>
+<Button variant="outline">Button</Button>
 ```
 
 `@kimak/ui-react` is React product sugar over the headless parts. Compound anatomy stays on `@kimak/headless-react`. Look is still the Tailwind plugin.
@@ -23,12 +39,6 @@ import { Button } from "@kimak/ui-react";
 ## Optional look: `@kimak/tailwind`
 
 The plugin targets the same `data-scope` / `data-slot` / `data-state` attributes, so any adapter that emits them is styled. It does not wrap React components. Requires Tailwind CSS v4.
-
-```css
-@import "tailwindcss";
-@import "@kimak/tailwind/theme.css";
-@plugin "@kimak/tailwind";
-```
 
 `theme.css` is the shadcn token contract: raw values on `:root` / `.dark`, mapped through `@theme inline` to utilities (`bg-primary`, `text-muted-foreground`, `rounded-md`). Override **raw** tokens after the import — not `--color-*`:
 
@@ -46,11 +56,79 @@ Visual size and variant are host attributes, not machine props. Product sugar al
 <Button variant="outline" size="sm">Save</Button>
 ```
 
-`data-size` is `sm` | `md` | `lg`. Omit it for the `md` default. Button `data-variant` is `default` | `secondary` | `outline` | `ghost` | `destructive`. Style a link as a button with `buttonAttrs()`, never `<Button render={<a/>}>`.
+Put `data-icon="inline-start"` or `data-icon="inline-end"` on an icon (or `Spinner`) for spacing. Icons are children — Kimak does not ship an icon library.
 
 Button `loading` keeps keyboard focus (`aria-disabled` + `aria-busy`). Use `focusableWhenDisabled` when a disabled button must stay in the tab order.
 
 `@kimak/ui-*` Button lives in a per-component folder (`src/button/`) with `button-attrs.ts` (look data attributes) and `button-motion.ts` (GSAP bind). Look still comes from the Tailwind plugin.
+
+## Cursor
+
+Tailwind v4 uses `cursor: default` for buttons. The Kimak recipe matches that. To keep `cursor: pointer`, add:
+
+```css
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+```
+
+## Link
+
+Two patterns:
+
+```tsx
+<a href="/docs" {...buttonAttrs({ variant: "outline" })}>Docs</a>
+
+<Button render={<a href="/docs" />}>Docs</Button>
+```
+
+`buttonAttrs()` is look-only. `render` / Vue-Svelte `as="a"` keep the button machine (`loading`, `disabled`, `onPress`). Native button attrs (`type`, `name`, `value`, `form`, `disabled`) are omitted on the `<a>`.
+
+## Spinner
+
+`loading` shows the anatomy indicator (CSS keyframes). Render `<Spinner data-icon="inline-start" />` inside the button when you want an explicit glyph. Spinner is look-only — no machine.
+
+## Button Group
+
+```tsx
+<ButtonGroup>
+  <Button variant="outline">Left</Button>
+  <Button variant="outline">Right</Button>
+</ButtonGroup>
+```
+
+Look-only attached buttons via `data-scope="button-group"`. `orientation` is `"horizontal"` (default) or `"vertical"`.
+
+## API Reference
+
+### Look (not machine props)
+
+| Prop / attr | Type | Default |
+| --- | --- | --- |
+| `variant` / `data-variant` | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"` | `"default"` |
+| `size` / `data-size` | `"xs" \| "sm" \| "md" \| "lg" \| "icon-xs" \| "icon-sm" \| "icon" \| "icon-lg"` | `"md"` |
+| `data-icon` | `"inline-start" \| "inline-end"` | — |
+
+### Button
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `disabled` | `boolean` | `false` |
+| `loading` | `boolean` | `false` |
+| `focusableWhenDisabled` | `boolean` | `false` |
+| `type` | `"button" \| "submit" \| "reset"` | `"button"` |
+| `onPress` | `() => void` | — |
+| `render` (React) | `ReactElement \| function` | — |
+| `as` (Vue / Svelte) | `"button" \| "a"` | `"button"` |
+
+### ButtonGroup
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
 
 ## Packages
 
@@ -76,6 +154,8 @@ The portable contract is `connect(service, normalize)`, not JSX. `connect()` emi
 ## Current catalog
 
 - **Button** — press, disabled, loading, `data-size` / `data-variant`, optional GSAP press motion
+- **Spinner** — look-only busy glyph (Tailwind keyframes)
+- **Button Group** — look-only attached buttons
 
 Do not add Checkbox, Dialog, DatePicker, Command, or Toast until Button is proven and the form / disclosure / overlay / menu / selection families exist.
 
@@ -85,7 +165,5 @@ Do not add Checkbox, Dialog, DatePicker, Command, or Toast until Button is prove
 pnpm install
 pnpm test
 pnpm typecheck
-pnpm --filter @kimak/playground dev
-pnpm dev:vue
-pnpm dev:svelte
+pnpm dev
 ```

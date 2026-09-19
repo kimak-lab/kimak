@@ -1,5 +1,5 @@
-import { animateButton, type ButtonMotion } from "@kimak/motion-gsap";
 import { Button as Parts, mergeProps, type ButtonRootProps } from "@kimak/headless-vue";
+import type { ButtonMotion } from "@kimak/motion-gsap";
 import {
   defineComponent,
   h,

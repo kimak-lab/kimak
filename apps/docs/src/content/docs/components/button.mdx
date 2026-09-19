@@ -1,0 +1,33 @@
+---
+title: Button
+description: Press control for actions and form submit/reset. Loading stays in the tab order.
+order: 50
+section: Components
+---
+
+import ButtonDemo from "../../../components/ButtonDemo.astro";
+import SpecTable from "../../../components/SpecTable.astro";
+import { buttonSpec } from "@kimak/spec";
+
+Product API comes from `@kimak/ui-*`. Parts come from `@kimak/headless-*`. Look comes from `@plugin "@kimak/tailwind"` targeting anatomy `data-*` attributes.
+
+<ButtonDemo />
+
+## Loading and disabled
+
+`loading` stays in the tab order (`aria-disabled` + `aria-busy`, no native `disabled`). `focusableWhenDisabled` does the same for `disabled`. Activation is native Space/Enter, gated when disabled or loading.
+
+## Compound parts
+
+```tsx
+import { Button } from "@kimak/ui-react";
+
+<Button.Root>
+  Save
+  <Button.Indicator />
+</Button.Root>
+```
+
+The default `<Button>` already renders `Indicator`. Icons are children — any icon library or raw SVG.
+
+<SpecTable spec={buttonSpec} />
