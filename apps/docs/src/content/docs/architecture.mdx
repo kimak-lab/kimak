@@ -5,9 +5,9 @@ order: 40
 section: Guides
 ---
 
-Kimak is a kernel plus thin adapters. React is first, not the source of behavior.
+Kimak is a kernel plus thin adapters. React is first, not the source of behavior. The portable surface is `connect()`, not JSX.
 
-## Layers
+## Package graph
 
 <div class="package-graph">
   <div>@kimak/spec → docs, types, a11y tests</div>
@@ -19,6 +19,8 @@ Kimak is a kernel plus thin adapters. React is first, not the source of behavior
 </div>
 
 Folders are layer then framework (`packages/headless/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath, not a package.
+
+Look never enters the machine. Product sugar lives in `@kimak/ui-*`.
 
 ## `connect()`
 

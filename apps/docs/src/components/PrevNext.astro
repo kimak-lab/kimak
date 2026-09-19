@@ -1,0 +1,31 @@
+---
+import { adjacent } from "../lib/nav";
+
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
+const { prev, next } = adjacent(current);
+---
+
+{
+  prev || next ? (
+    <nav class="docs-pager" aria-label="Docs pagination">
+      {prev ? (
+        <a href={prev.href}>
+          <span class="docs-pager-label">Previous</span>
+          {prev.label}
+        </a>
+      ) : (
+        <span></span>
+      )}
+      {next ? (
+        <a class="docs-pager-next" href={next.href}>
+          <span class="docs-pager-label">Next</span>
+          {next.label}
+        </a>
+      ) : null}
+    </nav>
+  ) : null
+}

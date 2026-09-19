@@ -2,6 +2,8 @@
 import BaseLayout from "./BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Sidebar from "../components/Sidebar.astro";
+import Toc from "../components/Toc.astro";
+import PrevNext from "../components/PrevNext.astro";
 
 interface Props {
   title: string;
@@ -9,16 +11,20 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <BaseLayout title={`${title} · Kimak`} description={description}>
-  <Header />
+  <Header nav />
+  <div class="docs-nav-backdrop" data-nav-backdrop></div>
   <div class="docs-shell">
-    <Sidebar current={Astro.url.pathname} />
+    <Sidebar current={current} />
     <div class="docs-main">
-      <article class="docs-article">
+      <article class="docs-article docs-article-card">
         <slot />
+        <PrevNext current={current} />
       </article>
     </div>
+    <Toc />
   </div>
 </BaseLayout>

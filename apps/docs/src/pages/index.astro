@@ -12,9 +12,8 @@ import LinkButton from "../components/LinkButton.astro";
   <div class="hero">
     <h1>Behavior in the kernel. Look in your CSS.</h1>
     <p class="lede">
-      Kimak owns keyboard, focus, and ARIA. Spec is the contract. React is the first adapter. Vue
-      and Svelte ship Button in lockstep. Style with anatomy selectors — or opt into the Tailwind
-      plugin.
+      Kimak owns keyboard, focus, and ARIA. Style with anatomy selectors — or opt into the Tailwind
+      plugin. React is first. Vue and Svelte ship Button in lockstep.
     </p>
     <div class="hero-actions">
       <LinkButton href="/docs/getting-started">Get started</LinkButton>
@@ -22,16 +21,20 @@ import LinkButton from "../components/LinkButton.astro";
     </div>
   </div>
 
-  <ButtonDemo />
+  <ButtonDemo example="playground" />
 
-  <h2>Package graph</h2>
-  <div class="package-graph">
-    <div>@kimak/spec → @kimak/core → adapters → @kimak/ui-*</div>
-    <div>@kimak/spec → @kimak/tailwind</div>
-    <div>@kimak/spec → @kimak/motion-gsap</div>
+  <div class="home-cards">
+    <a class="home-card-link" href="/docs/installation">
+      <h2>Install</h2>
+      <p>React on npm. Vue and Svelte from the workspace. Tailwind plugin for look.</p>
+    </a>
+    <a class="home-card-link" href="/docs/styling">
+      <h2>Style</h2>
+      <p>data-scope, data-slot, and data-state. Size and variant stay off the machine.</p>
+    </a>
+    <a class="home-card-link" href="/docs/components/button">
+      <h2>Button</h2>
+      <p>Variants, sizes, loading that stays in the tab order, and the spec tables.</p>
+    </a>
   </div>
-  <p class="muted">
-    The portable surface is <code>connect()</code>, not JSX. Product sugar lives in
-    <code>@kimak/ui-*</code>. Look never enters the machine.
-  </p>
 </HomeLayout>

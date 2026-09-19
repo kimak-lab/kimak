@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+/** Docs pages in src/content/docs */
 const docs = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/docs" }),
   schema: z.object({
@@ -13,3 +14,4 @@ const docs = defineCollection({
 });
 
 export const collections = { docs };
+

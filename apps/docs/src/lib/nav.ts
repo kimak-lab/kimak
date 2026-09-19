@@ -33,6 +33,21 @@ export const nav: readonly NavSection[] = [
   },
 ];
 
+export function flattenNav(): NavItem[] {
+  return nav.flatMap((section) => [...section.items]);
+}
+
+export function adjacent(pathname: string): { prev?: NavItem; next?: NavItem } {
+  const items = flattenNav();
+  const current = pathname.replace(/\/$/, "") || "/";
+  const index = items.findIndex((item) => item.href === current);
+  if (index < 0) return {};
+  return {
+    prev: index > 0 ? items[index - 1] : undefined,
+    next: index < items.length - 1 ? items[index + 1] : undefined,
+  };
+}
+
 export function isFramework(value: string | null | undefined): value is Framework {
   switch (value) {
     case "react":

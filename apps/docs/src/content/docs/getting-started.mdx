@@ -1,19 +1,41 @@
 ---
 title: Getting started
-description: Install Kimak, import Button, and keep look in the Tailwind plugin.
+description: Install Kimak, add the Tailwind plugin, then render a Button.
 order: 10
 section: Start
 ---
 
 import ButtonDemo from "../../components/ButtonDemo.astro";
+import Callout from "../../components/Callout.astro";
+import PackageTabs from "../../components/PackageTabs.astro";
 
-Kimak is headless. Behavior lives in `@kimak/core` machines. Adapters bind `connect()`. Product sugar (`@kimak/ui-*`) is a default tree over those parts. Look is optional and lives in `@kimak/tailwind`.
+Three steps. Behavior stays in the kernel. Look stays in the plugin.
 
-## React (published path)
+## 1. Install
 
-```bash
-pnpm add @kimak/ui-react @kimak/tailwind
+React is the published path:
+
+<PackageTabs packages={["@kimak/ui-react", "@kimak/tailwind"]} />
+
+<Callout title="Vue and Svelte">
+  `@kimak/ui-vue` and `@kimak/ui-svelte` ship Button in this repo but are not on npm yet. Consume them from the workspace until they are published.
+</Callout>
+
+## 2. Add the look
+
+Requires Tailwind CSS v4. The plugin styles anatomy `data-*` attributes, so any adapter that emits them is styled.
+
+```css
+@import "tailwindcss";
+@import "@kimak/tailwind/theme.css";
+@plugin "@kimak/tailwind";
 ```
+
+Override **raw** tokens after the import (`--primary`, `--radius`) — not `--color-*`. See [Styling](/docs/styling).
+
+## 3. Render a Button
+
+Switch React, Vue, or Svelte. The choice is stored and reused across the docs.
 
 ```tsx
 import { Button } from "@kimak/ui-react";
@@ -21,32 +43,6 @@ import { Button } from "@kimak/ui-react";
 <Button data-size="sm">Save</Button>
 ```
 
-## Vue and Svelte (in-repo)
+<ButtonDemo example="playground" />
 
-Vue and Svelte adapters have Button in this repo (`@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet. Consume them from the workspace.
-
-```vue
-<script setup>
-import { Button } from "@kimak/ui-vue";
-</script>
-
-<template>
-  <Button data-size="sm">Save</Button>
-</template>
-```
-
-```svelte
-<script>
-  import { Button } from "@kimak/ui-svelte";
-</script>
-
-<Button data-size="sm">Save</Button>
-```
-
-## Live preview
-
-Switch React, Vue, or Svelte. The selected framework is stored in `localStorage` and used across the docs.
-
-<ButtonDemo />
-
-Next: [Installation](/docs/installation) for the CSS plugin, then [Button](/docs/components/button) for anatomy, props, and ARIA.
+Next: [Installation](/docs/installation) for peers, motion, and the workspace packages, then [Button](/docs/components/button) for variants, loading, and the spec tables.

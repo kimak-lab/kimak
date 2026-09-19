@@ -14,27 +14,34 @@ const { snippets } = Astro.props;
 const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
 ---
 
-<div class="fw-block">
+<div class="fw-block" data-demo>
   <div class="fw-toolbar">
-    <div class="fw-tabs" role="tablist" aria-label="Framework preview">
-      {
-        FRAMEWORKS.map((framework) => (
-          <button type="button" data-set-framework={framework} aria-pressed={framework === "react"}>
-            {framework[0]?.toUpperCase() + framework.slice(1)}
-          </button>
-        ))
-      }
+    <div class="demo-tabs" role="tablist" aria-label="Preview or code">
+      <button type="button" data-demo-view="preview" aria-pressed="true">Preview</button>
+      <button type="button" data-demo-view="code" aria-pressed="false">Code</button>
+    </div>
+    <div class="fw-toolbar-end">
+      <div class="fw-tabs" role="group" aria-label="Framework">
+        {
+          FRAMEWORKS.map((framework) => (
+            <button type="button" data-set-framework={framework} aria-pressed={framework === "react"}>
+              {framework[0]?.toUpperCase() + framework.slice(1)}
+            </button>
+          ))
+        }
+      </div>
+      <button type="button" class="copy-button" data-copy-code>Copy</button>
     </div>
   </div>
-  <div class="fw-preview">
+  <div class="fw-preview" data-demo-panel="preview">
     <div data-fw="react"><slot name="react" /></div>
     <div data-fw="vue"><slot name="vue" /></div>
     <div data-fw="svelte"><slot name="svelte" /></div>
   </div>
-  <div class="fw-code">
+  <div class="fw-code" data-demo-panel="code" hidden>
     {
       FRAMEWORKS.map((framework) => (
-        <div data-fw={framework}>
+        <div data-fw={framework} data-snippet={snippets[framework]}>
           <Code code={snippets[framework]} lang={langs[framework]} />
         </div>
       ))

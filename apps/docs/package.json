@@ -11,6 +11,8 @@
     "clean": "rm -rf dist .astro"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "catalog:",
+    "@fontsource-variable/geist-mono": "catalog:",
     "@kimak/headless-react": "workspace:*",
     "@kimak/headless-svelte": "workspace:*",
     "@kimak/headless-vue": "workspace:*",

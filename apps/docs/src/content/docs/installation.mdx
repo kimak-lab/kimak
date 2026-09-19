@@ -1,40 +1,45 @@
 ---
 title: Installation
-description: Workspace packages, Tailwind v4 look, and what is published versus in-repo.
+description: Add Kimak to a React app, or consume Vue and Svelte from the workspace.
 order: 20
 section: Start
 ---
 
+import Callout from "../../components/Callout.astro";
+import PackageTabs from "../../components/PackageTabs.astro";
+
 v1 publishes `@kimak/headless-react` and `@kimak/ui-react`. `@kimak/tailwind` is adapter-agnostic. Vue and Svelte Button packages exist in-repo and are not on npm yet.
 
-## React
+## 1. Add the packages
 
-```bash
-pnpm add @kimak/ui-react @kimak/headless-react @kimak/tailwind
-```
+React product sugar wraps the headless parts. Install both if you want to assemble anatomy yourself.
 
-`@kimak/ui-react` is product sugar over `@kimak/headless-react`. Compound anatomy stays on the headless package if you want to assemble parts yourself.
+<PackageTabs packages={["@kimak/ui-react", "@kimak/headless-react", "@kimak/tailwind"]} />
 
-Peer: React 19. Optional press motion needs `gsap` because `@kimak/ui-react` binds `@kimak/motion-gsap`.
+Peer: React 19. `ref` is a prop — no `forwardRef`.
 
-```bash
-pnpm add gsap
-```
+## 2. Optional press motion
 
-Do not put `gsap` in core or a headless adapter. Playgrounds and this docs app consume `<Button>` only — they do not re-bind GSAP.
+`@kimak/ui-react` binds `@kimak/motion-gsap`. Add GSAP only if you want JS press motion. Loading spinner motion stays in the Tailwind keyframes.
 
-## Vue / Svelte (workspace)
+<PackageTabs packages={["gsap"]} />
+
+<Callout>
+  Do not put `gsap` in core or a headless adapter. This docs app consumes `<Button>` only — it does not re-bind GSAP.
+</Callout>
+
+## 3. Vue / Svelte (workspace)
+
+Those names resolve from this monorepo until they are published.
 
 ```bash
 pnpm add @kimak/ui-vue @kimak/headless-vue
 pnpm add @kimak/ui-svelte @kimak/headless-svelte
 ```
 
-Those names resolve from this monorepo until they are published.
+## 4. Point Tailwind at the plugin
 
-## Tailwind plugin
-
-Requires Tailwind CSS v4. Look targets anatomy `data-*` attributes, so any adapter that emits them is styled.
+Look targets anatomy `data-*` attributes:
 
 ```css
 @import "tailwindcss";
@@ -42,7 +47,7 @@ Requires Tailwind CSS v4. Look targets anatomy `data-*` attributes, so any adapt
 @plugin "@kimak/tailwind";
 ```
 
-`theme.css` is the shadcn token contract: raw values on `:root` / `.dark`, mapped through `@theme inline` to utilities (`bg-primary`, `text-muted-foreground`, `rounded-md`). Override **raw** tokens after the import — not `--color-*`:
+`theme.css` is the shadcn token contract: raw values on `:root` / `.dark`, mapped through `@theme inline` to utilities (`bg-primary`, `text-muted-foreground`, `rounded-md`). Override **raw** tokens after the import:
 
 ```css
 :root {

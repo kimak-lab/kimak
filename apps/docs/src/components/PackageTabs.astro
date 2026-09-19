@@ -1,0 +1,24 @@
+---
+interface Props {
+  packages: string[];
+}
+
+const { packages } = Astro.props;
+const command = packages.join(" ");
+const snippets = {
+  pnpm: `pnpm add ${command}`,
+  npm: `npm install ${command}`,
+} as const;
+---
+
+<div class="pkg-block" data-pkg>
+  <div class="pkg-toolbar">
+    <div class="fw-tabs" role="tablist" aria-label="Package manager">
+      <button type="button" data-pkg-tab="pnpm" aria-pressed="true">pnpm</button>
+      <button type="button" data-pkg-tab="npm" aria-pressed="false">npm</button>
+    </div>
+    <button type="button" class="copy-button" data-copy-code>Copy</button>
+  </div>
+  <pre data-pkg-panel="pnpm" data-snippet={snippets.pnpm}><code>{snippets.pnpm}</code></pre>
+  <pre data-pkg-panel="npm" data-snippet={snippets.npm} hidden><code>{snippets.npm}</code></pre>
+</div>

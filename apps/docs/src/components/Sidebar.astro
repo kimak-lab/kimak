@@ -9,7 +9,7 @@ const { current } = Astro.props;
 const normalized = current.replace(/\/$/, "") || "/";
 ---
 
-<aside class="docs-sidebar">
+<aside class="docs-sidebar" id="docs-nav">
   <nav aria-label="Docs">
     {
       nav.map((section) => (

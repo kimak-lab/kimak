@@ -40,6 +40,8 @@ catalog:
   vite: ^7.1.0
   vitest: ^3.2.0
   gsap: ^3.13.0
+  '@fontsource-variable/geist': ^5.3.0
+  '@fontsource-variable/geist-mono': ^5.3.0
 
 catalogMode: prefer
 

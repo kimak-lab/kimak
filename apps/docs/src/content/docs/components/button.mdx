@@ -6,18 +6,27 @@ section: Components
 ---
 
 import ButtonDemo from "../../../components/ButtonDemo.astro";
+import Callout from "../../../components/Callout.astro";
 import SpecTable from "../../../components/SpecTable.astro";
 import { buttonSpec } from "@kimak/spec";
 
 Product API comes from `@kimak/ui-*`. Parts come from `@kimak/headless-*`. Look comes from `@plugin "@kimak/tailwind"` targeting anatomy `data-*` attributes.
 
-<ButtonDemo />
+## Playground
 
-## Loading and disabled
+<ButtonDemo example="playground" />
 
-`loading` stays in the tab order (`aria-disabled` + `aria-busy`, no native `disabled`). `focusableWhenDisabled` does the same for `disabled`. Activation is native Space/Enter, gated when disabled or loading.
+## Usage
 
-## Compound parts
+```tsx
+import { Button } from "@kimak/ui-react";
+
+<Button data-variant="outline" data-size="sm">
+  Save
+</Button>
+```
+
+The default `<Button>` already renders `Indicator`. Icons are children — any icon library or raw SVG.
 
 ```tsx
 import { Button } from "@kimak/ui-react";
@@ -28,6 +37,46 @@ import { Button } from "@kimak/ui-react";
 </Button.Root>
 ```
 
-The default `<Button>` already renders `Indicator`. Icons are children — any icon library or raw SVG.
+## Examples
+
+### Variants
+
+`data-variant` is look-only. It is not a machine prop.
+
+<ButtonDemo example="variants" />
+
+### Sizes
+
+`data-size` on the host: `xs` | `sm` | `md` | `lg`. Icon-only sizes are `icon-xs` | `icon-sm` | `icon` | `icon-lg`.
+
+<ButtonDemo example="sizes" />
+
+### Icons
+
+Mark a child with `data-icon="inline-start"` or `data-icon="inline-end"` so the recipe reserves spacing. Icon-only buttons need an `aria-label`.
+
+<ButtonDemo example="icons" />
+
+### Loading
+
+<Callout title="Loading stays focusable">
+  `loading` stays in the tab order (`aria-disabled` + `aria-busy`, no native `disabled`). `focusableWhenDisabled` does the same for `disabled`. Activation is native Space/Enter, gated when disabled or loading.
+</Callout>
+
+<ButtonDemo example="loading" />
+
+### As a link
+
+A link should stay a link. Apply `buttonAttrs()` when you only need the look.
+
+<Callout kind="warning" title="Don't force button semantics onto an anchor">
+  Use `buttonAttrs()` on an anchor for look-only. To keep machine behavior, compose with the adapter link API: React `render`, Vue/Svelte `as="a"`. Adapters omit native button attrs on the anchor.
+</Callout>
+
+<ButtonDemo example="link" />
+
+## API reference
+
+Tables below are generated from `buttonSpec` in `@kimak/spec`.
 
 <SpecTable spec={buttonSpec} />
