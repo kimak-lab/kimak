@@ -78,18 +78,12 @@ catalogs:
     typescript:
       specifier: ~5.9.3
       version: 5.9.3
-    vite:
-      specifier: ^7.1.0
-      version: 7.3.6
     vitest:
       specifier: ^3.2.0
       version: 3.2.7
     vue:
       specifier: ^3.5.21
       version: 3.5.42
-    vue-tsc:
-      specifier: ^3.0.8
-      version: 3.3.11
 
 importers:
 
@@ -192,132 +186,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
-
-  apps/playground-react:
-    dependencies:
-      '@kimak/headless-react':
-        specifier: workspace:*
-        version: link:../../packages/headless/react
-      '@kimak/tailwind':
-        specifier: workspace:*
-        version: link:../../packages/tailwind
-      '@kimak/ui-react':
-        specifier: workspace:*
-        version: link:../../packages/ui/react
-      gsap:
-        specifier: 'catalog:'
-        version: 3.15.0
-      lucide-react:
-        specifier: ^1.47.0
-        version: 1.47.0(react@19.3.0)
-      react:
-        specifier: 'catalog:'
-        version: 19.3.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.3.0(react@19.3.0)
-    devDependencies:
-      '@tailwindcss/vite':
-        specifier: 'catalog:'
-        version: 4.3.3(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.3.0(@types/react@19.3.0)
-      '@vitejs/plugin-react':
-        specifier: 'catalog:'
-        version: 5.2.0(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
-      tailwindcss:
-        specifier: 'catalog:'
-        version: 4.3.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vite:
-        specifier: 'catalog:'
-        version: 7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1)
-
-  apps/playground-svelte:
-    dependencies:
-      '@kimak/headless-svelte':
-        specifier: workspace:*
-        version: link:../../packages/headless/svelte
-      '@kimak/tailwind':
-        specifier: workspace:*
-        version: link:../../packages/tailwind
-      '@kimak/ui-svelte':
-        specifier: workspace:*
-        version: link:../../packages/ui/svelte
-      '@lucide/svelte':
-        specifier: ^1.47.0
-        version: 1.47.0(svelte@5.57.0)
-      gsap:
-        specifier: 'catalog:'
-        version: 3.15.0
-      svelte:
-        specifier: 'catalog:'
-        version: 5.57.0
-    devDependencies:
-      '@sveltejs/vite-plugin-svelte':
-        specifier: 'catalog:'
-        version: 6.2.4(svelte@5.57.0)(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
-      '@tailwindcss/vite':
-        specifier: 'catalog:'
-        version: 4.3.3(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
-      svelte-check:
-        specifier: 'catalog:'
-        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.0)(typescript@5.9.3)
-      tailwindcss:
-        specifier: 'catalog:'
-        version: 4.3.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vite:
-        specifier: 'catalog:'
-        version: 7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1)
-
-  apps/playground-vue:
-    dependencies:
-      '@kimak/headless-vue':
-        specifier: workspace:*
-        version: link:../../packages/headless/vue
-      '@kimak/tailwind':
-        specifier: workspace:*
-        version: link:../../packages/tailwind
-      '@kimak/ui-vue':
-        specifier: workspace:*
-        version: link:../../packages/ui/vue
-      '@lucide/vue':
-        specifier: ^1.47.0
-        version: 1.47.0(vue@3.5.42(typescript@5.9.3))
-      gsap:
-        specifier: 'catalog:'
-        version: 3.15.0
-      vue:
-        specifier: 'catalog:'
-        version: 3.5.42(typescript@5.9.3)
-    devDependencies:
-      '@tailwindcss/vite':
-        specifier: 'catalog:'
-        version: 4.3.3(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
-      '@vitejs/plugin-vue':
-        specifier: 'catalog:'
-        version: 6.0.9(vite@7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))(vue@3.5.42(typescript@5.9.3))
-      tailwindcss:
-        specifier: 'catalog:'
-        version: 4.3.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vite:
-        specifier: 'catalog:'
-        version: 7.3.6(@types/node@22.20.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1)
-      vue-tsc:
-        specifier: 'catalog:'
-        version: 3.3.11(typescript@5.9.3)
 
   packages/core:
     dependencies:
@@ -2081,9 +1949,6 @@ packages:
   '@vue/devtools-shared@8.2.1':
     resolution: {integrity: sha512-Fkac7lUdGReh6pVOi3AYPRGe82LQqRmAfThW7RRligOAP0ZA/Z1z9XLHDM9dv34pV2HRc79DK8uKPeG2fLnA/g==}
 
-  '@vue/language-core@3.3.11':
-    resolution: {integrity: sha512-QJmpliwAVpC/OxubIByPAhNzsQPRc8/gxlN2qnVzVfIMjMDz/9RnXRFoetjz5yEgXVXyp4LqhXq3V53PjmNzFw==}
-
   '@vue/reactivity@3.5.42':
     resolution: {integrity: sha512-TzNNfKpb7hDxbQltwAut8VDQA5YP+BuRlxntHUuRjyKwlMvmAPbs3unhCvieijifY6vFfVBwsS7wG/C7uq+bEQ==}
 
@@ -2142,9 +2007,6 @@ packages:
 
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
-
-  alien-signals@3.2.1:
-    resolution: {integrity: sha512-I8FjmltrfnDFoZedi5CG8DghVYNhzb/Ijluz7tCSJH0xpd0484Kowhbb1XDYOxfJpU1p5wnM2X54dA+IfGyD1g==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -4039,12 +3901,6 @@ packages:
   vue-component-type-helpers@3.3.11:
     resolution: {integrity: sha512-LwcxzeliO9fkQcpJG0PoX8X5kmAhKmH9wkpDLxNabwzkQ9Zeib2YVHwFV4pcWmMLfXVfjr/dSV+DaJ3cIPgSNA==}
 
-  vue-tsc@3.3.11:
-    resolution: {integrity: sha512-gOb0B9rtU2+f1dszwPqSH5kAieIF9ReeLhD3kSRNHv5WZZUQz/JdVXW0RTdqhNTMlQkqKzrTTviqKr/4FYZraQ==}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=5.0.0'
-
   vue@3.5.42:
     resolution: {integrity: sha512-4RyHQTbQvOPs3MfvUO1Sg0YRrKNnA0mAVtvpd12Tg1fKDN7OHBUl1IqSn8zGJjK9nI3NkNp8cgTpVrSZC5TTcA==}
     peerDependencies:
@@ -5570,16 +5426,6 @@ snapshots:
 
   '@vue/devtools-shared@8.2.1': {}
 
-  '@vue/language-core@3.3.11':
-    dependencies:
-      '@volar/language-core': 2.4.28
-      '@vue/compiler-dom': 3.5.42
-      '@vue/shared': 3.5.42
-      alien-signals: 3.2.1
-      muggle-string: 0.4.1
-      path-browserify: 1.0.1
-      picomatch: 4.0.7
-
   '@vue/reactivity@3.5.42':
     dependencies:
       '@vue/shared': 3.5.42
@@ -5637,8 +5483,6 @@ snapshots:
       fast-uri: 3.1.8
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
-
-  alien-signals@3.2.1: {}
 
   ansi-regex@5.0.1: {}
 
@@ -8029,12 +7873,6 @@ snapshots:
   vscode-uri@3.2.0: {}
 
   vue-component-type-helpers@3.3.11: {}
-
-  vue-tsc@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@volar/typescript': 2.4.28
-      '@vue/language-core': 3.3.11
-      typescript: 5.9.3
 
   vue@3.5.42(typescript@5.9.3):
     dependencies:
