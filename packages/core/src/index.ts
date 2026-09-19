@@ -14,5 +14,3 @@ export {
 export { dataIf, type CommonProps, type Dict, type Direction } from "./types";
 export * from "./platform";
 export * from "./button";
-export * from "./checkbox";
-export * from "./dialog";

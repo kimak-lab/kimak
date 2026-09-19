@@ -13,6 +13,7 @@
     "@kimak/headless-svelte": "workspace:*",
     "@kimak/tailwind": "workspace:*",
     "@kimak/ui-svelte": "workspace:*",
+    "gsap": "catalog:",
     "svelte": "catalog:"
   },
   "devDependencies": {

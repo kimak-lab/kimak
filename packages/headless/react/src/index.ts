@@ -1,6 +1,4 @@
 export { Button, buttonAnatomy, type ButtonRootProps } from "./button";
-export { Checkbox, checkboxAnatomy, type CheckboxRootProps } from "./checkbox";
-export { Dialog, dialogAnatomy, type DialogRootProps } from "./dialog";
 export { DirectionProvider, useDirection } from "./direction";
 export { mergeProps } from "./merge-props";
 export { normalizeProps, type ReactPropTypes } from "./normalize-props";

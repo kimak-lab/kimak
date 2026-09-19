@@ -1,6 +1,4 @@
 export { Button, type ButtonRootProps } from "./button";
-export { Checkbox, type CheckboxRootProps } from "./checkbox";
-export { Dialog, type DialogRootProps } from "./dialog";
 export { default as DirectionProvider } from "./direction-provider.svelte";
 export { provideDirection, useDirection, type DirectionProviderProps } from "./direction";
 export { mergeProps } from "./merge-props";

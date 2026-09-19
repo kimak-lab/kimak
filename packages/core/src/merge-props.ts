@@ -47,6 +47,12 @@ export function mergeProps(...bags: Array<Dict | undefined>): Dict {
 
       result[key] = incoming !== undefined ? incoming : current;
     }
+
+    for (const key of Object.getOwnPropertySymbols(bag)) {
+      const incoming = (bag as Record<symbol, unknown>)[key];
+      (result as Record<symbol, unknown>)[key] =
+        incoming !== undefined ? incoming : (result as Record<symbol, unknown>)[key];
+    }
   }
 
   return result;

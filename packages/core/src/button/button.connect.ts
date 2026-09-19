@@ -21,6 +21,8 @@ export function connectButton<T extends PropTypes>(
   const disabled = Boolean(props.disabled);
   const loading = Boolean(props.loading);
   const inert = disabled || loading;
+  const keepFocus = loading || Boolean(props.focusableWhenDisabled);
+  const nativeDisabled = inert && !keepFocus;
   const ids = {
     ...createIds(props.id ?? "button", buttonAnatomy.parts),
     ...props.ids,
@@ -41,7 +43,7 @@ export function connectButton<T extends PropTypes>(
         name: props.name,
         value: props.value,
         form: props.form,
-        disabled: inert || undefined,
+        disabled: nativeDisabled || undefined,
         "data-disabled": dataIf(disabled),
         "data-loading": dataIf(loading),
         "aria-disabled": inert || undefined,
@@ -49,7 +51,11 @@ export function connectButton<T extends PropTypes>(
         ref: (node: HTMLElement | null) => {
           service.refs.root = node;
         },
-        onClick: () => {
+        onClick: (event?: { preventDefault?: () => void }) => {
+          if (inert) {
+            event?.preventDefault?.();
+            return;
+          }
           service.send({ type: "PRESS" });
         },
       }),

@@ -4,6 +4,7 @@
   let {
     disabled,
     loading,
+    focusableWhenDisabled,
     type,
     onPress,
     name,
@@ -13,6 +14,7 @@
   }: {
     disabled?: boolean;
     loading?: boolean;
+    focusableWhenDisabled?: boolean;
     type?: "button" | "submit" | "reset";
     onPress?: () => void;
     name?: string;
@@ -25,6 +27,7 @@
 <Button.Root
   {disabled}
   {loading}
+  {focusableWhenDisabled}
   {type}
   {onPress}
   {name}

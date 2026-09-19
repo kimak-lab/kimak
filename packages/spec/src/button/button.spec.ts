@@ -7,7 +7,7 @@ import type { ButtonEvents, ButtonProps } from "./button.types";
 export const buttonSpec = {
   name: "button",
   description:
-    "A press control for actions and form submit/reset. Headless: consumers style parts via data-slot. Activation is native Space/Enter, gated when disabled or loading.",
+    "A press control for actions and form submit/reset. Headless: consumers style parts via data-slot. Activation is native Space/Enter, gated when disabled or loading. Loading stays focusable.",
   parts: buttonParts,
   props: {
     id: { type: "string", description: "Unique id used to generate part ids." },
@@ -23,7 +23,14 @@ export const buttonSpec = {
     },
     loading: {
       type: "boolean",
-      description: "Blocks activation and marks the control as busy.",
+      description:
+        "Blocks activation and marks the control as busy. Stays in the tab order (no native disabled).",
+      default: "false",
+    },
+    focusableWhenDisabled: {
+      type: "boolean",
+      description:
+        "Keep a disabled control in the tab order. Loading always keeps focus; this only changes disabled.",
       default: "false",
     },
     type: {

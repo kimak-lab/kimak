@@ -13,6 +13,7 @@
     "@kimak/headless-react": "workspace:*",
     "@kimak/tailwind": "workspace:*",
     "@kimak/ui-react": "workspace:*",
+    "gsap": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

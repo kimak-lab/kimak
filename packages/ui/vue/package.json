@@ -12,14 +12,6 @@
     "./button": {
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
-    },
-    "./checkbox": {
-      "types": "./dist/checkbox.d.ts",
-      "import": "./dist/checkbox.js"
-    },
-    "./dialog": {
-      "types": "./dist/dialog.d.ts",
-      "import": "./dist/dialog.js"
     }
   },
   "files": ["dist"],
@@ -30,9 +22,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@kimak/headless-vue": "workspace:*"
+    "@kimak/headless-vue": "workspace:*",
+    "@kimak/motion-gsap": "workspace:*"
   },
   "peerDependencies": {
+    "gsap": "^3.12.0",
     "vue": "^3.5.0"
   },
   "devDependencies": {
@@ -41,6 +35,7 @@
     "@testing-library/user-event": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/test-utils": "catalog:",
+    "gsap": "catalog:",
     "jsdom": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",

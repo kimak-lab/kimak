@@ -1,3 +1,1 @@
-export { Button, type ButtonProps } from "./button";
-export { Checkbox, type CheckboxProps } from "./checkbox";
-export { Dialog, type DialogContentProps } from "./dialog";
+export { Button, type ButtonProps, buttonAttrs } from "./button";

@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { buttonAnatomy, buttonSpec } from "./button";
-import { checkboxAnatomy, checkboxSpec } from "./checkbox";
-import { dialogAnatomy, dialogSpec } from "./dialog";
 import type { ComponentSpec, PartContract } from "./types";
 
 function assertSpecIntegrity<TParts extends string>(
@@ -35,33 +33,6 @@ describe("anatomy contract", () => {
     );
     const adapters = assertSpecIntegrity(buttonSpec, buttonAnatomy.parts);
     expect(adapters).toEqual([]);
-  });
-
-  it("names every checkbox part as a stable styling surface", () => {
-    expect(checkboxAnatomy.control.attrs()).toEqual({
-      "data-scope": "checkbox",
-      "data-slot": "control",
-    });
-    expect(checkboxAnatomy.control.selector).toBe(
-      '[data-scope="checkbox"][data-slot="control"]',
-    );
-    const adapters = assertSpecIntegrity(checkboxSpec, checkboxAnatomy.parts);
-    expect(adapters).toEqual([]);
-  });
-
-  it("names every dialog part as a stable styling surface", () => {
-    expect(dialogAnatomy.content.attrs()).toEqual({
-      "data-scope": "dialog",
-      "data-slot": "content",
-    });
-    const adapters = assertSpecIntegrity(dialogSpec, dialogAnatomy.parts);
-    expect(adapters).toEqual(["portal"]);
-  });
-
-  it("binds checkbox keyboard to Space on the control only", () => {
-    expect(checkboxSpec.keyboard).toEqual([
-      expect.objectContaining({ code: "Space", slot: "control", preventDefault: true }),
-    ]);
   });
 
   it("binds button keyboard to native Enter and Space on root", () => {

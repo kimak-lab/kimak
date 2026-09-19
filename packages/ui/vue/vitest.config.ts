@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@kimak/headless-vue": path.resolve(__dirname, "../../headless/vue/src/index.ts"),
+      "@kimak/motion-gsap": path.resolve(__dirname, "../../motion/gsap/src/index.ts"),
       "@kimak/core": path.resolve(__dirname, "../../core/src/index.ts"),
       "@kimak/spec": path.resolve(__dirname, "../../spec/src/index.ts"),
     },

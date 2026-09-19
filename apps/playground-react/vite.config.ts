@@ -19,6 +19,10 @@ export default defineConfig({
       "@kimak/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
       "@kimak/spec": path.resolve(__dirname, "../../packages/spec/src/index.ts"),
       "@kimak/tailwind": path.resolve(__dirname, "../../packages/tailwind/src/index.ts"),
+      "@kimak/motion-gsap": path.resolve(
+        __dirname,
+        "../../packages/motion/gsap/src/index.ts",
+      ),
     },
   },
   server: {

@@ -13,6 +13,7 @@
     "@kimak/headless-vue": "workspace:*",
     "@kimak/tailwind": "workspace:*",
     "@kimak/ui-vue": "workspace:*",
+    "gsap": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {

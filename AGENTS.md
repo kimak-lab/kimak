@@ -8,7 +8,7 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 - Look lives only in `@kimak/tailwind` (optional plugin). Hex, CSS variables, and component recipes are allowed there. They must target anatomy selectors, never leak into machines.
 - The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`sm` | `md` | `lg`); button look is `data-variant`. Neither is a machine prop.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
-- Vue and Svelte adapters now have Button, Checkbox, and Dialog. Keep those three in lockstep with React. Do not start DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
+- Vue and Svelte adapters now have Button. Keep Button in lockstep with React. Do not start Checkbox, Dialog, DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
 
 ## Package graph
 
@@ -16,12 +16,15 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 `@kimak/spec` → `@kimak/tailwind` (optional look; `@plugin` in the consumer CSS)
 
+`@kimak/spec` → `@kimak/motion-gsap` (optional GSAP; peer `gsap`; anatomy selectors only)
+
 Directories state the layer first, then the framework:
 
 ```
 packages/spec
 packages/core
 packages/tailwind
+packages/motion/gsap      → @kimak/motion-gsap
 packages/headless/react   → @kimak/headless-react
 packages/headless/vue     → @kimak/headless-vue
 packages/headless/svelte  → @kimak/headless-svelte
@@ -37,7 +40,10 @@ npm names use a hyphen (`@kimak/headless-react`) because a slash after the scope
 - `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, object `style`, callback `ref`). Remap in the adapter, not in the machine.
 - React 19: `ref` is a prop. No `forwardRef`. Compound parts. `render` + `mergeProps` on Trigger and Root (Base UI composition, not Radix `asChild`). Composition APIs (`render`, `as`, snippets) are adapter-local and not a portable contract.
 - `@kimak/tailwind` maps `anatomy.selector` to CSS. It must not depend on React.
-- Product sugar (`<Checkbox>Label</Checkbox>`) lives in `@kimak/ui-react`, not `@kimak/core` or `@kimak/headless-react`. Vue/Svelte will get their own sugar packages later. Default check/dash glyphs are CSS in `@kimak/tailwind` (`:empty::after`) so every adapter inherits them.
+- Product sugar uses one folder per component (`packages/ui/react/src/button/`, barrel `index.ts`). Look helper is `button-attrs.ts` (anatomy `data-*`), not CVA.
+- `@kimak/motion-gsap` is optional JS motion. It peers `gsap`, targets anatomy selectors, and must not be imported from `@kimak/core` or any headless adapter. Product sugar (`@kimak/ui-*`) binds Button press motion. Playgrounds consume `<Button>` only — do not re-bind GSAP there. Default look stays CSS. Loading spinner stays the Tailwind keyframes.
+- Button `loading` stays in the tab order (`aria-disabled` + `aria-busy`, no native `disabled`). `focusableWhenDisabled` does the same for `disabled`. Links are not buttons: apply `buttonAttrs()` on an `<a>`, never `<Button render={<a/>}>`.
+- Product sugar lives in `@kimak/ui-react`, not `@kimak/core` or `@kimak/headless-react`. Vue and Svelte have their own sugar packages.
 
 ## Adapter contract
 
@@ -45,11 +51,11 @@ The portable surface is `@kimak/spec` + `connect()`. A future Vue/Svelte adapter
 
 1. Bind `createService` to the framework store (React: `useMachine` / `useSyncExternalStore`).
 2. Pass `createNormalizer` (identity on React; remap keys on Vue/Svelte).
-3. Render compound parts. Spec parts with `owner: "adapter"` (Dialog `portal`) are not emitted by `connect()`.
+3. Render compound parts. Spec parts with `owner: "adapter"` are not emitted by `connect()`.
 4. Keep look out of the adapter. No `className`, hex, or tokens except `visuallyHiddenStyle` on form `hiddenInput` (core).
 5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
 
-Do not add Vue, Svelte, or HTML **component packages** beyond Button, Checkbox, and Dialog until the React family for that component is in lockstep. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence, compound parts) when porting the next family.
+Do not add Vue, Svelte, or HTML **component packages** beyond Button until the React family for that component is in lockstep. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence, compound parts) when porting the next family.
 
 ## Adding a component
 

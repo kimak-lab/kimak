@@ -1,16 +1,20 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "tsup";
 
-const entries = ["dist/index.js", "dist/button.js", "dist/checkbox.js", "dist/dialog.js"];
+const entries = ["dist/index.js", "dist/button.js"];
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/button.tsx", "src/checkbox.tsx", "src/dialog.tsx"],
+  entry: {
+    index: "src/index.ts",
+    button: "src/button/index.ts",
+  },
   format: ["esm"],
   dts: true,
   clean: true,
   sourcemap: true,
   treeshake: true,
   splitting: false,
+  external: ["react", "react-dom", "@kimak/headless-react", "@kimak/motion-gsap", "gsap"],
   async onSuccess() {
     for (const file of entries) {
       const code = readFileSync(file, "utf8");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { Button, Checkbox, Dialog } from "@kimak/ui-vue";
+import { Button } from "@kimak/ui-vue";
 
 const loading = ref(false);
 
@@ -15,7 +15,7 @@ function onSave() {
 <template>
   <main>
     <p class="eyebrow text-muted-foreground">Kimak playground (Vue)</p>
-    <h1>Headless golden pair</h1>
+    <h1>Headless Button</h1>
     <p class="text-muted-foreground">
       Product API comes from <code>@kimak/ui-vue</code>. Parts come from
       <code>@kimak/headless-vue</code>. Look comes from
@@ -43,30 +43,6 @@ function onSave() {
           <Button data-variant="destructive">Destructive</Button>
         </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Checkbox</h2>
-      <div class="stack">
-        <Checkbox data-size="sm">Small</Checkbox>
-        <Checkbox data-size="md">I agree to the terms</Checkbox>
-        <Checkbox default-checked="indeterminate" data-size="lg">Large mixed</Checkbox>
-      </div>
-    </section>
-
-    <section>
-      <h2>Dialog</h2>
-      <Dialog.Root>
-        <Dialog.Trigger>Open dialog</Dialog.Trigger>
-        <Dialog.Content data-size="md">
-          <Dialog.Title>Styled by the Tailwind plugin</Dialog.Title>
-          <Dialog.Description>
-            Focus is trapped. Escape and the close button dismiss. Size is
-            <code>data-size</code> on content, not a machine prop.
-          </Dialog.Description>
-          <Dialog.Close>Close</Dialog.Close>
-        </Dialog.Content>
-      </Dialog.Root>
     </section>
   </main>
 </template>

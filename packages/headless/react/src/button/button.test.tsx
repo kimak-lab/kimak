@@ -8,6 +8,7 @@ import { Button } from "./button";
 function Example(props: {
   disabled?: boolean;
   loading?: boolean;
+  focusableWhenDisabled?: boolean;
   type?: "button" | "submit" | "reset";
   onPress?: () => void;
   name?: string;
@@ -108,8 +109,9 @@ describe("Button", () => {
     const onPress = vi.fn();
     render(<Example loading onPress={onPress} />);
     const root = screen.getByRole("button", { name: "Save" });
-    expect(root).toBeDisabled();
+    expect(root).not.toBeDisabled();
     expect(root).toHaveAttribute("data-loading");
+    expect(root).toHaveAttribute("aria-disabled", "true");
     expect(root).toHaveAttribute("aria-busy", "true");
     expect(root.querySelector('[data-slot="indicator"]')).toHaveAttribute("data-loading");
     await user.click(root);
@@ -159,5 +161,41 @@ describe("Button", () => {
     expect(root).not.toHaveAttribute("data-loading");
     await user.click(root);
     expect(root).toHaveAttribute("data-loading");
+    expect(root).not.toBeDisabled();
+    expect(root).toHaveFocus();
+  });
+
+  it("stays focusable when disabled with focusableWhenDisabled", async () => {
+    const user = userEvent.setup();
+    const onPress = vi.fn();
+    render(<Example disabled focusableWhenDisabled onPress={onPress} />);
+    const root = screen.getByRole("button", { name: "Save" });
+    expect(root).not.toBeDisabled();
+    expect(root).toHaveAttribute("data-disabled");
+    expect(root).toHaveAttribute("aria-disabled", "true");
+    root.focus();
+    expect(root).toHaveFocus();
+    await user.click(root);
+    expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it("does not submit the form when loading", async () => {
+    const user = userEvent.setup();
+    let submitted = false;
+    render(
+      <form
+        onSubmit={(event: FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          submitted = true;
+        }}
+      >
+        <input name="title" defaultValue="hello" />
+        <Example type="submit" loading />
+      </form>,
+    );
+    const root = screen.getByRole("button", { name: "Save" });
+    root.focus();
+    await user.keyboard("{Enter}");
+    expect(submitted).toBe(false);
   });
 });

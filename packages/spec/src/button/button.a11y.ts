@@ -22,4 +22,6 @@ export const buttonAria = [
   "root is a native button (implicit role=button)",
   "aria-disabled when disabled or loading",
   "aria-busy when loading",
+  "loading omits native disabled so the control stays in the tab order",
+  "focusableWhenDisabled omits native disabled while disabled",
 ] as const;

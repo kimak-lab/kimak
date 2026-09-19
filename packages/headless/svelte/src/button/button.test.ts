@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { buttonSpec, type KeyCode } from "@kimak/spec";
 import { describe, expect, it, vi } from "vitest";
 import Example from "./example.svelte";
+import FormExample from "./form-example.svelte";
 
 async function press(user: ReturnType<typeof userEvent.setup>, code: KeyCode) {
   switch (code) {
@@ -68,8 +69,9 @@ describe("Button", () => {
     const onPress = vi.fn();
     render(Example, { loading: true, onPress });
     const root = screen.getByRole("button", { name: "Save" });
-    expect(root).toBeDisabled();
+    expect(root).not.toBeDisabled();
     expect(root).toHaveAttribute("data-loading");
+    expect(root).toHaveAttribute("aria-disabled", "true");
     expect(root).toHaveAttribute("aria-busy", "true");
     expect(root.querySelector('[data-slot="indicator"]')).toHaveAttribute("data-loading");
     await user.click(root);
@@ -83,5 +85,30 @@ describe("Button", () => {
     screen.getByRole("button", { name: "Save" }).focus();
     await press(user, binding.code);
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  it("stays focusable when disabled with focusableWhenDisabled", async () => {
+    const user = userEvent.setup();
+    const onPress = vi.fn();
+    render(Example, { disabled: true, focusableWhenDisabled: true, onPress });
+    const root = screen.getByRole("button", { name: "Save" });
+    expect(root).not.toBeDisabled();
+    expect(root).toHaveAttribute("data-disabled");
+    expect(root).toHaveAttribute("aria-disabled", "true");
+    root.focus();
+    expect(root).toHaveFocus();
+    await user.click(root);
+    expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it("does not submit the form when loading", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    render(FormExample, { loading: true, onSubmit });
+    const root = screen.getByRole("button", { name: "Save" });
+    expect(root).not.toBeDisabled();
+    root.focus();
+    await user.keyboard("{Enter}");
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 });

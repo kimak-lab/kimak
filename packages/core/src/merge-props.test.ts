@@ -31,4 +31,14 @@ describe("mergeProps", () => {
     expect(merged.id).toBe("b");
     expect(merged.role).toBe("checkbox");
   });
+
+  it("forwards enumerable symbol keys (Svelte attachments)", () => {
+    const attach = Symbol("attach");
+    const merged = mergeProps(
+      { id: "a", [attach]: "keep" } as { id: string; [attach]: string },
+      { id: "b" },
+    );
+    expect(merged.id).toBe("b");
+    expect((merged as Record<symbol, unknown>)[attach]).toBe("keep");
+  });
 });

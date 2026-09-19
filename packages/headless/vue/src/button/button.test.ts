@@ -8,6 +8,7 @@ import { Button } from "./button";
 function Example(props: {
   disabled?: boolean;
   loading?: boolean;
+  focusableWhenDisabled?: boolean;
   type?: "button" | "submit" | "reset";
   onPress?: () => void;
   name?: string;
@@ -112,8 +113,9 @@ describe("Button", () => {
     const onPress = vi.fn();
     const wrapper = mount(Example({ loading: true, onPress }), { attachTo: document.body });
     const root = getButton(wrapper);
-    expect(root).toBeDisabled();
+    expect(root).not.toBeDisabled();
     expect(root).toHaveAttribute("data-loading");
+    expect(root).toHaveAttribute("aria-disabled", "true");
     expect(root).toHaveAttribute("aria-busy", "true");
     expect(root.querySelector('[data-slot="indicator"]')).toHaveAttribute("data-loading");
     await user.click(root);
@@ -185,7 +187,61 @@ describe("Button", () => {
     expect(root).not.toHaveAttribute("data-loading");
     await user.click(root);
     await nextTick();
-    expect(getButton(wrapper)).toHaveAttribute("data-loading");
+    const loaded = getButton(wrapper);
+    expect(loaded).toHaveAttribute("data-loading");
+    expect(loaded).not.toBeDisabled();
+    expect(loaded).toHaveFocus();
+    wrapper.unmount();
+  });
+
+  it("stays focusable when disabled with focusableWhenDisabled", async () => {
+    const user = userEvent.setup();
+    const onPress = vi.fn();
+    const wrapper = mount(Example({ disabled: true, focusableWhenDisabled: true, onPress }), {
+      attachTo: document.body,
+    });
+    const root = getButton(wrapper);
+    expect(root).not.toBeDisabled();
+    expect(root).toHaveAttribute("data-disabled");
+    expect(root).toHaveAttribute("aria-disabled", "true");
+    root.focus();
+    expect(root).toHaveFocus();
+    await user.click(root);
+    expect(onPress).not.toHaveBeenCalled();
+    wrapper.unmount();
+  });
+
+  it("does not submit the form when loading", async () => {
+    const user = userEvent.setup();
+    let submitted = false;
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(
+              "form",
+              {
+                onSubmit: (event: Event) => {
+                  event.preventDefault();
+                  submitted = true;
+                },
+              },
+              [
+                h("input", { name: "title", value: "hello" }),
+                h(Button.Root, { type: "submit", loading: true }, () => [
+                  "Save",
+                  h(Button.Indicator),
+                ]),
+              ],
+            );
+        },
+      }),
+      { attachTo: document.body },
+    );
+    const root = getButton(wrapper);
+    root.focus();
+    await user.keyboard("{Enter}");
+    expect(submitted).toBe(false);
     wrapper.unmount();
   });
 });

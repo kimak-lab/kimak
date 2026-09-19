@@ -12,6 +12,7 @@ export default defineConfig({
       "packages/ui/vue",
       "packages/ui/svelte",
       "packages/tailwind",
+      "packages/motion/gsap",
     ],
   },
 });

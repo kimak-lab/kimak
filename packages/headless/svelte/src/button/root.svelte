@@ -18,6 +18,7 @@
   const MACHINE_KEYS = [
     "disabled",
     "loading",
+    "focusableWhenDisabled",
     "type",
     "name",
     "value",

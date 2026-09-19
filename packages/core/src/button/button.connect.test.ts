@@ -70,13 +70,42 @@ describe("button connect", () => {
 
   it("does not fire onPress when loading", () => {
     const onPress = vi.fn();
+    const preventDefault = vi.fn();
     const { current } = api({ id: "btn", loading: true, onPress });
     current().press();
     expect(onPress).not.toHaveBeenCalled();
-    expect(current().getRootProps().disabled).toBe(true);
+    expect(current().getRootProps().disabled).toBeUndefined();
     expect(current().getRootProps()["data-loading"]).toBe("");
+    expect(current().getRootProps()["aria-disabled"]).toBe(true);
     expect(current().getRootProps()["aria-busy"]).toBe(true);
     expect(current().getIndicatorProps()["data-loading"]).toBe("");
+    const onClick = current().getRootProps().onClick as (event: {
+      preventDefault: () => void;
+    }) => void;
+    onClick({ preventDefault });
+    expect(preventDefault).toHaveBeenCalledTimes(1);
+    expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it("omits native disabled when focusableWhenDisabled", () => {
+    const onPress = vi.fn();
+    const preventDefault = vi.fn();
+    const { current } = api({
+      id: "btn",
+      disabled: true,
+      focusableWhenDisabled: true,
+      onPress,
+    });
+    const root = current().getRootProps();
+    expect(root.disabled).toBeUndefined();
+    expect(root["data-disabled"]).toBe("");
+    expect(root["aria-disabled"]).toBe(true);
+    current().press();
+    expect(onPress).not.toHaveBeenCalled();
+    const onClick = root.onClick as (event: { preventDefault: () => void }) => void;
+    onClick({ preventDefault });
+    expect(preventDefault).toHaveBeenCalledTimes(1);
+    expect(onPress).not.toHaveBeenCalled();
   });
 
   it("emits the kernel prop dialect adapters must remap", () => {
