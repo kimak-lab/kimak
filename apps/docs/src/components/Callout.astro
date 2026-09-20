@@ -7,7 +7,14 @@ interface Props {
 const { kind = "note", title } = Astro.props;
 ---
 
-<aside class:list={["callout", kind === "warning" && "callout-warning"]} role="note">
-  {title ? <p class="callout-title">{title}</p> : null}
+<aside
+  class:list={[
+    "mb-5 rounded-lg border border-border bg-muted px-4 py-[0.9rem]",
+    kind === "warning" &&
+      "border-[color-mix(in_oklab,var(--destructive)_35%,var(--border))] bg-[color-mix(in_oklab,var(--destructive)_8%,var(--docs-article))]",
+  ]}
+  role="note"
+>
+  {title ? <p class="mb-[0.35rem] text-[0.9rem] font-[650]">{title}</p> : null}
   <div><slot /></div>
 </aside>

@@ -5,55 +5,55 @@ export const buttonSnippets = {
     react: `import { Button } from "@kimak/ui-react";
 
 <Button>Save</Button>
-<Button data-variant="outline">Cancel</Button>`,
+<Button variant="outline">Cancel</Button>`,
     vue: `<script setup>
 import { Button } from "@kimak/ui-vue";
 </script>
 
 <template>
   <Button>Save</Button>
-  <Button data-variant="outline">Cancel</Button>
+  <Button variant="outline">Cancel</Button>
 </template>`,
     svelte: `<script>
   import { Button } from "@kimak/ui-svelte";
 </script>
 
 <Button>Save</Button>
-<Button data-variant="outline">Cancel</Button>`,
+<Button variant="outline">Cancel</Button>`,
   },
   variants: {
     react: `<Button>Default</Button>
-<Button data-variant="secondary">Secondary</Button>
-<Button data-variant="outline">Outline</Button>
-<Button data-variant="ghost">Ghost</Button>
-<Button data-variant="destructive">Destructive</Button>
-<Button data-variant="link">Link</Button>`,
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="link">Link</Button>`,
     vue: `<Button>Default</Button>
-<Button data-variant="secondary">Secondary</Button>
-<Button data-variant="outline">Outline</Button>
-<Button data-variant="ghost">Ghost</Button>
-<Button data-variant="destructive">Destructive</Button>
-<Button data-variant="link">Link</Button>`,
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="link">Link</Button>`,
     svelte: `<Button>Default</Button>
-<Button data-variant="secondary">Secondary</Button>
-<Button data-variant="outline">Outline</Button>
-<Button data-variant="ghost">Ghost</Button>
-<Button data-variant="destructive">Destructive</Button>
-<Button data-variant="link">Link</Button>`,
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="link">Link</Button>`,
   },
   sizes: {
-    react: `<Button data-size="xs">XS</Button>
-<Button data-size="sm">Small</Button>
-<Button data-size="md">Medium</Button>
-<Button data-size="lg">Large</Button>`,
-    vue: `<Button data-size="xs">XS</Button>
-<Button data-size="sm">Small</Button>
-<Button data-size="md">Medium</Button>
-<Button data-size="lg">Large</Button>`,
-    svelte: `<Button data-size="xs">XS</Button>
-<Button data-size="sm">Small</Button>
-<Button data-size="md">Medium</Button>
-<Button data-size="lg">Large</Button>`,
+    react: `<Button size="xs">XS</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`,
+    vue: `<Button size="xs">XS</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`,
+    svelte: `<Button size="xs">XS</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`,
   },
   icons: {
     react: `import { ChevronRight, Save, Settings } from "lucide-react";
@@ -62,11 +62,11 @@ import { Button } from "@kimak/ui-vue";
   <Save data-icon="inline-start" size={16} aria-hidden="true" />
   Save
 </Button>
-<Button data-variant="outline">
+<Button variant="outline">
   Next
   <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
 </Button>
-<Button data-size="icon" aria-label="Settings">
+<Button size="icon" aria-label="Settings">
   <Settings size={16} />
 </Button>`,
     vue: `<script setup>
@@ -77,11 +77,11 @@ import { ChevronRight, Save, Settings } from "@lucide/vue";
   <Save data-icon="inline-start" :size="16" aria-hidden="true" />
   Save
 </Button>
-<Button data-variant="outline">
+<Button variant="outline">
   Next
   <ChevronRight data-icon="inline-end" :size="16" aria-hidden="true" />
 </Button>
-<Button data-size="icon" aria-label="Settings">
+<Button size="icon" aria-label="Settings">
   <Settings :size="16" />
 </Button>`,
     svelte: `<script>
@@ -94,11 +94,11 @@ import { ChevronRight, Save, Settings } from "@lucide/vue";
   <Save data-icon="inline-start" size={16} aria-hidden="true" />
   Save
 </Button>
-<Button data-variant="outline">
+<Button variant="outline">
   Next
   <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
 </Button>
-<Button data-size="icon" aria-label="Settings">
+<Button size="icon" aria-label="Settings">
   <Settings size={16} />
 </Button>`,
   },

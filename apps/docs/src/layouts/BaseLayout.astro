@@ -11,7 +11,7 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
 ---
 
 <!doctype html>
-<html lang="en" data-framework="react">
+<html lang="en" class="motion-safe:scroll-smooth data-nav-open:overflow-hidden" data-framework="react">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -36,7 +36,9 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
       })();
     </script>
   </head>
-  <body>
+  <body
+    class="min-h-screen bg-docs-canvas bg-[radial-gradient(var(--docs-dot)_0.85px,transparent_0.85px)] bg-size-[18px_18px] font-sans leading-relaxed text-foreground"
+  >
     <slot />
     <script src="../scripts/prefs.ts"></script>
   </body>

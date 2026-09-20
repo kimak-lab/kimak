@@ -9,7 +9,7 @@ Kimak is a kernel plus thin adapters. React is first, not the source of behavior
 
 ## Package graph
 
-<div class="package-graph">
+<div class="mb-6 grid gap-[0.55rem] rounded-lg border border-border bg-muted px-[1.1rem] py-4 font-mono text-[0.82rem]">
   <div>@kimak/spec → docs, types, a11y tests</div>
   <div>@kimak/core → machines, connect(), platform primitives</div>
   <div>adapters → @kimak/headless-react | vue | svelte</div>
@@ -44,4 +44,4 @@ Composition APIs (`render`, `as`, snippets) are adapter-local and not a portable
 
 Button is first. Do not add Checkbox, Dialog, DatePicker, Command, or Toast until Button is proven and the form / disclosure / overlay / menu / selection families exist.
 
-The tables on [Button](/docs/components/button) are generated from `buttonSpec` in `@kimak/spec`. JSX is not the source of truth.
+The machine tables on [Button](/docs/components/button) are generated from `buttonSpec` in `@kimak/spec`. Look props (`variant`, `size`) come from `@kimak/ui-*`. JSX is not the source of truth.

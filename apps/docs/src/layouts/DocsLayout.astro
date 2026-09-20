@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Toc from "../components/Toc.astro";
 import PrevNext from "../components/PrevNext.astro";
+import { articleCard } from "../lib/chrome";
 
 interface Props {
   title: string;
@@ -16,11 +17,23 @@ const current = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 <BaseLayout title={`${title} · Kimak`} description={description}>
   <Header nav />
-  <div class="docs-nav-backdrop" data-nav-backdrop></div>
-  <div class="docs-shell">
+  <div
+    class="fixed inset-x-0 top-14 bottom-0 z-[35] hidden bg-[oklch(0.2_0.02_264/40%)]"
+    data-nav-backdrop
+  >
+  </div>
+  <div
+    class="mx-auto grid max-w-[88rem] grid-cols-[15rem_minmax(0,1fr)_13rem] items-start gap-4 px-5 pt-5 pb-16 max-toc:grid-cols-[14rem_minmax(0,1fr)] max-nav:grid-cols-1 max-nav:px-[0.85rem] max-nav:pt-4 max-nav:pb-12"
+  >
     <Sidebar current={current} />
-    <div class="docs-main">
-      <article class="docs-article docs-article-card">
+    <div class="min-w-0">
+      <article
+        data-docs-article
+        class:list={[
+          articleCard,
+          "px-10 pt-[2.35rem] pb-14 max-nav:px-[1.15rem] max-nav:pt-6 max-nav:pb-10",
+        ]}
+      >
         <slot />
         <PrevNext current={current} />
       </article>

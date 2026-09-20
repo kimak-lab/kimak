@@ -1,4 +1,6 @@
 ---
+import { copyButton, pillButton, pillGroup } from "../lib/chrome";
+
 interface Props {
   packages: string[];
 }
@@ -11,14 +13,24 @@ const snippets = {
 } as const;
 ---
 
-<div class="pkg-block" data-pkg>
-  <div class="pkg-toolbar">
-    <div class="fw-tabs" role="tablist" aria-label="Package manager">
-      <button type="button" data-pkg-tab="pnpm" aria-pressed="true">pnpm</button>
-      <button type="button" data-pkg-tab="npm" aria-pressed="false">npm</button>
+<div
+  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-[color-mix(in_oklab,var(--docs-canvas)_40%,var(--docs-article))]"
+  data-pkg
+>
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-[0.55rem]">
+    <div class={pillGroup} role="tablist" aria-label="Package manager">
+      <button type="button" class={pillButton} data-pkg-tab="pnpm" aria-pressed="true">pnpm</button>
+      <button type="button" class={pillButton} data-pkg-tab="npm" aria-pressed="false">npm</button>
     </div>
-    <button type="button" class="copy-button" data-copy-code>Copy</button>
+    <button type="button" class={copyButton} data-copy-code>Copy</button>
   </div>
-  <pre data-pkg-panel="pnpm" data-snippet={snippets.pnpm}><code>{snippets.pnpm}</code></pre>
-  <pre data-pkg-panel="npm" data-snippet={snippets.npm} hidden><code>{snippets.npm}</code></pre>
+  <pre
+    class="m-0 overflow-auto border-t border-border px-[1.1rem] py-4 text-[0.85rem]"
+    data-pkg-panel="pnpm"
+    data-snippet={snippets.pnpm}><code>{snippets.pnpm}</code></pre>
+  <pre
+    class="m-0 overflow-auto border-t border-border px-[1.1rem] py-4 text-[0.85rem]"
+    data-pkg-panel="npm"
+    data-snippet={snippets.npm}
+    hidden><code>{snippets.npm}</code></pre>
 </div>

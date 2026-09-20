@@ -2,20 +2,25 @@
 import HomeLayout from "../layouts/HomeLayout.astro";
 import ButtonDemo from "../components/ButtonDemo.astro";
 import LinkButton from "../components/LinkButton.astro";
+
+const headingClass =
+  "mb-[0.85rem] text-[clamp(2rem,4vw,2.85rem)] font-[650] leading-[1.08] tracking-[-0.045em]";
+const cardClass =
+  "block rounded-[1rem] border border-border bg-docs-article px-[1.15rem] py-[1.1rem] hover:border-[color-mix(in_oklab,var(--foreground)_18%,var(--border))]";
 ---
 
 <HomeLayout
   title="Kimak"
   description="Headless UI primitives. React-first. Framework-agnostic kernel."
 >
-  <p class="eyebrow">Headless UI</p>
-  <div class="hero">
-    <h1>Behavior in the kernel. Look in your CSS.</h1>
-    <p class="lede">
+  <p class="mb-3 text-xs tracking-[0.08em] text-muted-foreground uppercase">Headless UI</p>
+  <div>
+    <h1 class={headingClass}>Behavior in the kernel. Look in your CSS.</h1>
+    <p class="mb-6 max-w-[40rem] text-[1.12rem] text-muted-foreground">
       Kimak owns keyboard, focus, and ARIA. Style with anatomy selectors — or opt into the Tailwind
       plugin. React is first. Vue and Svelte ship Button in lockstep.
     </p>
-    <div class="hero-actions">
+    <div class="mt-6 mb-9 flex flex-wrap gap-3">
       <LinkButton href="/docs/getting-started">Get started</LinkButton>
       <LinkButton href="/docs/components/button" variant="outline">View Button</LinkButton>
     </div>
@@ -23,18 +28,24 @@ import LinkButton from "../components/LinkButton.astro";
 
   <ButtonDemo example="playground" />
 
-  <div class="home-cards">
-    <a class="home-card-link" href="/docs/installation">
-      <h2>Install</h2>
-      <p>React on npm. Vue and Svelte from the workspace. Tailwind plugin for look.</p>
+  <div class="mt-9 grid grid-cols-3 gap-[0.85rem] max-nav:grid-cols-1">
+    <a class={cardClass} href="/docs/installation">
+      <h2 class="mb-[0.35rem] text-[0.95rem] tracking-[-0.03em]">Install</h2>
+      <p class="m-0 text-[0.85rem] text-muted-foreground">
+        React on npm. Vue and Svelte from the workspace. Tailwind plugin for look.
+      </p>
     </a>
-    <a class="home-card-link" href="/docs/styling">
-      <h2>Style</h2>
-      <p>data-scope, data-slot, and data-state. Size and variant stay off the machine.</p>
+    <a class={cardClass} href="/docs/styling">
+      <h2 class="mb-[0.35rem] text-[0.95rem] tracking-[-0.03em]">Style</h2>
+      <p class="m-0 text-[0.85rem] text-muted-foreground">
+        data-scope, data-slot, and data-state. Size and variant stay off the machine.
+      </p>
     </a>
-    <a class="home-card-link" href="/docs/components/button">
-      <h2>Button</h2>
-      <p>Variants, sizes, loading that stays in the tab order, and the spec tables.</p>
+    <a class={cardClass} href="/docs/components/button">
+      <h2 class="mb-[0.35rem] text-[0.95rem] tracking-[-0.03em]">Button</h2>
+      <p class="m-0 text-[0.85rem] text-muted-foreground">
+        Variants, sizes, loading that stays in the tab order, and the spec tables.
+      </p>
     </a>
   </div>
 </HomeLayout>

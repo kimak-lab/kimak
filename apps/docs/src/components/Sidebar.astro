@@ -9,14 +9,23 @@ const { current } = Astro.props;
 const normalized = current.replace(/\/$/, "") || "/";
 ---
 
-<aside class="docs-sidebar" id="docs-nav">
-  <nav aria-label="Docs">
+<aside
+  id="docs-nav"
+  class="sticky top-[4.25rem] max-h-[calc(100vh-4.75rem)] overflow-auto px-[0.2rem] pt-[0.35rem] pb-8 max-nav:fixed max-nav:top-14 max-nav:left-0 max-nav:z-40 max-nav:h-[calc(100vh-3.5rem)] max-nav:max-h-none max-nav:w-[min(18rem,86vw)] max-nav:border-r max-nav:border-border max-nav:bg-docs-article max-nav:px-4 max-nav:pt-[1.15rem] max-nav:pb-8"
+>
+  <nav class="flex flex-col gap-[1.35rem]" aria-label="Docs">
     {
       nav.map((section) => (
         <div>
-          <p class="nav-section">{section.title}</p>
+          <p class="mb-[0.45rem] text-[0.7rem] font-[650] tracking-[0.08em] text-muted-foreground uppercase">
+            {section.title}
+          </p>
           {section.items.map((item) => (
-            <a href={item.href} aria-current={normalized === item.href ? "page" : undefined}>
+            <a
+              class="block rounded-full px-2.5 py-[0.35rem] text-[0.9rem] text-muted-foreground hover:bg-[color-mix(in_oklab,var(--docs-article)_70%,var(--accent))] hover:text-foreground aria-[current=page]:bg-[color-mix(in_oklab,var(--docs-article)_70%,var(--accent))] aria-[current=page]:text-foreground"
+              href={item.href}
+              aria-current={normalized === item.href ? "page" : undefined}
+            >
               {item.label}
             </a>
           ))}

@@ -18,32 +18,32 @@
   }
 </script>
 
-<div class="row">
+<div class="flex flex-wrap items-center gap-3">
   {#if example === "playground"}
     <Button>Save</Button>
-    <Button data-variant="outline">Cancel</Button>
+    <Button variant="outline">Cancel</Button>
   {:else if example === "variants"}
     <Button>Default</Button>
-    <Button data-variant="secondary">Secondary</Button>
-    <Button data-variant="outline">Outline</Button>
-    <Button data-variant="ghost">Ghost</Button>
-    <Button data-variant="destructive">Destructive</Button>
-    <Button data-variant="link">Link</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="link">Link</Button>
   {:else if example === "sizes"}
-    <Button data-size="xs">XS</Button>
-    <Button data-size="sm">Small</Button>
-    <Button data-size="md">Medium</Button>
-    <Button data-size="lg">Large</Button>
+    <Button size="xs">XS</Button>
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
   {:else if example === "icons"}
     <Button>
       <Save data-icon="inline-start" size={16} aria-hidden="true" />
       Save
     </Button>
-    <Button data-variant="outline">
+    <Button variant="outline">
       Next
       <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
     </Button>
-    <Button data-size="icon" aria-label="Settings">
+    <Button size="icon" aria-label="Settings">
       <Settings size={16} />
     </Button>
   {:else if example === "loading"}

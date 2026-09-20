@@ -21,10 +21,12 @@ Product API comes from `@kimak/ui-*`. Parts come from `@kimak/headless-*`. Look 
 ```tsx
 import { Button } from "@kimak/ui-react";
 
-<Button data-variant="outline" data-size="sm">
+<Button variant="outline" size="sm">
   Save
 </Button>
 ```
+
+`variant` and `size` are look-only product props. They write `data-variant` and `data-size` for the plugin. They are not machine props.
 
 The default `<Button>` already renders `Indicator`. Icons are children — any icon library or raw SVG.
 
@@ -41,13 +43,13 @@ import { Button } from "@kimak/ui-react";
 
 ### Variants
 
-`data-variant` is look-only. It is not a machine prop.
+`variant` is look-only: `default` | `secondary` | `outline` | `ghost` | `destructive` | `link`.
 
 <ButtonDemo example="variants" />
 
 ### Sizes
 
-`data-size` on the host: `xs` | `sm` | `md` | `lg`. Icon-only sizes are `icon-xs` | `icon-sm` | `icon` | `icon-lg`.
+`size` on the host: `xs` | `sm` | `md` | `lg`. Icon-only sizes are `icon-xs` | `icon-sm` | `icon` | `icon-lg`. Omit it for the `md` default.
 
 <ButtonDemo example="sizes" />
 
@@ -77,6 +79,18 @@ A link should stay a link. Apply `buttonAttrs()` when you only need the look.
 
 ## API reference
 
-Tables below are generated from `buttonSpec` in `@kimak/spec`.
+Look props (`variant`, `size`) come from `@kimak/ui-*`. Machine tables are generated from `buttonSpec` in `@kimak/spec`.
 
-<SpecTable spec={buttonSpec} />
+<SpecTable
+  spec={buttonSpec}
+  lookProps={{
+    variant: {
+      type: '"default" | "secondary" | "outline" | "ghost" | "destructive" | "link"',
+      description: "Look-only. Writes data-variant for the Tailwind recipe. Not a machine prop.",
+    },
+    size: {
+      type: '"xs" | "sm" | "md" | "lg" | "icon-xs" | "icon-sm" | "icon" | "icon-lg"',
+      description: "Look-only. Writes data-size for the Tailwind recipe. Omit for the CSS md default. Not a machine prop.",
+    },
+  }}
+/>

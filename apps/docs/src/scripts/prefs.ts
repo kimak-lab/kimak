@@ -54,7 +54,7 @@ function slugify(value: string) {
 }
 
 function buildToc() {
-  const article = document.querySelector(".docs-article");
+  const article = document.querySelector("[data-docs-article]");
   const list = document.querySelector("[data-toc]");
   const root = document.querySelector("[data-toc-root]");
   if (!(article instanceof HTMLElement) || !(list instanceof HTMLElement)) return;

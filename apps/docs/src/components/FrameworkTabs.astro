@@ -1,6 +1,7 @@
 ---
 import { Code } from "astro:components";
 import { FRAMEWORKS } from "../lib/nav";
+import { copyButton, pillButton, pillGroup } from "../lib/chrome";
 
 interface Props {
   snippets: {
@@ -14,31 +15,34 @@ const { snippets } = Astro.props;
 const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
 ---
 
-<div class="fw-block" data-demo>
-  <div class="fw-toolbar">
-    <div class="demo-tabs" role="tablist" aria-label="Preview or code">
-      <button type="button" data-demo-view="preview" aria-pressed="true">Preview</button>
-      <button type="button" data-demo-view="code" aria-pressed="false">Code</button>
+<div
+  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-[color-mix(in_oklab,var(--docs-canvas)_40%,var(--docs-article))]"
+  data-demo
+>
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-[0.55rem]">
+    <div class={pillGroup} role="tablist" aria-label="Preview or code">
+      <button type="button" class={pillButton} data-demo-view="preview" aria-pressed="true">Preview</button>
+      <button type="button" class={pillButton} data-demo-view="code" aria-pressed="false">Code</button>
     </div>
-    <div class="fw-toolbar-end">
-      <div class="fw-tabs" role="group" aria-label="Framework">
+    <div class="flex items-center gap-[0.45rem]">
+      <div class={pillGroup} role="group" aria-label="Framework">
         {
           FRAMEWORKS.map((framework) => (
-            <button type="button" data-set-framework={framework} aria-pressed={framework === "react"}>
+            <button type="button" class={pillButton} data-set-framework={framework} aria-pressed={framework === "react"}>
               {framework[0]?.toUpperCase() + framework.slice(1)}
             </button>
           ))
         }
       </div>
-      <button type="button" class="copy-button" data-copy-code>Copy</button>
+      <button type="button" class={copyButton} data-copy-code>Copy</button>
     </div>
   </div>
-  <div class="fw-preview" data-demo-panel="preview">
+  <div class="flex min-h-[5.5rem] items-center p-[1.35rem]" data-demo-panel="preview">
     <div data-fw="react"><slot name="react" /></div>
     <div data-fw="vue"><slot name="vue" /></div>
     <div data-fw="svelte"><slot name="svelte" /></div>
   </div>
-  <div class="fw-code" data-demo-panel="code" hidden>
+  <div class="border-t border-border" data-demo-panel="code" hidden>
     {
       FRAMEWORKS.map((framework) => (
         <div data-fw={framework} data-snippet={snippets[framework]}>

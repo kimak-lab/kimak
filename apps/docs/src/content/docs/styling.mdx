@@ -1,13 +1,13 @@
 ---
 title: Styling
-description: Anatomy selectors are the public look API. Size and variant are host attributes, not machine props.
+description: Anatomy selectors are the public look API. Product variant and size write host data attributes, not machine props.
 order: 30
 section: Guides
 ---
 
 import Callout from "../../components/Callout.astro";
 
-The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host. Button look is `data-variant`. Neither is a machine prop.
+The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Product `<Button>` takes `variant` and `size` and writes `data-variant` / `data-size` on the host. Neither is a machine prop.
 
 <Callout>
   If a className, hex color, or theme token lands in `@kimak/core` or a headless adapter, it is a bug. Look lives in `@kimak/tailwind` (optional plugin) and in your CSS.
@@ -19,16 +19,15 @@ The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat tho
 [data-scope="button"][data-slot="root"][data-variant="outline"] { }
 ```
 
-Product sugar also accepts `variant` / `size` and writes the same `data-*`:
+Product sugar takes `variant` / `size` and writes the same `data-*`:
 
 ```tsx
-<Button data-size="sm" data-variant="outline">Save</Button>
 <Button variant="outline" size="sm">Save</Button>
 ```
 
-`data-size` is `xs` | `sm` | `md` | `lg` | `icon-xs` | `icon-sm` | `icon` | `icon-lg`. Omit it for the `md` default.
+`size` is `xs` | `sm` | `md` | `lg` | `icon-xs` | `icon-sm` | `icon` | `icon-lg`. Omit it for the `md` default.
 
-Button `data-variant` is `default` | `secondary` | `outline` | `ghost` | `destructive` | `link`.
+Button `variant` is `default` | `secondary` | `outline` | `ghost` | `destructive` | `link`.
 
 Icon spacing is `data-icon="inline-start"` | `"inline-end"` on children.
 
