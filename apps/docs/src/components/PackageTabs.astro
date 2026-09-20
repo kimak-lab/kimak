@@ -1,5 +1,6 @@
 ---
-import { copyButton, pillButton, pillGroup } from "../lib/chrome";
+import { buttonAttrs, buttonGroupAttrs } from "@kimak/ui-react";
+import { chromeIdleVariant, chromeToggleVariant } from "../lib/chrome";
 
 interface Props {
   packages: string[];
@@ -11,18 +12,30 @@ const snippets = {
   pnpm: `pnpm add ${command}`,
   npm: `npm install ${command}`,
 } as const;
+const groupLook = buttonGroupAttrs();
+const copyLook = buttonAttrs({ variant: chromeIdleVariant, size: "sm" });
 ---
 
 <div
-  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-[color-mix(in_oklab,var(--docs-canvas)_40%,var(--docs-article))]"
+  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-docs-code"
   data-pkg
 >
   <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-[0.55rem]">
-    <div class={pillGroup} role="tablist" aria-label="Package manager">
-      <button type="button" class={pillButton} data-pkg-tab="pnpm" aria-pressed="true">pnpm</button>
-      <button type="button" class={pillButton} data-pkg-tab="npm" aria-pressed="false">npm</button>
+    <div {...groupLook} role="tablist" aria-label="Package manager">
+      <button
+        type="button"
+        {...buttonAttrs({ variant: chromeToggleVariant(true), size: "sm" })}
+        data-pkg-tab="pnpm"
+        aria-pressed="true">pnpm</button
+      >
+      <button
+        type="button"
+        {...buttonAttrs({ variant: chromeToggleVariant(false), size: "sm" })}
+        data-pkg-tab="npm"
+        aria-pressed="false">npm</button
+      >
     </div>
-    <button type="button" class={copyButton} data-copy-code>Copy</button>
+    <button type="button" {...copyLook} data-copy-code>Copy</button>
   </div>
   <pre
     class="m-0 overflow-auto border-t border-border px-[1.1rem] py-4 text-[0.85rem]"

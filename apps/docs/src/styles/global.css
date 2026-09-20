@@ -9,6 +9,7 @@
   --docs-article: oklch(1 0 0);
   --docs-dot: oklch(0.9 0.008 90);
   --docs-header: color-mix(in oklab, var(--docs-canvas) 82%, transparent);
+  --docs-code: color-mix(in oklab, var(--docs-canvas) 62%, var(--muted));
 }
 
 .dark {
@@ -16,6 +17,7 @@
   --docs-article: oklch(0.22 0.018 264);
   --docs-dot: oklch(0.3 0.02 264);
   --docs-header: color-mix(in oklab, var(--docs-canvas) 78%, transparent);
+  --docs-code: color-mix(in oklab, var(--docs-canvas) 55%, var(--docs-article));
 }
 
 @theme inline {
@@ -23,6 +25,7 @@
   --color-docs-article: var(--docs-article);
   --color-docs-dot: var(--docs-dot);
   --color-docs-header: var(--docs-header);
+  --color-docs-code: var(--docs-code);
 }
 
 @theme {
@@ -58,7 +61,7 @@ html[data-framework="svelte"] [data-fw]:not([data-fw="svelte"]) {
   display: none;
 }
 
-a[data-scope="button"] {
+:is(a, button)[data-scope="button"] {
   @apply cursor-pointer;
 }
 
@@ -121,14 +124,24 @@ a[data-scope="button"] {
   }
 
   .prose pre {
-    @apply mt-0 mb-5 overflow-auto rounded-lg border border-border px-[1.1rem] py-4 text-[0.85rem] bg-transparent!;
+    @apply mt-0 mb-5 overflow-auto rounded-lg border border-border px-[1.1rem] py-4 text-[0.85rem] bg-docs-code!;
   }
 
   .prose pre code {
     @apply bg-transparent p-0;
   }
 
-  [data-demo] pre {
-    @apply m-0 overflow-auto px-[1.1rem] py-4 text-[0.85rem] bg-transparent!;
+  [data-demo] pre,
+  [data-pkg] pre {
+    @apply m-0 overflow-auto px-[1.1rem] py-4 text-[0.85rem] bg-transparent! text-foreground;
+  }
+
+  html.dark .astro-code,
+  html.dark .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: transparent !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }

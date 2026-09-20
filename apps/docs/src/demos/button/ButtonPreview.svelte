@@ -49,6 +49,16 @@
   {:else if example === "loading"}
     <Button loading>Saving</Button>
     <Button {loading} onPress={onSave}>Save</Button>
+  {:else if example === "motion"}
+    <Button>Press</Button>
+    <Button motion="soft">Soft</Button>
+    <Button motion="bounce">Bounce</Button>
+    <Button motion="sink">Sink</Button>
+    <Button motion="lift">Lift</Button>
+    <Button motion="ripple">Ripple</Button>
+    <Button motion="magnetic">Magnetic</Button>
+    <Button motion="shine">Shine</Button>
+    <Button motion="none">None</Button>
   {:else if example === "link"}
     <a href="/docs/getting-started" {...look}>Get started</a>
   {/if}

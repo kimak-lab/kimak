@@ -1,60 +1,44 @@
-import { buttonAnatomy } from "@kimak/spec";
 import { gsap } from "gsap";
 import { prefersReducedMotion } from "../reduced-motion";
+import { pressTransform, restTransform } from "./press";
+import { enterLift } from "./lift";
+import { moveMagnetic } from "./magnetic";
+import { spawnRipple } from "./ripple";
+import {
+  findButtonRoot,
+  isActivateKey,
+  isButtonRoot,
+  isInert,
+  noopMotion,
+  removeOverlays,
+  stillInsideRoot,
+  type ButtonMotion,
+  type MotionSession,
+} from "./shared";
+import { playShine } from "./shine";
+import {
+  motionNeedsHover,
+  resolveMotionPreset,
+  type ButtonMotionVariant,
+} from "./variants";
 
-const ROOT_SELECTOR = buttonAnatomy.root.selector;
+export type { ButtonMotion };
 
 export interface AnimateButtonOptions {
-  /** Pressed scale. Transform only; default 0.97. */
+  /** Named press / hover / overlay recipe. Default "press". */
+  motion?: ButtonMotionVariant;
+  /** Pressed scale. Transform only; default follows the named motion. */
   pressScale?: number;
-  /** Seconds for press and release. Default 0.16. */
+  /** Seconds for press, release, and hover. Default follows the named motion. */
   duration?: number;
-  /** GSAP ease. Default "power2.out". */
+  /** GSAP ease. Default "power2.out". Bounce keeps back.out on release. */
   ease?: string;
   /** When set, skips matchMedia and uses this value. */
   reduceMotion?: boolean;
 }
 
-export interface ButtonMotion {
-  press: (root?: Element) => void;
-  release: (root?: Element) => void;
-  revert: () => void;
-}
-
-function noopMotion(): ButtonMotion {
-  return {
-    press() {},
-    release() {},
-    revert() {},
-  };
-}
-
-function isButtonRoot(node: Element): node is HTMLElement {
-  return node instanceof HTMLElement && node.matches(ROOT_SELECTOR);
-}
-
-function findButtonRoot(node: EventTarget | null, scope: Element): HTMLElement | null {
-  if (!(node instanceof Element)) return null;
-  const root = node.closest(ROOT_SELECTOR);
-  if (!root || !isButtonRoot(root)) return null;
-  if (root !== scope && !scope.contains(root)) return null;
-  return root;
-}
-
-function isInert(root: Element): boolean {
-  return (
-    root.hasAttribute("data-disabled") ||
-    root.hasAttribute("data-loading") ||
-    (root instanceof HTMLButtonElement && root.disabled)
-  );
-}
-
-function isActivateKey(event: KeyboardEvent): boolean {
-  return event.key === "Enter" || event.key === " ";
-}
-
 /**
- * Bind interruptible press scale to a Kimak button root, or every button root
+ * Bind interruptible button motion to a Kimak button root, or every button root
  * inside a scope. Targets `buttonAnatomy` selectors. Call from the client after mount.
  */
 export function animateButton(
@@ -63,11 +47,13 @@ export function animateButton(
 ): ButtonMotion {
   if (typeof window === "undefined") return noopMotion();
 
-  const pressScale = options.pressScale ?? 0.97;
-  const duration = options.duration ?? 0.16;
-  const ease = options.ease ?? "power2.out";
+  const motion = options.motion ?? "press";
+  if (motion === "none") return noopMotion();
+
+  const preset = resolveMotionPreset(motion, options);
   const reduceMotionLocked = options.reduceMotion;
   let reduceMotion = prefersReducedMotion(reduceMotionLocked);
+  const hover = motionNeedsHover(motion);
 
   const mm = gsap.matchMedia();
   if (reduceMotionLocked == null) {
@@ -81,24 +67,37 @@ export function animateButton(
 
   const ctx = gsap.context(() => undefined, scope);
   let active: HTMLElement | null = null;
+  const hovered = new Set<HTMLElement>();
 
-  function tween(target: Element, vars: gsap.TweenVars): void {
-    ctx.add(() => {
-      gsap.to(target, vars);
-    });
-  }
+  const session: MotionSession = {
+    motion,
+    ...preset,
+    tween(target, vars) {
+      ctx.add(() => {
+        gsap.to(target, vars);
+      });
+    },
+    fromTo(target, fromVars, toVars) {
+      ctx.add(() => {
+        gsap.fromTo(target, fromVars, toVars);
+      });
+    },
+    set(target, vars) {
+      ctx.add(() => {
+        gsap.set(target, vars);
+      });
+    },
+    reduceMotion() {
+      return reduceMotion;
+    },
+  };
 
-  function press(root?: Element): void {
+  function press(root?: Element, event?: Event): void {
     const el = root ? findButtonRoot(root, scope) : isButtonRoot(scope) ? scope : null;
     if (!el || isInert(el) || reduceMotion) return;
     active = el;
-    tween(el, {
-      scale: pressScale,
-      duration,
-      ease,
-      overwrite: "auto",
-      transformOrigin: "50% 50%",
-    });
+    pressTransform(session, el);
+    if (motion === "ripple") spawnRipple(session, el, event);
   }
 
   function release(root?: Element): void {
@@ -108,28 +107,28 @@ export function animateButton(
       (isButtonRoot(scope) ? scope : null);
     if (!el) return;
     if (active === el) active = null;
-    if (reduceMotion) {
-      ctx.add(() => {
-        gsap.set(el, { scale: 1, clearProps: "transform" });
-      });
-      return;
-    }
-    tween(el, {
-      scale: 1,
-      duration,
-      ease,
-      overwrite: "auto",
-      onComplete() {
-        gsap.set(el, { clearProps: "transform" });
-      },
-    });
+    restTransform(session, el, hovered.has(el));
+  }
+
+  function hoverEnter(el: HTMLElement, event: PointerEvent): void {
+    if (isInert(el) || reduceMotion) return;
+    hovered.add(el);
+    if (motion === "lift") enterLift(session, el);
+    if (motion === "shine") playShine(session, el);
+    if (motion === "magnetic") moveMagnetic(session, el, event);
+  }
+
+  function hoverLeave(el: HTMLElement): void {
+    hovered.delete(el);
+    if (active === el) return;
+    restTransform(session, el, false);
   }
 
   function onPointerDown(event: Event): void {
     if (!(event instanceof PointerEvent) || event.button !== 0) return;
     const root = findButtonRoot(event.target, scope);
     if (!root) return;
-    press(root);
+    press(root, event);
     if (active !== root) return;
     try {
       root.setPointerCapture(event.pointerId);
@@ -145,7 +144,7 @@ export function animateButton(
 
   function onKeyDown(event: Event): void {
     if (!(event instanceof KeyboardEvent) || event.repeat || !isActivateKey(event)) return;
-    press(event.target instanceof Element ? event.target : undefined);
+    press(event.target instanceof Element ? event.target : undefined, event);
   }
 
   function onKeyUp(event: Event): void {
@@ -161,6 +160,28 @@ export function animateButton(
     release(target);
   }
 
+  function onPointerOver(event: Event): void {
+    if (!(event instanceof PointerEvent)) return;
+    const root = findButtonRoot(event.target, scope);
+    if (!root || stillInsideRoot(root, event.relatedTarget)) return;
+    hoverEnter(root, event);
+  }
+
+  function onPointerOut(event: Event): void {
+    if (!(event instanceof PointerEvent)) return;
+    const root = findButtonRoot(event.target, scope);
+    if (!root || stillInsideRoot(root, event.relatedTarget)) return;
+    hoverLeave(root);
+  }
+
+  function onPointerMove(event: Event): void {
+    if (!(event instanceof PointerEvent) || motion !== "magnetic") return;
+    const root = findButtonRoot(event.target, scope);
+    if (!root || isInert(root)) return;
+    hovered.add(root);
+    moveMagnetic(session, root, event);
+  }
+
   scope.addEventListener("pointerdown", onPointerDown);
   scope.addEventListener("pointerup", onPointerRelease);
   scope.addEventListener("pointercancel", onPointerRelease);
@@ -168,6 +189,13 @@ export function animateButton(
   scope.addEventListener("keydown", onKeyDown);
   scope.addEventListener("keyup", onKeyUp);
   scope.addEventListener("blur", onBlur, true);
+  if (hover) {
+    scope.addEventListener("pointerover", onPointerOver);
+    scope.addEventListener("pointerout", onPointerOut);
+  }
+  if (motion === "magnetic") {
+    scope.addEventListener("pointermove", onPointerMove);
+  }
 
   return {
     press,
@@ -180,7 +208,16 @@ export function animateButton(
       scope.removeEventListener("keydown", onKeyDown);
       scope.removeEventListener("keyup", onKeyUp);
       scope.removeEventListener("blur", onBlur, true);
+      if (hover) {
+        scope.removeEventListener("pointerover", onPointerOver);
+        scope.removeEventListener("pointerout", onPointerOut);
+      }
+      if (motion === "magnetic") {
+        scope.removeEventListener("pointermove", onPointerMove);
+      }
       active = null;
+      hovered.clear();
+      removeOverlays(scope);
       ctx.revert();
       mm.revert();
     },

@@ -1,7 +1,9 @@
 ---
 import { Code } from "astro:components";
+import { buttonAttrs, buttonGroupAttrs } from "@kimak/ui-react";
+import { chromeIdleVariant, chromeToggleVariant } from "../lib/chrome";
 import { FRAMEWORKS } from "../lib/nav";
-import { copyButton, pillButton, pillGroup } from "../lib/chrome";
+import { docsShikiThemes } from "../lib/shiki";
 
 interface Props {
   snippets: {
@@ -13,28 +15,48 @@ interface Props {
 
 const { snippets } = Astro.props;
 const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
+const groupLook = buttonGroupAttrs();
+const copyLook = buttonAttrs({ variant: chromeIdleVariant, size: "sm" });
 ---
 
 <div
-  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-[color-mix(in_oklab,var(--docs-canvas)_40%,var(--docs-article))]"
+  class="my-6 overflow-hidden rounded-[calc(var(--radius)+0.25rem)] border border-border bg-docs-code"
   data-demo
 >
   <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-[0.55rem]">
-    <div class={pillGroup} role="tablist" aria-label="Preview or code">
-      <button type="button" class={pillButton} data-demo-view="preview" aria-pressed="true">Preview</button>
-      <button type="button" class={pillButton} data-demo-view="code" aria-pressed="false">Code</button>
+    <div {...groupLook} role="tablist" aria-label="Preview or code">
+      <button
+        type="button"
+        {...buttonAttrs({ variant: chromeToggleVariant(true), size: "sm" })}
+        data-demo-view="preview"
+        aria-pressed="true">Preview</button
+      >
+      <button
+        type="button"
+        {...buttonAttrs({ variant: chromeToggleVariant(false), size: "sm" })}
+        data-demo-view="code"
+        aria-pressed="false">Code</button
+      >
     </div>
     <div class="flex items-center gap-[0.45rem]">
-      <div class={pillGroup} role="group" aria-label="Framework">
+      <div {...groupLook} role="group" aria-label="Framework">
         {
-          FRAMEWORKS.map((framework) => (
-            <button type="button" class={pillButton} data-set-framework={framework} aria-pressed={framework === "react"}>
-              {framework[0]?.toUpperCase() + framework.slice(1)}
-            </button>
-          ))
+          FRAMEWORKS.map((framework) => {
+            const pressed = framework === "react";
+            return (
+              <button
+                type="button"
+                {...buttonAttrs({ variant: chromeToggleVariant(pressed), size: "sm" })}
+                data-set-framework={framework}
+                aria-pressed={pressed}
+              >
+                {framework[0]?.toUpperCase() + framework.slice(1)}
+              </button>
+            );
+          })
         }
       </div>
-      <button type="button" class={copyButton} data-copy-code>Copy</button>
+      <button type="button" {...copyLook} data-copy-code>Copy</button>
     </div>
   </div>
   <div class="flex min-h-[5.5rem] items-center p-[1.35rem]" data-demo-panel="preview">
@@ -46,7 +68,7 @@ const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
     {
       FRAMEWORKS.map((framework) => (
         <div data-fw={framework} data-snippet={snippets[framework]}>
-          <Code code={snippets[framework]} lang={langs[framework]} />
+          <Code code={snippets[framework]} lang={langs[framework]} themes={docsShikiThemes} />
         </div>
       ))
     }

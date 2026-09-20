@@ -1,16 +1,11 @@
-/** Repeated docs chrome — pill switches, icon buttons, article cards. */
+/** Docs chrome look for toggle groups: pressed = secondary, idle = outline. */
 
-export const pillGroup =
-  "inline-flex items-center gap-[0.15rem] rounded-full border border-border bg-muted p-[0.15rem]";
+export const chromeIdleVariant = "outline" as const;
+export const chromePressedVariant = "secondary" as const;
 
-export const pillButton =
-  "cursor-pointer appearance-none rounded-full border-0 bg-transparent px-[0.7rem] py-1.5 text-[0.8rem] leading-none text-muted-foreground aria-pressed:bg-background aria-pressed:text-foreground aria-pressed:shadow-[0_0_0_1px_var(--border)]";
-
-export const iconButton =
-  "size-8 cursor-pointer appearance-none items-center justify-center rounded-full border border-border bg-muted p-0 text-muted-foreground";
-
-export const copyButton =
-  "cursor-pointer appearance-none rounded-full border border-border bg-background px-[0.65rem] py-[0.32rem] text-xs text-muted-foreground hover:text-foreground";
+export function chromeToggleVariant(pressed: boolean) {
+  return pressed ? chromePressedVariant : chromeIdleVariant;
+}
 
 export const articleCard =
   "min-w-0 rounded-[1.35rem] border border-border bg-docs-article shadow-[0_1px_0_color-mix(in_oklab,var(--foreground)_4%,transparent)]";

@@ -54,6 +54,17 @@ function onSave() {
       <Button loading>Saving</Button>
       <Button :loading="loading" :on-press="onSave">Save</Button>
     </template>
+    <template v-else-if="example === 'motion'">
+      <Button>Press</Button>
+      <Button motion="soft">Soft</Button>
+      <Button motion="bounce">Bounce</Button>
+      <Button motion="sink">Sink</Button>
+      <Button motion="lift">Lift</Button>
+      <Button motion="ripple">Ripple</Button>
+      <Button motion="magnetic">Magnetic</Button>
+      <Button motion="shine">Shine</Button>
+      <Button motion="none">None</Button>
+    </template>
     <template v-else-if="example === 'link'">
       <a href="/docs/getting-started" v-bind="look">Get started</a>
     </template>

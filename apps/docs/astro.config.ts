@@ -6,12 +6,18 @@ import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { docsShikiThemes } from "./src/lib/shiki";
 
 const repoRoot = path.resolve(fileURLToPath(new URL(".", import.meta.url)), "../..");
 const pkg = (...segments: string[]) => path.join(repoRoot, "packages", ...segments);
 
 export default defineConfig({
   output: "static",
+  markdown: {
+    shikiConfig: {
+      themes: docsShikiThemes,
+    },
+  },
   integrations: [
     react({
       include: ["**/demos/**/*.tsx", "**/components/**/*.tsx"],

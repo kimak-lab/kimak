@@ -67,6 +67,12 @@ Mark a child with `data-icon="inline-start"` or `data-icon="inline-end"` so the 
 
 <ButtonDemo example="loading" />
 
+### Motion
+
+`motion` is a product-sugar recipe from `@kimak/motion-gsap`, not look and not a machine prop. Default is `press`. Overlay recipes (`ripple`, `shine`, `magnetic`) inherit `currentColor` and belong on boxed buttons, not `variant="link"`. Pass `none` to skip GSAP.
+
+<ButtonDemo example="motion" />
+
 ### As a link
 
 A link should stay a link. Apply `buttonAttrs()` when you only need the look.
@@ -79,7 +85,7 @@ A link should stay a link. Apply `buttonAttrs()` when you only need the look.
 
 ## API reference
 
-Look props (`variant`, `size`) come from `@kimak/ui-*`. Machine tables are generated from `buttonSpec` in `@kimak/spec`.
+Look props (`variant`, `size`) and the product `motion` recipe come from `@kimak/ui-*`. Machine tables are generated from `buttonSpec` in `@kimak/spec`.
 
 <SpecTable
   spec={buttonSpec}
@@ -91,6 +97,10 @@ Look props (`variant`, `size`) come from `@kimak/ui-*`. Machine tables are gener
     size: {
       type: '"xs" | "sm" | "md" | "lg" | "icon-xs" | "icon-sm" | "icon" | "icon-lg"',
       description: "Look-only. Writes data-size for the Tailwind recipe. Omit for the CSS md default. Not a machine prop.",
+    },
+    motion: {
+      type: '"press" | "soft" | "bounce" | "sink" | "lift" | "ripple" | "magnetic" | "shine" | "none"',
+      description: "Optional GSAP recipe on the default <Button>, not look. Default press. Overlay variants inherit currentColor. Not a machine prop.",
     },
   }}
 />

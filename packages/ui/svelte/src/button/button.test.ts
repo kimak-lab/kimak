@@ -16,4 +16,12 @@ describe("buttonAttrs", () => {
       buttonAttrs({ variant: "ghost", "data-variant": "outline" })["data-variant"],
     ).toBe("outline");
   });
+
+  it("does not emit motion as a look data attribute", () => {
+    expect(buttonAttrs({ variant: "outline" })).toEqual({
+      "data-scope": "button",
+      "data-slot": "root",
+      "data-variant": "outline",
+    });
+  });
 });

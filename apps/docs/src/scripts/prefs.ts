@@ -1,3 +1,4 @@
+import { chromeToggleVariant } from "../lib/chrome";
 import { isFramework, type Framework } from "../lib/nav";
 
 const FRAMEWORK_KEY = "kimak.docs.framework";
@@ -30,10 +31,17 @@ function setNavOpen(open: boolean) {
   });
 }
 
+function syncPressed(el: Element, pressed: boolean) {
+  el.setAttribute("aria-pressed", String(pressed));
+  if (el.getAttribute("data-scope") === "button") {
+    el.setAttribute("data-variant", chromeToggleVariant(pressed));
+  }
+}
+
 function syncFrameworkButtons() {
   const current = currentFramework();
   document.querySelectorAll("[data-set-framework]").forEach((el) => {
-    el.setAttribute("aria-pressed", String(el.getAttribute("data-set-framework") === current));
+    syncPressed(el, el.getAttribute("data-set-framework") === current);
   });
 }
 
@@ -91,7 +99,7 @@ function visibleSnippet(block: Element) {
 
 function setDemoView(block: Element, view: "preview" | "code") {
   block.querySelectorAll("[data-demo-view]").forEach((el) => {
-    el.setAttribute("aria-pressed", String(el.getAttribute("data-demo-view") === view));
+    syncPressed(el, el.getAttribute("data-demo-view") === view);
   });
   block.querySelectorAll("[data-demo-panel]").forEach((el) => {
     if (!(el instanceof HTMLElement)) return;
@@ -101,7 +109,7 @@ function setDemoView(block: Element, view: "preview" | "code") {
 
 function setPkgTab(block: Element, tab: string) {
   block.querySelectorAll("[data-pkg-tab]").forEach((el) => {
-    el.setAttribute("aria-pressed", String(el.getAttribute("data-pkg-tab") === tab));
+    syncPressed(el, el.getAttribute("data-pkg-tab") === tab);
   });
   block.querySelectorAll("[data-pkg-panel]").forEach((el) => {
     if (!(el instanceof HTMLElement)) return;
