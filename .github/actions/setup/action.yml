@@ -1,0 +1,17 @@
+name: Setup
+description: Install pnpm, Node, and workspace dependencies from the lockfile
+inputs:
+  node-version:
+    description: Node.js version for pnpm/setup runtime
+    default: "22"
+  cache:
+    description: Cache the pnpm store
+    default: "true"
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/setup@v3
+      with:
+        runtime: node@${{ inputs.node-version }}
+        cache: ${{ inputs.cache }}
+        require-lockfile: true

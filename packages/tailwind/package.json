@@ -2,6 +2,19 @@
   "name": "@kimak/tailwind",
   "version": "0.0.0",
   "description": "Optional Tailwind v4 plugin that styles Kimak anatomy selectors.",
+  "license": "MIT",
+  "homepage": "https://github.com/kimak-lab/kimak#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimak-lab/kimak.git",
+    "directory": "packages/tailwind"
+  },
+  "bugs": {
+    "url": "https://github.com/kimak-lab/kimak/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": ["**/*.css"],
   "exports": {
@@ -12,7 +25,7 @@
     },
     "./theme.css": "./src/theme.css"
   },
-  "files": ["dist", "src"],
+  "files": ["dist", "src", "!src/**/*.test.*"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

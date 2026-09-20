@@ -42,6 +42,8 @@ catalog:
   gsap: ^3.13.0
   '@fontsource-variable/geist': ^5.3.0
   '@fontsource-variable/geist-mono': ^5.3.0
+  '@changesets/cli': ^3.0.3
+  '@changesets/changelog-github': ^1.0.1
 
 catalogMode: prefer
 

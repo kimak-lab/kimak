@@ -2,6 +2,19 @@
   "name": "@kimak/motion-gsap",
   "version": "0.0.0",
   "description": "Optional GSAP motion for Kimak anatomy selectors. Peer gsap; no look in machines.",
+  "license": "MIT",
+  "homepage": "https://github.com/kimak-lab/kimak#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimak-lab/kimak.git",
+    "directory": "packages/motion/gsap"
+  },
+  "bugs": {
+    "url": "https://github.com/kimak-lab/kimak/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
   "exports": {

@@ -2,6 +2,19 @@
   "name": "@kimak/headless-vue",
   "version": "0.0.0",
   "description": "Vue 3 headless adapter for Kimak. Parts only; look lives in @kimak/tailwind.",
+  "license": "MIT",
+  "homepage": "https://github.com/kimak-lab/kimak#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimak-lab/kimak.git",
+    "directory": "packages/headless/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/kimak-lab/kimak/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
   "exports": {

@@ -8,8 +8,17 @@ The catalog is Button first. Other primitives stay out until this one is proven 
 
 ## Installation
 
+React:
+
 ```bash
 pnpm add @kimak/ui-react @kimak/tailwind
+```
+
+Vue or Svelte:
+
+```bash
+pnpm add @kimak/ui-vue @kimak/tailwind
+pnpm add @kimak/ui-svelte @kimak/tailwind
 ```
 
 ```css
@@ -17,8 +26,6 @@ pnpm add @kimak/ui-react @kimak/tailwind
 @import "@kimak/tailwind/theme.css";
 @plugin "@kimak/tailwind";
 ```
-
-Vue and Svelte sugar packages exist in-repo (`@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet.
 
 ## Usage
 
@@ -147,7 +154,7 @@ Look-only attached buttons via `data-scope="button-group"`. `orientation` is `"h
 
 Folders are layer then framework (`headless/react`, `ui/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath of `@kimak/headless`, not a package.
 
-v1 publishes `@kimak/headless-react` and `@kimak/ui-react`. Vue and Svelte adapters have Button in-repo (`@kimak/headless-vue`, `@kimak/headless-svelte`, `@kimak/ui-vue`, `@kimak/ui-svelte`) but are not on npm yet. `@kimak/tailwind` is already adapter-agnostic. `@kimak/ui-*` Button binds press motion from `@kimak/motion-gsap`. Do not put `gsap` in core or headless. Headless consumers can still call `animateButton(scope)` themselves.
+All of those names publish to npm. `@kimak/tailwind` is adapter-agnostic. `@kimak/ui-*` Button binds press motion from `@kimak/motion-gsap`. Do not put `gsap` in core or headless. Headless consumers can still call `animateButton(scope)` themselves.
 
 The portable contract is `connect(service, normalize)`, not JSX. `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, callback `ref`). A future adapter remaps those keys with `createNormalizer` and binds the service with the equivalent of `useMachine`. Compound `render` / portal / context stay in the adapter. Product sugar is per adapter, never in `@kimak/core`.
 
@@ -166,4 +173,33 @@ pnpm install
 pnpm test
 pnpm typecheck
 pnpm dev
+pnpm changeset
 ```
+
+## Publishing
+
+`@kimak/*` packages publish to the public npm registry from GitHub Actions (`.github/workflows/release.yml`) with Changesets and [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+
+1. Record the change: `pnpm changeset`
+2. Merge to `main`. The Release workflow opens a Version Packages PR.
+3. Merge that PR. CI packs and publishes, then creates GitHub releases.
+
+In the repo: Settings → Actions → General → enable **Allow GitHub Actions to create and approve pull requests**. The `kimak-lab` org currently blocks that for `github-actions[bot]`; an org admin must allow it, or add a repo secret `CHANGESETS_TOKEN` (classic PAT with `repo` scope) so the Version Packages PR still opens.
+
+### First publish
+
+Trusted publishers attach to packages that already exist. After the Version Packages PR lands on `main` (versions become `0.1.0`), bootstrap once with an npm owner login — do not publish `0.0.0`:
+
+```bash
+npm login
+pnpm release
+```
+
+Then on each package at npmjs.com → Package settings → Trusted Publisher:
+
+- Organization or user: `kimak-lab`
+- Repository: `kimak`
+- Workflow filename: `release.yml`
+- Allowed action: `npm publish`
+
+Later releases use OIDC from `release.yml`. No `NPM_TOKEN` secret.
