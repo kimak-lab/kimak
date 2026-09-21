@@ -51,6 +51,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
+  "peerDependenciesMeta": {
+    "gsap": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@kimak/core": "workspace:*",
     "@testing-library/jest-dom": "catalog:",

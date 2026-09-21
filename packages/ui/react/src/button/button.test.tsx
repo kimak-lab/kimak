@@ -96,6 +96,15 @@ describe("Button sugar", () => {
     root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
     expect(Number(gsap.getProperty(root, "scale"))).toBe(1);
   });
+
+  it("loads GSAP for the default press recipe", async () => {
+    render(<Button>Save</Button>);
+    const root = screen.getByRole("button", { name: "Save" });
+    await vi.waitFor(() => {
+      root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
+      expect(Number(gsap.getProperty(root, "scale"))).toBeLessThan(1);
+    });
+  });
 });
 
 describe("buttonAttrs", () => {

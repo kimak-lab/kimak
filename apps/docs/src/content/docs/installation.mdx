@@ -26,7 +26,7 @@ Svelte (peer: Svelte 5):
 
 ## 2. Optional press motion
 
-`@kimak/ui-*` binds `@kimak/motion-gsap`. Add GSAP only if you want JS press motion. Named recipes are the `motion` prop (`press` default). Loading spinner motion stays in the Tailwind keyframes.
+`@kimak/ui-*` lazy-binds `@kimak/motion-gsap` after mount when `motion` is not `none` (default `press`). `gsap` is an optional peer — add it if you want JS press motion. Pass `motion="none"` to skip the GSAP chunk. Loading spinner motion stays in the Tailwind keyframes.
 
 <PackageTabs packages={["gsap"]} />
 

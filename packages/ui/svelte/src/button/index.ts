@@ -6,7 +6,8 @@ export const Button = Object.assign(ButtonField, {
   Indicator: ButtonParts.Indicator,
 });
 
-export type { ButtonProps, ButtonMotionVariant } from "./button.svelte";
+export type { ButtonProps } from "./button.svelte";
+export type { ButtonMotionVariant } from "./button-motion";
 
 export {
   buttonAttrs,

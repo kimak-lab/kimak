@@ -43,6 +43,11 @@
     "gsap": "^3.12.0",
     "svelte": "^5.0.0"
   },
+  "peerDependenciesMeta": {
+    "gsap": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@sveltejs/package": "catalog:",
     "@sveltejs/vite-plugin-svelte": "catalog:",
