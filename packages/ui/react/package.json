@@ -1,6 +1,6 @@
 {
   "name": "@kimak/ui-react",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "React product layer over @kimak/headless-react. Look still comes from @kimak/tailwind.",
   "license": "MIT",
   "homepage": "https://github.com/kimak-lab/kimak#readme",

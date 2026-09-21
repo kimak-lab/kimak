@@ -1,6 +1,6 @@
 {
   "name": "@kimak/headless-vue",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Vue 3 headless adapter for Kimak. Parts only; look lives in @kimak/tailwind.",
   "license": "MIT",
   "homepage": "https://github.com/kimak-lab/kimak#readme",

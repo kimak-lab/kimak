@@ -1,6 +1,6 @@
 {
   "name": "@kimak/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic machines, connect(), and platform primitives.",
   "license": "MIT",
   "homepage": "https://github.com/kimak-lab/kimak#readme",
