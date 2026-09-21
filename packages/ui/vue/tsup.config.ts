@@ -13,5 +13,5 @@ export default defineConfig({
   sourcemap: true,
   treeshake: true,
   splitting: false,
-  external: ["vue", "@kimak/headless-vue", "@kimak/motion-gsap", "gsap"],
+  external: ["vue", "@kimak/headless-vue"],
 });

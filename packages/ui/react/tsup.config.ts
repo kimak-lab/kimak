@@ -16,7 +16,7 @@ export default defineConfig({
   sourcemap: true,
   treeshake: true,
   splitting: false,
-  external: ["react", "react-dom", "@kimak/headless-react", "@kimak/motion-gsap", "gsap"],
+  external: ["react", "react-dom", "@kimak/headless-react"],
   async onSuccess() {
     for (const file of entries) {
       const code = readFileSync(file, "utf8");

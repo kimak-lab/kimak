@@ -74,20 +74,6 @@ export function ButtonPreview({ example = "playground" }: { example?: ButtonExam
           <LoadingButton />
         </Row>
       );
-    case "motion":
-      return (
-        <Row>
-          <Button>Press</Button>
-          <Button motion="soft">Soft</Button>
-          <Button motion="bounce">Bounce</Button>
-          <Button motion="sink">Sink</Button>
-          <Button motion="lift">Lift</Button>
-          <Button motion="ripple">Ripple</Button>
-          <Button motion="magnetic">Magnetic</Button>
-          <Button motion="shine">Shine</Button>
-          <Button motion="none">None</Button>
-        </Row>
-      );
     case "link":
       return (
         <Row>

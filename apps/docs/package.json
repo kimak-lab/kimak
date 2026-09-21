@@ -23,7 +23,6 @@
     "@kimak/ui-vue": "workspace:*",
     "@lucide/svelte": "^1.47.0",
     "@lucide/vue": "^1.47.0",
-    "gsap": "catalog:",
     "lucide-react": "^1.47.0",
     "react": "catalog:",
     "react-dom": "catalog:",

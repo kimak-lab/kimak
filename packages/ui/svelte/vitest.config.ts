@@ -5,7 +5,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@kimak/headless-svelte": path.resolve(__dirname, "../../headless/svelte/src/index.ts"),
-      "@kimak/motion-gsap": path.resolve(__dirname, "../../motion/gsap/src/index.ts"),
       "@kimak/spec": path.resolve(__dirname, "../../spec/src/index.ts"),
     },
   },

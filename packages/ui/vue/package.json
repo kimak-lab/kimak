@@ -43,17 +43,10 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@kimak/headless-vue": "workspace:*",
-    "@kimak/motion-gsap": "workspace:*"
+    "@kimak/headless-vue": "workspace:*"
   },
   "peerDependencies": {
-    "gsap": "^3.12.0",
     "vue": "^3.5.0"
-  },
-  "peerDependenciesMeta": {
-    "gsap": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@kimak/core": "workspace:*",
@@ -61,7 +54,6 @@
     "@testing-library/user-event": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/test-utils": "catalog:",
-    "gsap": "catalog:",
     "jsdom": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",

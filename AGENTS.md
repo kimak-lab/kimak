@@ -16,15 +16,12 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 
 `@kimak/spec` → `@kimak/tailwind` (optional look; `@plugin` in the consumer CSS)
 
-`@kimak/spec` → `@kimak/motion-gsap` (optional GSAP; peer `gsap`; anatomy selectors only)
-
 Directories state the layer first, then the framework:
 
 ```
 packages/spec
 packages/core
 packages/tailwind
-packages/motion/gsap      → @kimak/motion-gsap
 packages/headless/react   → @kimak/headless-react
 packages/headless/vue     → @kimak/headless-vue
 packages/headless/svelte  → @kimak/headless-svelte
@@ -41,7 +38,7 @@ npm names use a hyphen (`@kimak/headless-react`) because a slash after the scope
 - React 19: `ref` is a prop. No `forwardRef`. Compound parts. `render` + `mergeProps` on Trigger and Root (Base UI composition, not Radix `asChild`). Vue and Svelte use adapter-local `as`. Composition APIs (`render`, `as`, snippets) are adapter-local and not a portable contract.
 - `@kimak/tailwind` maps `anatomy.selector` to CSS. It must not depend on React.
 - Product sugar uses one folder per component (`packages/ui/react/src/button/`, barrel `index.ts`). Look helper is `button-attrs.ts` (anatomy `data-*`), not CVA.
-- `@kimak/motion-gsap` is optional JS motion. It peers `gsap` (optional), targets anatomy selectors, and must not be imported from `@kimak/core` or any headless adapter. Product sugar (`@kimak/ui-*`) lazy-binds Button press motion after mount. `motion="none"` must not load GSAP. Docs demos consume `<Button>` only — do not re-bind GSAP there. Default look stays CSS. Loading spinner stays the Tailwind keyframes.
+- Default look stays CSS. Loading spinner stays the Tailwind keyframes. Do not add JS motion libraries to core, headless, or product sugar.
 - Button `loading` stays in the tab order (`aria-disabled` + `aria-busy`, no native `disabled`). `focusableWhenDisabled` does the same for `disabled`. Style a look-only link with `buttonAttrs()` on an `<a>`. Compose the machine onto a link with React `render={<a href />}` or Vue/Svelte `as="a"` — adapters omit native button attrs (`type`, `name`, `value`, `form`, `disabled`) on the anchor.
 - `Spinner` and `ButtonGroup` are look-only product sugar in the Button catalog (anatomy + Tailwind recipes, no machines). Do not start Checkbox, Dialog, DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
 - Product sugar lives in `@kimak/ui-react`, not `@kimak/core` or `@kimak/headless-react`. Vue and Svelte have their own sugar packages.

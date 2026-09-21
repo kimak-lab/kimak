@@ -1,6 +1,5 @@
 import userEvent from "@testing-library/user-event";
 import { mount } from "@vue/test-utils";
-import { gsap } from "gsap";
 import { defineComponent, h } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { Button, buttonAttrs } from "./index";
@@ -108,53 +107,6 @@ describe("Button sugar", () => {
     expect(root).toHaveAttribute("data-slot", "root");
     expect(root).not.toHaveAttribute("type");
     expect(wrapper.find("button").exists()).toBe(false);
-    wrapper.unmount();
-  });
-
-  it("does not write motion onto look data attributes", () => {
-    const wrapper = mount(
-      defineComponent({
-        setup() {
-          return () => h(Button, { motion: "bounce", variant: "outline" }, () => "Save");
-        },
-      }),
-      { attachTo: document.body },
-    );
-    const root = wrapper.get("button").element;
-    expect(root).toHaveAttribute("data-variant", "outline");
-    expect(root.hasAttribute("data-motion")).toBe(false);
-    wrapper.unmount();
-  });
-
-  it("skips press scale when motion is none", () => {
-    const wrapper = mount(
-      defineComponent({
-        setup() {
-          return () => h(Button, { motion: "none" }, () => "Save");
-        },
-      }),
-      { attachTo: document.body },
-    );
-    const root = wrapper.get("button").element;
-    root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
-    expect(Number(gsap.getProperty(root, "scale"))).toBe(1);
-    wrapper.unmount();
-  });
-
-  it("loads GSAP for the default press recipe", async () => {
-    const wrapper = mount(
-      defineComponent({
-        setup() {
-          return () => h(Button, {}, () => "Save");
-        },
-      }),
-      { attachTo: document.body },
-    );
-    const root = wrapper.get("button").element;
-    await vi.waitFor(() => {
-      root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
-      expect(Number(gsap.getProperty(root, "scale"))).toBeLessThan(1);
-    });
     wrapper.unmount();
   });
 });

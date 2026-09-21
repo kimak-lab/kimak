@@ -4,7 +4,6 @@ export type ButtonExample =
   | "sizes"
   | "icons"
   | "loading"
-  | "motion"
   | "link";
 
 export const buttonSnippets = {
@@ -154,35 +153,6 @@ function onSave() {
 
 <Button loading>Saving</Button>
 <Button {loading} onPress={onSave}>Save</Button>`,
-  },
-  motion: {
-    react: `<Button>Press</Button>
-<Button motion="soft">Soft</Button>
-<Button motion="bounce">Bounce</Button>
-<Button motion="sink">Sink</Button>
-<Button motion="lift">Lift</Button>
-<Button motion="ripple">Ripple</Button>
-<Button motion="magnetic">Magnetic</Button>
-<Button motion="shine">Shine</Button>
-<Button motion="none">None</Button>`,
-    vue: `<Button>Press</Button>
-<Button motion="soft">Soft</Button>
-<Button motion="bounce">Bounce</Button>
-<Button motion="sink">Sink</Button>
-<Button motion="lift">Lift</Button>
-<Button motion="ripple">Ripple</Button>
-<Button motion="magnetic">Magnetic</Button>
-<Button motion="shine">Shine</Button>
-<Button motion="none">None</Button>`,
-    svelte: `<Button>Press</Button>
-<Button motion="soft">Soft</Button>
-<Button motion="bounce">Bounce</Button>
-<Button motion="sink">Sink</Button>
-<Button motion="lift">Lift</Button>
-<Button motion="ripple">Ripple</Button>
-<Button motion="magnetic">Magnetic</Button>
-<Button motion="shine">Shine</Button>
-<Button motion="none">None</Button>`,
   },
   link: {
     react: `import { buttonAttrs } from "@kimak/ui-react";

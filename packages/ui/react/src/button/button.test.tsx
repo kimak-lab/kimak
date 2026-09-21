@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { gsap } from "gsap";
 import { describe, expect, it, vi } from "vitest";
 import { Button, buttonAttrs } from "./index";
 
@@ -77,33 +76,6 @@ describe("Button sugar", () => {
     expect(root).not.toHaveAttribute("type");
     expect(root).not.toHaveAttribute("disabled");
     expect(document.querySelectorAll("button")).toHaveLength(0);
-  });
-
-  it("does not write motion onto look data attributes", () => {
-    render(
-      <Button motion="bounce" variant="outline">
-        Save
-      </Button>,
-    );
-    const root = screen.getByRole("button", { name: "Save" });
-    expect(root).toHaveAttribute("data-variant", "outline");
-    expect(root.hasAttribute("data-motion")).toBe(false);
-  });
-
-  it("skips press scale when motion is none", () => {
-    render(<Button motion="none">Save</Button>);
-    const root = screen.getByRole("button", { name: "Save" });
-    root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
-    expect(Number(gsap.getProperty(root, "scale"))).toBe(1);
-  });
-
-  it("loads GSAP for the default press recipe", async () => {
-    render(<Button>Save</Button>);
-    const root = screen.getByRole("button", { name: "Save" });
-    await vi.waitFor(() => {
-      root.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
-      expect(Number(gsap.getProperty(root, "scale"))).toBeLessThan(1);
-    });
   });
 });
 

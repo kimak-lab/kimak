@@ -67,7 +67,7 @@ Put `data-icon="inline-start"` or `data-icon="inline-end"` on an icon (or `Spinn
 
 Button `loading` keeps keyboard focus (`aria-disabled` + `aria-busy`). Use `focusableWhenDisabled` when a disabled button must stay in the tab order.
 
-`@kimak/ui-*` Button lives in a per-component folder (`src/button/`) with `button-attrs.ts` (look data attributes) and `button-motion.ts` (GSAP bind). Look still comes from the Tailwind plugin.
+`@kimak/ui-*` Button lives in a per-component folder (`src/button/`) with `button-attrs.ts` (look data attributes). Look still comes from the Tailwind plugin.
 
 ## Cursor
 
@@ -150,17 +150,16 @@ Look-only attached buttons via `data-scope="button-group"`. `orientation` is `"h
 | `packages/ui/vue` | `@kimak/ui-vue` | Vue product sugar over the adapter. Not a kernel. |
 | `packages/ui/svelte` | `@kimak/ui-svelte` | Svelte product sugar over the adapter. Not a kernel. |
 | `packages/tailwind` | `@kimak/tailwind` | Optional Tailwind v4 plugin + shadcn `theme.css` |
-| `packages/motion/gsap` | `@kimak/motion-gsap` | Optional GSAP motion. Peer `gsap`. Targets anatomy `data-*`, not machines. |
 
 Folders are layer then framework (`headless/react`, `ui/react`). Published names use a hyphen because `@kimak/headless/react` would be a subpath of `@kimak/headless`, not a package.
 
-All of those names publish to npm. `@kimak/tailwind` is adapter-agnostic. `@kimak/ui-*` Button binds press motion from `@kimak/motion-gsap`. Do not put `gsap` in core or headless. Headless consumers can still call `animateButton(scope)` themselves.
+All of those names publish to npm. `@kimak/tailwind` is adapter-agnostic. Do not put look or JS motion in core or headless.
 
 The portable contract is `connect(service, normalize)`, not JSX. `connect()` emits a React-shaped DOM dialect (`onClick`, `htmlFor`, callback `ref`). A future adapter remaps those keys with `createNormalizer` and binds the service with the equivalent of `useMachine`. Compound `render` / portal / context stay in the adapter. Product sugar is per adapter, never in `@kimak/core`.
 
 ## Current catalog
 
-- **Button** — press, disabled, loading, `data-size` / `data-variant`, optional GSAP press motion
+- **Button** — press, disabled, loading, `data-size` / `data-variant`
 - **Spinner** — look-only busy glyph (Tailwind keyframes)
 - **Button Group** — look-only attached buttons
 

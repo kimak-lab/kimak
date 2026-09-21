@@ -43,7 +43,6 @@ export default defineConfig({
         "@kimak/core": pkg("core/src/index.ts"),
         "@kimak/spec": pkg("spec/src/index.ts"),
         "@kimak/tailwind": pkg("tailwind/src/index.ts"),
-        "@kimak/motion-gsap": pkg("motion/gsap/src/index.ts"),
       },
     },
     ssr: {
@@ -59,7 +58,6 @@ export default defineConfig({
         "@kimak/headless-svelte",
         "@kimak/core",
         "@kimak/spec",
-        "@kimak/motion-gsap",
       ],
     },
   },

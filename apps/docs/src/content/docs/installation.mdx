@@ -5,7 +5,6 @@ order: 20
 section: Start
 ---
 
-import Callout from "../../components/Callout.astro";
 import PackageTabs from "../../components/PackageTabs.astro";
 
 Product sugar wraps the headless parts. Install both if you want to assemble anatomy yourself. `@kimak/tailwind` is adapter-agnostic.
@@ -24,17 +23,7 @@ Svelte (peer: Svelte 5):
 
 <PackageTabs packages={["@kimak/ui-svelte", "@kimak/headless-svelte", "@kimak/tailwind"]} />
 
-## 2. Optional press motion
-
-`@kimak/ui-*` lazy-binds `@kimak/motion-gsap` after mount when `motion` is not `none` (default `press`). `gsap` is an optional peer — add it if you want JS press motion. Pass `motion="none"` to skip the GSAP chunk. Loading spinner motion stays in the Tailwind keyframes.
-
-<PackageTabs packages={["gsap"]} />
-
-<Callout>
-  Do not put `gsap` in core or a headless adapter. This docs app consumes `<Button>` only — it does not re-bind GSAP.
-</Callout>
-
-## 3. Point Tailwind at the plugin
+## 2. Point Tailwind at the plugin
 
 Look targets anatomy `data-*` attributes:
 

@@ -13,7 +13,6 @@
       "@kimak/headless-react": ["../../packages/headless/react/src/index.ts"],
       "@kimak/headless-vue": ["../../packages/headless/vue/src/index.ts"],
       "@kimak/headless-svelte": ["../../packages/headless/svelte/src/index.ts"],
-      "@kimak/motion-gsap": ["../../packages/motion/gsap/src/index.ts"],
       "@kimak/tailwind": ["../../packages/tailwind/src/index.ts"]
     }
   },
