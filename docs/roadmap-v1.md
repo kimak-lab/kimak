@@ -51,7 +51,7 @@ Utility ini harus ada di `@kimak/core/platform` sebelum family terkait dimulai.
 
 | Utility | Dipakai oleh | Status |
 | --- | --- | --- |
-| Controllable state (`value` / `defaultValue` / `onValueChange`) | semua form + selection | ⬜ |
+| Controllable state (`value` / `defaultValue` / `onValueChange`) | semua form + selection | ✅ (`controllable.ts`, dipakai Popover) |
 | Form hidden input + `visuallyHiddenStyle` | Checkbox, Radio, Switch, Slider, Select, Combobox | 🟡 (`hidden.ts`) |
 | Focus trap + return focus | Dialog, Alert Dialog, Sheet | 🟡 (`focus.ts`) |
 | Scroll lock | Dialog, Alert Dialog, Sheet | ⬜ |

@@ -1,4 +1,10 @@
 export { createCollection, type Collection, type CollectionItem } from "./collection";
+export {
+  requestControllable,
+  resolveControllable,
+  type ControllableChange,
+  type EqualityFn,
+} from "./controllable";
 export { getDirection, getLogicalNav } from "./direction";
 export { getOwnerDocument } from "./dom";
 export {

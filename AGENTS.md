@@ -60,7 +60,7 @@ Every new component lands in React, Vue, and Svelte together. Follow the existin
 ## Adding a component
 
 1. Write the spec and anatomy in `@kimak/spec`.
-2. Write the machine + `connect()` in `@kimak/core`. Type `*Api<T extends PropTypes>` so adapters substitute vnode props.
+2. Write the machine + `connect()` in `@kimak/core`. Type `*Api<T extends PropTypes>` so adapters substitute vnode props. Controllable props (`value` / `defaultValue` / `on*Change`) go through `resolveControllable` + `requestControllable` from platform; mark them `controlled: true` in the spec, as `popover.spec.ts` does.
 3. Write a thin compound shell in `@kimak/headless-react`, then `@kimak/headless-vue` and `@kimak/headless-svelte`.
 4. Add keyboard / ARIA / `data-state` tests in all three adapters. No pixel snapshots of look.
 5. Add recipes in `@kimak/tailwind` that target the new anatomy selectors.

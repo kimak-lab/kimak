@@ -1,18 +1,22 @@
 import { createService, type Service } from "../machine";
+import { requestControllable, resolveControllable } from "../platform/controllable";
 import { samePosition } from "../platform/position";
 import type { PopoverContext, PopoverEvent, PopoverProps } from "./popover.types";
 
 export type PopoverService = Service<PopoverContext, PopoverProps, PopoverEvent>;
 
 export function isPopoverOpen(context: PopoverContext, props: PopoverProps): boolean {
-  return props.open ?? context.open;
+  return resolveControllable(props.open, context.open);
 }
 
 function requestOpen(context: PopoverContext, props: PopoverProps, next: boolean): PopoverContext {
-  if (isPopoverOpen(context, props) === next) return context;
-  props.onOpenChange?.(next);
-  if (props.open !== undefined || context.open === next) return context;
-  return { ...context, open: next };
+  const open = requestControllable({
+    controlled: props.open,
+    uncontrolled: context.open,
+    next,
+    onChange: props.onOpenChange,
+  });
+  return open === context.open ? context : { ...context, open };
 }
 
 export function createPopoverMachine(props: PopoverProps): PopoverService {
