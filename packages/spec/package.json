@@ -1,6 +1,6 @@
 {
   "name": "@kimak/spec",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Component contracts: anatomy, props, keyboard, and ARIA. Source of truth for docs and tests.",
   "license": "MIT",
   "homepage": "https://github.com/kimak-lab/kimak#readme",

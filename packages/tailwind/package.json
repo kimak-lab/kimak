@@ -1,6 +1,6 @@
 {
   "name": "@kimak/tailwind",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Optional Tailwind v4 plugin that styles Kimak anatomy selectors.",
   "license": "MIT",
   "homepage": "https://github.com/kimak-lab/kimak#readme",
