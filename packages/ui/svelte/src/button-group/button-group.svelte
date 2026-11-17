@@ -3,6 +3,7 @@
   import type { HTMLAttributes } from "svelte/elements";
   import { buttonGroupAttrs, type ButtonGroupOrientation } from "./button-group-attrs";
 
+  // Groups related action buttons. Label it with `aria-label` or `aria-labelledby`.
   let {
     children,
     orientation,
@@ -15,4 +16,4 @@
   const look = $derived(buttonGroupAttrs({ orientation }));
 </script>
 
-<div {...look} {...props}>{@render children?.()}</div>
+<div {...look} role="group" {...props}>{@render children?.()}</div>

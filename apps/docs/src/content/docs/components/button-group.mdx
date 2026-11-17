@@ -1,0 +1,113 @@
+---
+title: Button Group
+description: Joins related action buttons into one control. Look-only, with role="group".
+order: 55
+section: Components
+---
+
+import ButtonGroupDemo from "../../../components/ButtonGroupDemo.astro";
+import Callout from "../../../components/Callout.astro";
+
+Button Group has no machine. It is anatomy (`root`, `separator`, `text`) plus a Tailwind recipe. Every direct child joins the group: `Button`, a native `input`, a popover trigger, `ButtonGroupText`, or another `ButtonGroup`.
+
+<ButtonGroupDemo example="basic" />
+
+## Usage
+
+```tsx
+import { Button, ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@kimak/ui-react";
+
+<ButtonGroup aria-label="Archive">
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+</ButtonGroup>
+```
+
+## Accessibility
+
+- `ButtonGroup` renders `role="group"`. Name it with `aria-label` or `aria-labelledby`.
+- Focus moves between buttons with Tab. There is no arrow-key navigation. Pass `role="toolbar"` only if you add roving focus yourself.
+- `ButtonGroupSeparator` renders `role="separator"` with `aria-orientation`.
+
+<Callout title="Button Group or Toggle Group?">
+  Use Button Group for buttons that run actions. Use Toggle Group for buttons that switch a state on or off. Toggle Group is planned for the form family.
+</Callout>
+
+## Examples
+
+### Orientation
+
+`orientation` is `horizontal` (default) or `vertical`. It writes `data-orientation`.
+
+<ButtonGroupDemo example="orientation" />
+
+### Size
+
+Set `size` on each `Button`. The group has no size of its own.
+
+<ButtonGroupDemo example="sizes" />
+
+### Nested
+
+Put groups inside a group. Each inner group keeps its own joins, and the outer group adds a gap between them.
+
+<ButtonGroupDemo example="nested" />
+
+### Separator
+
+`outline` buttons already have borders. Other variants need `ButtonGroupSeparator` to show where one button ends. Its `orientation` defaults to `vertical`, the divider for a horizontal group.
+
+<ButtonGroupDemo example="separator" />
+
+### Split
+
+A main action and a menu trigger joined by a separator.
+
+<ButtonGroupDemo example="split" />
+
+### Input
+
+`ButtonGroupText` renders a `<div>`. Make it the input's label with React `render={<label htmlFor />}` or Vue/Svelte `as="label"`. An `input` placed directly in the group grows to fill the row. Style it without radius or border utilities (see [Styling](#styling)).
+
+<ButtonGroupDemo example="input" />
+
+### Popover
+
+A popover trigger joins the group like any other child. Spread `buttonAttrs()` onto it for the button look.
+
+<ButtonGroupDemo example="popover" />
+
+## Styling
+
+| Selector | Part |
+| --- | --- |
+| `[data-scope="button-group"][data-slot="root"]` | Group container, with `data-orientation` |
+| `[data-scope="button-group"][data-slot="separator"]` | Divider, with `data-orientation` |
+| `[data-scope="button-group"][data-slot="text"]` | Text or label |
+
+<Callout kind="warning" title="Utilities on a child beat the join">
+  The recipe lives in `@layer base`. A utility class on a child, such as `rounded-md` or `border`, wins over the group's square corners and shared border. Leave radius and border width off grouped children, or put their look in `@layer base` too.
+</Callout>
+
+`buttonGroupAttrs()`, `buttonGroupSeparatorAttrs()`, and `buttonGroupTextAttrs()` return only these `data-*` attributes. Add `role="group"` yourself when you spread `buttonGroupAttrs()` onto your own element.
+
+## API reference
+
+### ButtonGroup
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
+
+### ButtonGroupSeparator
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+### ButtonGroupText
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `render` (React) | `ReactElement \| function` | — |
+| `as` (Vue / Svelte) | `string` | `"div"` |

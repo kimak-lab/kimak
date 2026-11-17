@@ -101,13 +101,19 @@ Two patterns:
 ## Button Group
 
 ```tsx
-<ButtonGroup>
+<ButtonGroup aria-label="Alignment">
   <Button variant="outline">Left</Button>
   <Button variant="outline">Right</Button>
 </ButtonGroup>
+
+<ButtonGroup aria-label="Merge">
+  <Button>Merge</Button>
+  <ButtonGroupSeparator />
+  <Button size="icon" aria-label="More merge options">…</Button>
+</ButtonGroup>
 ```
 
-Look-only attached buttons via `data-scope="button-group"`. `orientation` is `"horizontal"` (default) or `"vertical"`.
+Look-only attached buttons via `data-scope="button-group"`. `ButtonGroup` renders `role="group"`; name it with `aria-label`. `orientation` is `"horizontal"` (default) or `"vertical"`. Every direct child joins the group (Button, `input`, popover trigger, `ButtonGroupText`, nested `ButtonGroup`). `ButtonGroupSeparator` divides non-outline buttons. `ButtonGroupText` is a text or label cell (React `render`, Vue/Svelte `as`). Use Button Group for actions, Toggle Group for on/off state.
 
 ## API Reference
 
@@ -137,6 +143,19 @@ Look-only attached buttons via `data-scope="button-group"`. `orientation` is `"h
 | --- | --- | --- |
 | `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
 
+### ButtonGroupSeparator
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+### ButtonGroupText
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `render` (React) | `ReactElement \| function` | — |
+| `as` (Vue / Svelte) | `string` | `"div"` |
+
 ## Packages
 
 | Directory | Package | Role |
@@ -161,7 +180,7 @@ The portable contract is `connect(service, normalize)`, not JSX. `connect()` emi
 
 - **Button** — press, disabled, loading, `data-size` / `data-variant`
 - **Spinner** — look-only busy glyph (Tailwind keyframes)
-- **Button Group** — look-only attached buttons
+- **Button Group** — look-only attached buttons, separator, and text (`role="group"`)
 
 Do not add Checkbox, Dialog, DatePicker, Command, or Toast until Button is proven and the form / disclosure / overlay / menu / selection families exist.
 

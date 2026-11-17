@@ -1,0 +1,31 @@
+---
+import FrameworkTabs from "./FrameworkTabs.astro";
+import { ButtonGroupPreview as ButtonGroupPreviewReact } from "../demos/button-group/ButtonGroupPreview.tsx";
+import ButtonGroupPreviewVue from "../demos/button-group/ButtonGroupPreview.vue";
+import ButtonGroupPreviewSvelte from "../demos/button-group/ButtonGroupPreview.svelte";
+import { buttonGroupSnippets, type ButtonGroupExample } from "../lib/snippets/button-group";
+
+interface Props {
+  example?: ButtonGroupExample;
+}
+
+const { example = "basic" } = Astro.props;
+const snippets = buttonGroupSnippets[example];
+// Popover is React only. A conditional slot still counts for Astro.slots.has,
+// so the React-only case renders FrameworkTabs without the other slots.
+const allFrameworks = "vue" in snippets && "svelte" in snippets;
+---
+
+{
+  allFrameworks ? (
+    <FrameworkTabs snippets={snippets}>
+      <ButtonGroupPreviewReact client:load example={example} slot="react" />
+      <ButtonGroupPreviewVue client:load example={example} slot="vue" />
+      <ButtonGroupPreviewSvelte client:load example={example} slot="svelte" />
+    </FrameworkTabs>
+  ) : (
+    <FrameworkTabs snippets={snippets}>
+      <ButtonGroupPreviewReact client:load example={example} slot="react" />
+    </FrameworkTabs>
+  )
+}

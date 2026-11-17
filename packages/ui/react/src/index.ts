@@ -1,8 +1,15 @@
 export { Button, type ButtonProps, buttonAttrs } from "./button";
 export {
   ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+  type ButtonGroupOrientation,
   type ButtonGroupProps,
+  type ButtonGroupSeparatorProps,
+  type ButtonGroupTextProps,
   buttonGroupAttrs,
+  buttonGroupSeparatorAttrs,
+  buttonGroupTextAttrs,
 } from "./button-group";
 export {
   Popover,

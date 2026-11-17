@@ -32,6 +32,7 @@ export const nav: readonly NavSection[] = [
     title: "Components",
     items: [
       { href: "/docs/components/button", label: "Button" },
+      { href: "/docs/components/button-group", label: "Button Group" },
       { href: "/docs/components/popover", label: "Popover" },
     ],
   },

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buttonAnatomy, buttonSpec } from "./button";
+import { buttonGroupAnatomy } from "./button-group";
 import { popoverAnatomy, popoverSpec } from "./popover";
 import type { ComponentSpec, PartContract } from "./types";
 
@@ -41,6 +42,17 @@ describe("anatomy contract", () => {
       expect.objectContaining({ code: "Enter", slot: "root" }),
       expect.objectContaining({ code: "Space", slot: "root" }),
     ]);
+  });
+
+  it("names every button group part as a look-only styling surface", () => {
+    expect(buttonGroupAnatomy.parts).toEqual(["root", "separator", "text"]);
+    expect(buttonGroupAnatomy.separator.selector).toBe(
+      '[data-scope="button-group"][data-slot="separator"]',
+    );
+    expect(buttonGroupAnatomy.text.attrs()).toEqual({
+      "data-scope": "button-group",
+      "data-slot": "text",
+    });
   });
 
   it("names every popover part and marks positioner/content as presence parts", () => {

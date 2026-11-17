@@ -45,6 +45,10 @@ describe("@kimak/tailwind", () => {
     expect(css).toContain(spinnerAnatomy.root.selector);
     expect(css).toContain(buttonGroupAnatomy.root.selector);
     expect(css).toContain('[data-orientation="horizontal"]');
+    expect(css).toContain(buttonGroupAnatomy.separator.selector);
+    expect(css).toContain(buttonGroupAnatomy.text.selector);
+    expect(css).toContain('[data-orientation="horizontal"] > *:not(:first-child)');
+    expect(css).toContain(`:has(> ${buttonGroupAnatomy.root.selector})`);
     expect(css).toContain(popoverAnatomy.positioner.selector);
     expect(css).toContain(popoverAnatomy.content.selector);
     expect(css).toContain(popoverAnatomy.title.selector);

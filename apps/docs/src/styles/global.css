@@ -53,6 +53,16 @@
   kbd {
     @apply font-mono text-[0.9em];
   }
+
+  /* Demo-only input look. It sits in @layer base, like the Kimak recipes, so
+     Button Group joins (radius, shared border) still win over it. */
+  [data-demo-input] {
+    @apply h-9 min-w-0 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none;
+  }
+
+  [data-demo-input]:focus-visible {
+    @apply border-ring ring-[3px] ring-ring/50;
+  }
 }
 
 html[data-framework="react"] [data-fw]:not([data-fw="react"]),
