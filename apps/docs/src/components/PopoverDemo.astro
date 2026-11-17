@@ -1,6 +1,8 @@
 ---
 import FrameworkTabs from "./FrameworkTabs.astro";
-import { PopoverPreview } from "../demos/popover/PopoverPreview.tsx";
+import { PopoverPreview as PopoverPreviewReact } from "../demos/popover/PopoverPreview.tsx";
+import PopoverPreviewVue from "../demos/popover/PopoverPreview.vue";
+import PopoverPreviewSvelte from "../demos/popover/PopoverPreview.svelte";
 import { popoverSnippets, type PopoverExample } from "../lib/snippets/popover";
 
 interface Props {
@@ -11,5 +13,7 @@ const { example = "basic" } = Astro.props;
 ---
 
 <FrameworkTabs snippets={popoverSnippets[example]}>
-  <PopoverPreview client:load example={example} slot="react" />
+  <PopoverPreviewReact client:load example={example} slot="react" />
+  <PopoverPreviewVue client:load example={example} slot="vue" />
+  <PopoverPreviewSvelte client:load example={example} slot="svelte" />
 </FrameworkTabs>

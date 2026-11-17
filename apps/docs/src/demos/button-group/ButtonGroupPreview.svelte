@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { Button, ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@kimak/ui-svelte";
+  import {
+    Button,
+    ButtonGroup,
+    ButtonGroupSeparator,
+    ButtonGroupText,
+    buttonAttrs,
+    Popover,
+  } from "@kimak/ui-svelte";
   import type { ButtonGroupExample } from "../../lib/snippets/button-group";
 
   let { example = "basic" }: { example?: ButtonGroupExample } = $props();
@@ -65,5 +72,20 @@
     <ButtonGroupText as="label" for="bg-site-svelte">https://</ButtonGroupText>
     <input id="bg-site-svelte" placeholder="example.com" data-demo-input />
     <Button variant="outline">Go</Button>
+  </ButtonGroup>
+{:else if example === "popover"}
+  <ButtonGroup aria-label="Copilot">
+    <Button variant="outline">Copilot</Button>
+    <Popover align="end">
+      <Popover.Trigger {...buttonAttrs({ variant: "outline", size: "icon" })} aria-label="Agent tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </Popover.Trigger>
+      <Popover.Content class="w-72">
+        <Popover.Title>Agent tasks</Popover.Title>
+        <Popover.Description>Describe your task in natural language.</Popover.Description>
+      </Popover.Content>
+    </Popover>
   </ButtonGroup>
 {/if}

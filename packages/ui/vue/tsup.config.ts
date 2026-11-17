@@ -6,6 +6,7 @@ export default defineConfig({
     button: "src/button/index.ts",
     spinner: "src/spinner/index.ts",
     "button-group": "src/button-group/index.ts",
+    popover: "src/popover/index.ts",
   },
   format: ["esm"],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },

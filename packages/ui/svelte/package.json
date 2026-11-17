@@ -47,6 +47,7 @@
     "@sveltejs/vite-plugin-svelte": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/svelte": "catalog:",
+    "@testing-library/user-event": "catalog:",
     "jsdom": "catalog:",
     "svelte": "catalog:",
     "svelte-check": "catalog:",

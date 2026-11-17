@@ -217,5 +217,39 @@ ${chevron("      ")}
     </Popover.Content>
   </Popover>
 </ButtonGroup>`,
+    vue: `<script setup>
+import { Button, ButtonGroup, Popover, buttonAttrs } from "@kimak/ui-vue";
+</script>
+
+<template>
+  <ButtonGroup aria-label="Copilot">
+    <Button variant="outline">Copilot</Button>
+    <Popover align="end">
+      <Popover.Trigger v-bind="buttonAttrs({ variant: 'outline', size: 'icon' })" aria-label="Agent tasks">
+${chevron("        ")}
+      </Popover.Trigger>
+      <Popover.Content class="w-72">
+        <Popover.Title>Agent tasks</Popover.Title>
+        <Popover.Description>Describe your task in natural language.</Popover.Description>
+      </Popover.Content>
+    </Popover>
+  </ButtonGroup>
+</template>`,
+    svelte: `<script>
+  import { Button, ButtonGroup, Popover, buttonAttrs } from "@kimak/ui-svelte";
+</script>
+
+<ButtonGroup aria-label="Copilot">
+  <Button variant="outline">Copilot</Button>
+  <Popover align="end">
+    <Popover.Trigger {...buttonAttrs({ variant: "outline", size: "icon" })} aria-label="Agent tasks">
+${chevron("      ")}
+    </Popover.Trigger>
+    <Popover.Content class="w-72">
+      <Popover.Title>Agent tasks</Popover.Title>
+      <Popover.Description>Describe your task in natural language.</Popover.Description>
+    </Popover.Content>
+  </Popover>
+</ButtonGroup>`,
   },
 } as const satisfies Record<ButtonGroupExample, Snippets>;

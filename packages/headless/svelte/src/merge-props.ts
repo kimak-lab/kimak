@@ -20,5 +20,13 @@ export function mergeProps(...bags: Array<object | undefined>): Dict {
   if (refs.length > 1) {
     merged.ref = composeRefs(...refs);
   }
+  // Svelte spreads `style` as a string; join strings so consumer styles
+  // extend part styles (e.g. positioner placement) instead of replacing them.
+  const styles = dicts
+    .map((bag) => bag.style)
+    .filter((style): style is string => typeof style === "string" && style.trim() !== "");
+  if (styles.length > 1) {
+    merged.style = styles.map((style) => style.trim().replace(/;$/, "")).join("; ");
+  }
   return merged;
 }

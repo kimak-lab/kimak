@@ -19,4 +19,23 @@ describe("normalizeProps", () => {
       type: "button",
     });
   });
+
+  it("remaps tabIndex to tabindex", () => {
+    expect(normalizeProps.element({ tabIndex: -1 })).toEqual({ tabindex: -1 });
+  });
+
+  it("serializes object style, keeps custom properties, and skips empty values", () => {
+    expect(
+      normalizeProps.element({
+        style: {
+          position: "fixed",
+          minWidth: "max-content",
+          transform: undefined,
+          "--kimak-anchor-width": "120px",
+        },
+      }),
+    ).toEqual({
+      style: "position: fixed; min-width: max-content; --kimak-anchor-width: 120px",
+    });
+  });
 });

@@ -8,8 +8,8 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 - Look lives only in `@kimak/tailwind` (optional plugin). Hex, CSS variables, and component recipes are allowed there. They must target anatomy selectors, never leak into machines.
 - The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`xs` | `sm` | `md` | `lg` | `icon-xs` | `icon-sm` | `icon` | `icon-lg`); button look is `data-variant` (`default` | `secondary` | `outline` | `ghost` | `destructive` | `link`). Neither is a machine prop. Icon spacing is `data-icon="inline-start" | "inline-end"` on children.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
-- Vue and Svelte adapters now have Button. Keep Button in lockstep with React. Do not start Checkbox, Dialog, DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
-- The overlay family has started with Popover, React only (`@kimak/headless-react`, `@kimak/ui-react`). Port it to Vue/Svelte once the React API is stable. Overlay behavior lives in core: `trackPopover()` wires dismiss, focus, and positioning so adapters only call it from a layout effect while open. Positioning is `computePosition` / `autoUpdate` in `@kimak/core` platform (flip + shift). Do not add floating-ui.
+- V1 requires React, Vue, and Svelte parity. Every component ships in all three adapters and all three sugar packages in the same change. Build React first inside that change so its API leads, then port. A component is not done while one framework is missing. Do not start Checkbox, Dialog, DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
+- The overlay family has started with Popover, shipped in React, Vue, and Svelte (headless + sugar). Follow it for the next overlay. Overlay behavior lives in core: `trackPopover()` wires dismiss, focus, and positioning so adapters only call it after mount while open (React `useLayoutEffect`, Vue `watch` with `flush: "post"`, Svelte `$effect` + `tick()`). Positioning is `computePosition` / `autoUpdate` in `@kimak/core` platform (flip + shift). Do not add floating-ui.
 
 ## Package graph
 
@@ -54,17 +54,17 @@ The portable surface is `@kimak/spec` + `connect()`. A future Vue/Svelte adapter
 4. Keep look out of the adapter. No `className`, hex, or tokens except `visuallyHiddenStyle` on form `hiddenInput` (core).
 5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
 
-Do not add Vue, Svelte, or HTML **component packages** beyond Button until the React family for that component is in lockstep. Copy `packages/headless/react` (`use-machine`, `normalize-props`, portal/presence, compound parts) when porting the next family.
+Every new component lands in React, Vue, and Svelte together. Follow the existing Button and Popover adapters (`use-machine`, `normalize-props`, portal/presence, compound parts). Do not add HTML or other adapters before V1.
 
 ## Adding a component
 
 1. Write the spec and anatomy in `@kimak/spec`.
 2. Write the machine + `connect()` in `@kimak/core`. Type `*Api<T extends PropTypes>` so adapters substitute vnode props.
-3. Write a thin compound shell in `@kimak/headless-react`.
-4. Add keyboard / ARIA / `data-state` tests. No pixel snapshots of look.
+3. Write a thin compound shell in `@kimak/headless-react`, then `@kimak/headless-vue` and `@kimak/headless-svelte`.
+4. Add keyboard / ARIA / `data-state` tests in all three adapters. No pixel snapshots of look.
 5. Add recipes in `@kimak/tailwind` that target the new anatomy selectors.
 6. Docs chrome stays in `apps/docs`. Component look lives in the plugin.
-7. Optional product sugar in `@kimak/ui-react`. Do not put default trees in core.
+7. Product sugar in `@kimak/ui-react`, `@kimak/ui-vue`, and `@kimak/ui-svelte`. Docs examples cover all three. Do not put default trees in core.
 
 ## Exhaustive events
 

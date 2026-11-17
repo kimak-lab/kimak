@@ -5,14 +5,9 @@ order: 60
 section: Components
 ---
 
-import Callout from "../../../components/Callout.astro";
 import PopoverDemo from "../../../components/PopoverDemo.astro";
 import SpecTable from "../../../components/SpecTable.astro";
 import { popoverSpec } from "@kimak/spec";
-
-<Callout title="React only for now">
-  Popover is the first overlay component. Vue and Svelte adapters follow once the React API is stable.
-</Callout>
 
 ## Usage
 
@@ -29,7 +24,7 @@ import { Popover, buttonAttrs } from "@kimak/ui-react";
 </Popover>
 ```
 
-`Popover.Content` from `@kimak/ui-react` renders a portal, the positioner, and the content. Pass `portalled={false}` to render in place. To assemble the parts yourself, use `Popover.Positioner` and `Popover.Content` from `@kimak/headless-react`.
+`Popover.Content` from `@kimak/ui-react`, `@kimak/ui-vue`, or `@kimak/ui-svelte` renders a portal, the positioner, and the content. Pass `portalled={false}` to render in place. To assemble the parts yourself, use `Popover.Positioner` and `Popover.Content` from the matching headless package (`@kimak/headless-react`, `@kimak/headless-vue`, `@kimak/headless-svelte`).
 
 The trigger has no look of its own. Spread `buttonAttrs()` onto it to make it look like a button: that swaps its `data-scope` / `data-slot` to the button anatomy, so button recipes apply and `[data-scope="popover"][data-slot="trigger"]` no longer matches. ARIA, ids, and `data-state` stay. Without `buttonAttrs()`, style the trigger through the popover selector.
 
@@ -47,7 +42,7 @@ The trigger has no look of its own. Spread `buttonAttrs()` onto it to make it lo
 
 ### Controlled
 
-Pass `open` and `onOpenChange`. Inside the content, `usePopover().setOpen(false)` closes without lifting state.
+Pass `open` and `onOpenChange` in React, `v-model:open` in Vue, or `bind:open` in Svelte. Inside the content, `usePopover().setOpen(false)` closes without lifting state. In Vue and Svelte, `usePopover()` returns a getter so reads stay reactive: `const popover = usePopover(); popover().setOpen(false)`.
 
 <PopoverDemo example="controlled" />
 

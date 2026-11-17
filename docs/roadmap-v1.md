@@ -5,7 +5,9 @@ Dokumen ini menetapkan cakupan komponen untuk rilis **V1**. Sumber referensi kat
 - **S** — [shadcn/ui](https://ui.shadcn.com/docs/components) (Radix / Base UI, Tailwind)
 - **A** — [Appica UI](https://appica.dev/ui/docs/react/installation) (Base UI primitives, Tailwind v4)
 
-Kimak bukan salinan katalog di atas. Keduanya dipakai untuk menentukan *komponen apa yang wajib ada* agar Kimak layak dipakai membangun aplikasi nyata. Semua aturan di [`AGENTS.md`](../AGENTS.md) tetap berlaku: headless, behavior di `@kimak/core`, look hanya di `@kimak/tailwind`, React adapter pertama.
+Kimak bukan salinan katalog di atas. Keduanya dipakai untuk menentukan *komponen apa yang wajib ada* agar Kimak layak dipakai membangun aplikasi nyata. Semua aturan di [`AGENTS.md`](../AGENTS.md) tetap berlaku: headless, behavior di `@kimak/core`, look hanya di `@kimak/tailwind`.
+
+**V1 wajib paritas tiga framework.** Setiap komponen V1 dirilis untuk React, Vue, dan Svelte sekaligus. React tetap dikerjakan pertama di dalam satu komponen (API-nya jadi acuan), tapi komponen belum dianggap selesai sebelum Vue dan Svelte menyusul.
 
 ## Legenda
 
@@ -14,7 +16,7 @@ Kimak bukan salinan katalog di atas. Keduanya dipakai untuk menentukan *komponen
 | **Jenis** | `machine` = state machine + `connect()` di core. `look` = anatomy + recipe Tailwind saja, tanpa machine (seperti Spinner / Button Group). |
 | **Family** | Kelompok dependensi dari `AGENTS.md`: form, disclosure, overlay, menu, selection. Family menentukan urutan pengerjaan. |
 | **Src** | Ada di katalog mana: S, A, atau S+A. |
-| **Status** | ✅ selesai · 🟡 sebagian · ⬜ belum |
+| **Status** | ✅ selesai di React, Vue, dan Svelte · 🟡 sebagian (misalnya baru React) · ⬜ belum |
 
 ## Definition of Done per komponen
 
@@ -22,11 +24,11 @@ Satu komponen dianggap selesai untuk V1 jika semua poin ini terpenuhi:
 
 1. Spec + anatomy di `@kimak/spec` (`*.spec.ts`, `*.anatomy.ts`, `*.parts.ts`, `*.a11y.ts`).
 2. Machine + `connect()` di `@kimak/core` dengan exhaustive event switch (`never` default). Komponen `look` melewati langkah ini.
-3. Compound parts di `@kimak/headless-react` (`render` + `mergeProps` pada Root/Trigger).
-4. Test keyboard / ARIA / `data-state` dari spec. Tidak ada pixel snapshot.
+3. Compound parts di `@kimak/headless-react`, `@kimak/headless-vue`, dan `@kimak/headless-svelte`. React memakai `render` + `mergeProps`; Vue/Svelte memakai `as`.
+4. Test keyboard / ARIA / `data-state` dari spec di **ketiga** adapter. Tidak ada pixel snapshot.
 5. Recipe di `@kimak/tailwind` yang hanya menarget `data-scope` / `data-slot` / `data-state`.
-6. Product sugar di `@kimak/ui-react` (satu folder per komponen, barrel `index.ts`).
-7. Halaman docs di `apps/docs` dengan contoh dan tabel API yang diturunkan dari spec.
+6. Product sugar di `@kimak/ui-react`, `@kimak/ui-vue`, dan `@kimak/ui-svelte` (satu folder per komponen, barrel `index.ts`).
+7. Halaman docs di `apps/docs` dengan contoh dan snippet untuk ketiga framework, plus tabel API yang diturunkan dari spec.
 
 ---
 
@@ -37,7 +39,7 @@ Satu komponen dianggap selesai untuk V1 jika semua poin ini terpenuhi:
 | Button | machine | — | S+A | ✅ | ✅ | ✅ |
 | Button Group (root, separator, text) | look | — | S+A | ✅ | ✅ | ✅ |
 | Spinner | look | — | S+A (A: Loader) | ✅ | ✅ | ✅ |
-| Popover | machine | overlay | S+A | ✅ | ⬜ | ⬜ |
+| Popover | machine | overlay | S+A | ✅ | ✅ | ✅ |
 
 Platform di core yang sudah ada: `collection`, `direction`, `dismiss`, `focus`, `ids`, `live-region`, `position` (flip + shift), `presence`, `roving-focus`, `hidden`.
 
@@ -113,7 +115,7 @@ Popover sudah ada. Semua overlay memakai `trackPopover()`-style effect dari core
 
 | Komponen | Jenis | Src | Catatan | Status |
 | --- | --- | --- | --- | --- |
-| Popover | machine | S+A | Baseline | ✅ React |
+| Popover | machine | S+A | Baseline. Infrastruktur overlay (portal, presence, `trackPopover()`) terbukti di React, Vue, Svelte. | ✅ |
 | Tooltip | machine | S+A | Hover intent + delay group, `aria-describedby`, tidak menerima fokus | ⬜ |
 | Hover Card | machine | S (A: Preview Card) | Hover intent, konten interaktif | ⬜ |
 | Dialog | machine | S+A | Modal: focus trap, scroll lock, `aria-modal`, Escape | ⬜ |
@@ -166,16 +168,15 @@ Popover sudah ada. Semua overlay memakai `trackPopover()`-style effect dari core
 
 ## Urutan milestone
 
-Urutan mengikuti dependensi family, bukan popularitas.
+Urutan mengikuti dependensi family, bukan popularitas. Setiap milestone menghasilkan React, Vue, dan Svelte sekaligus; tidak ada milestone porting terpisah.
 
-1. **M1 — Fondasi + look-only + Field.** Utility controllable state, hidden input. Semua komponen look-only. Field.
+1. **M1 — Fondasi + look-only + Field + port Popover.** Utility controllable state, hidden input. Field, Input, Textarea, Label, lalu komponen look-only lainnya. Port Popover ke Vue/Svelte ✅ (infrastruktur overlay terbukti di ketiga adapter sebelum M4).
 2. **M2 — Form.** Checkbox, Switch, Toggle, Radio Group, Toggle Group, Slider.
 3. **M3 — Disclosure.** Collapsible, Accordion, Tabs.
 4. **M4 — Overlay.** Tooltip, Hover Card, Dialog, Alert Dialog, Sheet. Butuh focus trap + scroll lock.
 5. **M5 — Menu.** Dropdown Menu, Context Menu. Butuh typeahead + layer stack.
 6. **M6 — Selection.** Select, Combobox.
 7. **M7 — Feedback.** Progress, Avatar, Toast.
-8. **M8 — Port Vue / Svelte** per family yang sudah stabil di React (lihat keputusan terbuka #1).
 
 ---
 
@@ -218,9 +219,14 @@ Tidak direncanakan karena bertentangan dengan arah Kimak (headless, tanpa motion
 
 ---
 
-## Keputusan terbuka
+## Keputusan
 
-1. **Vue / Svelte di V1.** Opsi: (a) V1 = React lengkap, Vue/Svelte hanya Button (rilis paralel di V1.x), atau (b) V1 menunggu paritas tiga adapter. Rekomendasi: **(a)**, karena `AGENTS.md` mensyaratkan React family stabil dulu sebelum porting.
-2. **Toast di V1 atau V1.1.** Toast adalah komponen paling sering diminta, tapi butuh store global di luar pola machine per-instance. Rekomendasi: tetap di V1 sebagai milestone terakhir; geser ke V1.1 jika M6 terlambat.
-3. **Sheet tanpa swipe.** Sheet V1 hanya Dialog + `data-side`. Gesture swipe masuk ke Drawer (V1.x).
-4. **Command.** Pindahkan ke V1 jika Combobox selesai lebih awal; machine-nya hampir seluruhnya reuse.
+**Sudah diputuskan**
+
+- **Vue / Svelte di V1 (2026-11-17):** V1 wajib paritas React, Vue, dan Svelte untuk setiap komponen.
+
+**Masih terbuka**
+
+1. **Toast di V1 atau V1.1.** Toast adalah komponen paling sering diminta, tapi butuh store global di luar pola machine per-instance. Rekomendasi: tetap di V1 sebagai milestone terakhir; geser ke V1.1 jika M6 terlambat.
+2. **Sheet tanpa swipe.** Sheet V1 hanya Dialog + `data-side`. Gesture swipe masuk ke Drawer (V1.x).
+3. **Command.** Pindahkan ke V1 jika Combobox selesai lebih awal; machine-nya hampir seluruhnya reuse.

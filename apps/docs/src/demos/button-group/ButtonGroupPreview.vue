@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Button, ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@kimak/ui-vue";
+import {
+  Button,
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+  buttonAttrs,
+  Popover,
+} from "@kimak/ui-vue";
 import type { ButtonGroupExample } from "../../lib/snippets/button-group";
 
 const { example = "basic" } = defineProps<{ example?: ButtonGroupExample }>();
@@ -59,5 +66,19 @@ const { example = "basic" } = defineProps<{ example?: ButtonGroupExample }>();
     <ButtonGroupText as="label" for="bg-site-vue">https://</ButtonGroupText>
     <input id="bg-site-vue" placeholder="example.com" data-demo-input />
     <Button variant="outline">Go</Button>
+  </ButtonGroup>
+  <ButtonGroup v-else-if="example === 'popover'" aria-label="Copilot">
+    <Button variant="outline">Copilot</Button>
+    <Popover align="end">
+      <Popover.Trigger v-bind="buttonAttrs({ variant: 'outline', size: 'icon' })" aria-label="Agent tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </Popover.Trigger>
+      <Popover.Content class="w-72">
+        <Popover.Title>Agent tasks</Popover.Title>
+        <Popover.Description>Describe your task in natural language.</Popover.Description>
+      </Popover.Content>
+    </Popover>
   </ButtonGroup>
 </template>

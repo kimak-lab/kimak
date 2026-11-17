@@ -28,6 +28,11 @@
       "types": "./dist/button/index.d.ts",
       "svelte": "./dist/button/index.js",
       "import": "./dist/button/index.js"
+    },
+    "./popover": {
+      "types": "./dist/popover/index.d.ts",
+      "svelte": "./dist/popover/index.js",
+      "import": "./dist/popover/index.js"
     }
   },
   "files": [
