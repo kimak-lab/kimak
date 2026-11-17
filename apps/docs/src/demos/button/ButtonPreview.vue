@@ -10,6 +10,9 @@ import {
 import type { ButtonExample } from "../../lib/snippets/button";
 import LibraryIcon from "../icons/LibraryIcon.vue";
 
+// Astro passes `slot` to the island; keep it off the demo root.
+defineOptions({ inheritAttrs: false });
+
 const { example = "playground" } = defineProps<{ example?: ButtonExample }>();
 
 const loading = ref(false);

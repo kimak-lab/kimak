@@ -9,6 +9,9 @@ import {
 } from "@kimak/ui-vue";
 import type { ButtonGroupExample } from "../../lib/snippets/button-group";
 
+// Astro passes `slot` to the island; keep it off the demo root.
+defineOptions({ inheritAttrs: false });
+
 const { example = "basic" } = defineProps<{ example?: ButtonGroupExample }>();
 
 </script>

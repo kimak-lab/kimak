@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import AsExample from "./as-example.svelte";
 import ControlledExample from "./controlled-example.svelte";
 import Example from "./example.svelte";
+import TwinExample from "./twin-example.svelte";
 
 type User = ReturnType<typeof userEvent.setup>;
 
@@ -157,5 +158,13 @@ describe("Popover", () => {
     expect(custom.tagName).toBe("SPAN");
     expect(custom).toHaveAttribute("data-slot", "trigger");
     expect(custom).toHaveAttribute("aria-haspopup", "dialog");
+  });
+
+  it("gives each root its own id from $props.id()", () => {
+    render(TwinExample);
+    const first = screen.getByRole("button", { name: "First" });
+    const second = screen.getByRole("button", { name: "Second" });
+    expect(first.id).toMatch(/^kimak-.+:trigger$/);
+    expect(first.id).not.toBe(second.id);
   });
 });

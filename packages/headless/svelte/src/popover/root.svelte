@@ -6,7 +6,6 @@
   } from "@kimak/core";
   import type { Snippet } from "svelte";
   import { setContext } from "svelte";
-  import { createKimakId } from "../create-id";
   import { useDirection } from "../direction";
   import { normalizeProps } from "../normalize-props";
   import { useMachine } from "../use-machine.svelte";
@@ -29,7 +28,9 @@
     getRootNode,
   }: CorePopoverProps & { children?: Snippet } = $props();
 
-  const uid = createKimakId();
+  // SSR-stable and unique per `idPrefix` (e.g. one Astro island per mount).
+  const propsId = $props.id();
+  const uid = `kimak-${propsId}`;
   const inheritedDir = useDirection();
   const service = useMachine(createPopoverMachine, () => ({
     id: id ?? uid,

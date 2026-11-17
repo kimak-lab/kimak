@@ -53,6 +53,7 @@ The portable surface is `@kimak/spec` + `connect()`. A future Vue/Svelte adapter
 3. Render compound parts. Spec parts with `owner: "adapter"` are not emitted by `connect()`.
 4. Keep look out of the adapter. No `className`, hex, or tokens except `visuallyHiddenStyle` on form `hiddenInput` (core).
 5. Prove the adapter with spec keyboard / ARIA / `data-state` tests, not JSX snapshots.
+6. Generate default ids with the framework's SSR-stable API so hydration keeps ARIA wiring intact: React `useId`, Vue `createKimakId()` (wraps `useId`, honors `app.config.idPrefix`), Svelte `$props.id()` (honors `idPrefix`). Never a module-level counter.
 
 Every new component lands in React, Vue, and Svelte together. Follow the existing Button and Popover adapters (`use-machine`, `normalize-props`, portal/presence, compound parts). Do not add HTML or other adapters before V1.
 

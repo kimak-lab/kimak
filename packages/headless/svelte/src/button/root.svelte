@@ -7,7 +7,6 @@
   } from "@kimak/core";
   import type { Snippet } from "svelte";
   import { setContext } from "svelte";
-  import { createKimakId } from "../create-id";
   import { applyCallbackRef, omitRef } from "../dom-props";
   import { useDirection } from "../direction";
   import { mergeProps } from "../merge-props";
@@ -41,7 +40,9 @@
   const split = $derived(splitProps(props, MACHINE_KEYS));
   const machineProps = $derived(split[0]);
   const rest = $derived(split[1]);
-  const uid = createKimakId();
+  // SSR-stable and unique per `idPrefix` (e.g. one Astro island per mount).
+  const propsId = $props.id();
+  const uid = `kimak-${propsId}`;
   const inheritedDir = useDirection();
   const service = useMachine(createButtonMachine, () => ({
     ...machineProps,

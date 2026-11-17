@@ -3,6 +3,9 @@ import { ref } from "vue";
 import { buttonAttrs, Popover } from "@kimak/ui-vue";
 import type { PopoverExample } from "../../lib/snippets/popover";
 
+// Astro passes `slot` to the island; keep it off the demo root.
+defineOptions({ inheritAttrs: false });
+
 const { example = "basic" } = defineProps<{ example?: PopoverExample }>();
 
 const sides = ["top", "right", "bottom", "left"] as const;
