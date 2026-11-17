@@ -33,6 +33,10 @@
     "./button-group": {
       "types": "./dist/button-group.d.ts",
       "import": "./dist/button-group.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
     }
   },
   "files": ["dist"],

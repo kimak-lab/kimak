@@ -1,13 +1,25 @@
 <script lang="ts">
   import { Button, buttonAttrs } from "@kimak/ui-svelte";
-  import Save from "@lucide/svelte/icons/save";
-  import ChevronRight from "@lucide/svelte/icons/chevron-right";
-  import Settings from "@lucide/svelte/icons/settings";
+  import {
+    getIconLibrary,
+    getServerIconLibrary,
+    subscribeIconLibrary,
+    type IconLibrary,
+  } from "../../lib/icon-libraries";
   import type { ButtonExample } from "../../lib/snippets/button";
+  import LibraryIcon from "../icons/LibraryIcon.svelte";
 
   let { example = "playground" }: { example?: ButtonExample } = $props();
 
   let loading = $state(false);
+  let library = $state<IconLibrary>(getServerIconLibrary());
+
+  $effect(() => {
+    library = getIconLibrary();
+    return subscribeIconLibrary(() => {
+      library = getIconLibrary();
+    });
+  });
   const look = buttonAttrs({ variant: "outline" });
 
   function onSave() {
@@ -36,15 +48,15 @@
     <Button size="lg">Large</Button>
   {:else if example === "icons"}
     <Button>
-      <Save data-icon="inline-start" size={16} aria-hidden="true" />
+      <LibraryIcon {library} role="save" data-icon="inline-start" aria-hidden="true" />
       Save
     </Button>
     <Button variant="outline">
       Next
-      <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
+      <LibraryIcon {library} role="next" data-icon="inline-end" aria-hidden="true" />
     </Button>
     <Button size="icon" aria-label="Settings">
-      <Settings size={16} />
+      <LibraryIcon {library} role="settings" aria-hidden="true" />
     </Button>
   {:else if example === "loading"}
     <Button loading>Saving</Button>

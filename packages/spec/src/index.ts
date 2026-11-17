@@ -8,6 +8,15 @@ export {
   type ButtonType,
 } from "./button";
 export { buttonGroupAnatomy, type ButtonGroupPart } from "./button-group";
+export {
+  popoverAnatomy,
+  popoverSpec,
+  type PopoverAlign,
+  type PopoverEvents,
+  type PopoverPart,
+  type PopoverProps,
+  type PopoverSide,
+} from "./popover";
 export { spinnerAnatomy, type SpinnerPart } from "./spinner";
 export type {
   CommonProps,

@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { ChevronRight, Save, Settings } from "@lucide/vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import { Button, buttonAttrs } from "@kimak/ui-vue";
+import {
+  getIconLibrary,
+  getServerIconLibrary,
+  subscribeIconLibrary,
+  type IconLibrary,
+} from "../../lib/icon-libraries";
 import type { ButtonExample } from "../../lib/snippets/button";
+import LibraryIcon from "../icons/LibraryIcon.vue";
 
 const { example = "playground" } = defineProps<{ example?: ButtonExample }>();
 
 const loading = ref(false);
+const library = ref<IconLibrary>(getServerIconLibrary());
+let stopLibrary: (() => void) | undefined;
+
+onMounted(() => {
+  library.value = getIconLibrary();
+  stopLibrary = subscribeIconLibrary(() => {
+    library.value = getIconLibrary();
+  });
+});
+
+onBeforeUnmount(() => stopLibrary?.());
 const look = buttonAttrs({ variant: "outline" });
 
 function onSave() {
@@ -39,15 +56,15 @@ function onSave() {
     </template>
     <template v-else-if="example === 'icons'">
       <Button>
-        <Save data-icon="inline-start" :size="16" aria-hidden="true" />
+        <LibraryIcon :library="library" role="save" data-icon="inline-start" aria-hidden="true" />
         Save
       </Button>
       <Button variant="outline">
         Next
-        <ChevronRight data-icon="inline-end" :size="16" aria-hidden="true" />
+        <LibraryIcon :library="library" role="next" data-icon="inline-end" aria-hidden="true" />
       </Button>
       <Button size="icon" aria-label="Settings">
-        <Settings :size="16" />
+        <LibraryIcon :library="library" role="settings" aria-hidden="true" />
       </Button>
     </template>
     <template v-else-if="example === 'loading'">

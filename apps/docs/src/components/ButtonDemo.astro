@@ -3,7 +3,7 @@ import FrameworkTabs from "./FrameworkTabs.astro";
 import { ButtonPreview as ButtonPreviewReact } from "../demos/button/ButtonPreview.tsx";
 import ButtonPreviewVue from "../demos/button/ButtonPreview.vue";
 import ButtonPreviewSvelte from "../demos/button/ButtonPreview.svelte";
-import { buttonSnippets, type ButtonExample } from "../lib/snippets/button";
+import { buttonLibrarySnippets, buttonSnippets, type ButtonExample } from "../lib/snippets/button";
 
 interface Props {
   example?: ButtonExample;
@@ -11,9 +11,10 @@ interface Props {
 
 const { example = "playground" } = Astro.props;
 const snippets = buttonSnippets[example];
+const librarySnippets = buttonLibrarySnippets[example];
 ---
 
-<FrameworkTabs snippets={snippets}>
+<FrameworkTabs snippets={snippets} librarySnippets={librarySnippets}>
   <ButtonPreviewReact client:load example={example} slot="react" />
   <ButtonPreviewVue client:load example={example} slot="vue" />
   <ButtonPreviewSvelte client:load example={example} slot="svelte" />

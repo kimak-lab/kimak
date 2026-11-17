@@ -4,16 +4,25 @@ import { buttonAttrs, buttonGroupAttrs } from "@kimak/ui-react";
 import { chromeIdleVariant, chromeToggleVariant } from "../lib/chrome";
 import { FRAMEWORKS } from "../lib/nav";
 import { docsShikiThemes } from "../lib/shiki";
+import { ICON_LIBRARIES } from "../lib/icon-libraries";
+import type { LibrarySnippets } from "../lib/snippets/icons";
+import { IconLibraryPicker } from "./IconLibraryPicker";
 
 interface Props {
+  /** Missing frameworks render a "not available yet" note. */
   snippets: {
     react: string;
-    vue: string;
-    svelte: string;
+    vue?: string;
+    svelte?: string;
   };
+  /** Per icon library code. Shows the icon library picker in the toolbar. */
+  librarySnippets?: LibrarySnippets;
 }
 
-const { snippets } = Astro.props;
+const { snippets, librarySnippets } = Astro.props;
+const frameworkLabel = (framework: string) => framework[0]?.toUpperCase() + framework.slice(1);
+const unavailable = (framework: string) =>
+  `${frameworkLabel(framework)} support is not available yet. Switch to React to see this example.`;
 const langs = { react: "tsx", vue: "vue", svelte: "svelte" } as const;
 const groupLook = buttonGroupAttrs();
 const copyLook = buttonAttrs({ variant: chromeIdleVariant, size: "sm" });
@@ -38,7 +47,8 @@ const copyLook = buttonAttrs({ variant: chromeIdleVariant, size: "sm" });
         aria-pressed="false">Code</button
       >
     </div>
-    <div class="flex items-center gap-[0.45rem]">
+    <div class="flex flex-wrap items-center gap-[0.45rem]">
+      {librarySnippets ? <IconLibraryPicker client:visible /> : null}
       <div {...groupLook} role="group" aria-label="Framework">
         {
           FRAMEWORKS.map((framework) => {
@@ -61,16 +71,40 @@ const copyLook = buttonAttrs({ variant: chromeIdleVariant, size: "sm" });
   </div>
   <div class="flex min-h-[5.5rem] items-center p-[1.35rem]" data-demo-panel="preview">
     <div data-fw="react"><slot name="react" /></div>
-    <div data-fw="vue"><slot name="vue" /></div>
-    <div data-fw="svelte"><slot name="svelte" /></div>
+    <div data-fw="vue">
+      {Astro.slots.has("vue") ? <slot name="vue" /> : <p class="m-0 text-sm text-muted-foreground">{unavailable("vue")}</p>}
+    </div>
+    <div data-fw="svelte">
+      {
+        Astro.slots.has("svelte") ? (
+          <slot name="svelte" />
+        ) : (
+          <p class="m-0 text-sm text-muted-foreground">{unavailable("svelte")}</p>
+        )
+      }
+    </div>
   </div>
   <div class="border-t border-border" data-demo-panel="code" hidden>
     {
-      FRAMEWORKS.map((framework) => (
-        <div data-fw={framework} data-snippet={snippets[framework]}>
-          <Code code={snippets[framework]} lang={langs[framework]} themes={docsShikiThemes} />
-        </div>
-      ))
+      FRAMEWORKS.map((framework) => {
+        if (librarySnippets) {
+          return ICON_LIBRARIES.map((library) => (
+            <div data-fw={framework} data-icon-lib={library} data-snippet={librarySnippets[library][framework]}>
+              <Code code={librarySnippets[library][framework]} lang={langs[framework]} themes={docsShikiThemes} />
+            </div>
+          ));
+        }
+        const code = snippets[framework];
+        return code ? (
+          <div data-fw={framework} data-snippet={code}>
+            <Code code={code} lang={langs[framework]} themes={docsShikiThemes} />
+          </div>
+        ) : (
+          <div data-fw={framework}>
+            <p class="m-0 px-[1.1rem] py-4 text-sm text-muted-foreground">{unavailable(framework)}</p>
+          </div>
+        );
+      })
     }
   </div>
 </div>

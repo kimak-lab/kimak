@@ -24,12 +24,16 @@ export const nav: readonly NavSection[] = [
     title: "Guides",
     items: [
       { href: "/docs/styling", label: "Styling" },
+      { href: "/docs/icons", label: "Icons" },
       { href: "/docs/architecture", label: "Architecture" },
     ],
   },
   {
     title: "Components",
-    items: [{ href: "/docs/components/button", label: "Button" }],
+    items: [
+      { href: "/docs/components/button", label: "Button" },
+      { href: "/docs/components/popover", label: "Popover" },
+    ],
   },
 ];
 

@@ -1,8 +1,12 @@
 ---
+import { articleCard } from "../lib/chrome";
 ---
 
 <nav
-  class="sticky top-[4.25rem] max-h-[calc(100vh-4.75rem)] overflow-auto px-[0.2rem] pt-[0.35rem] pb-8 max-toc:hidden"
+  class:list={[
+    articleCard,
+    "sticky top-[4.25rem] max-h-[calc(100vh-5.25rem)] overflow-auto px-3 pt-4 pb-6 max-toc:hidden",
+  ]}
   aria-label="On this page"
   data-toc-root
   hidden

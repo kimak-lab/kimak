@@ -2,6 +2,7 @@
 import { buttonAttrs, buttonGroupAttrs } from "@kimak/ui-react";
 import { FRAMEWORKS } from "../lib/nav";
 import { chromeIdleVariant, chromeToggleVariant } from "../lib/chrome";
+import { IconLibraryPicker } from "./IconLibraryPicker";
 
 interface Props {
   nav?: boolean;
@@ -48,6 +49,9 @@ const groupLook = buttonGroupAttrs();
     </nav>
   </div>
   <div class="flex items-center gap-3">
+    <div class="max-nav:hidden">
+      <IconLibraryPicker client:load />
+    </div>
     <div class="max-nav:hidden">
       <div {...groupLook} role="group" aria-label="Framework">
         {

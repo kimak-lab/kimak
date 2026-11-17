@@ -1,0 +1,69 @@
+---
+title: Popover
+description: Non-modal dialog anchored to a trigger. Flips and shifts to stay in view.
+order: 60
+section: Components
+---
+
+import Callout from "../../../components/Callout.astro";
+import PopoverDemo from "../../../components/PopoverDemo.astro";
+import SpecTable from "../../../components/SpecTable.astro";
+import { popoverSpec } from "@kimak/spec";
+
+<Callout title="React only for now">
+  Popover is the first overlay component. Vue and Svelte adapters follow once the React API is stable.
+</Callout>
+
+## Usage
+
+```tsx
+import { Popover, buttonAttrs } from "@kimak/ui-react";
+
+<Popover>
+  <Popover.Trigger {...buttonAttrs({ variant: "outline" })}>Open</Popover.Trigger>
+  <Popover.Content>
+    <Popover.Title>Dimensions</Popover.Title>
+    <Popover.Description>Set the dimensions for the layer.</Popover.Description>
+    <Popover.Close>Done</Popover.Close>
+  </Popover.Content>
+</Popover>
+```
+
+`Popover.Content` from `@kimak/ui-react` renders a portal, the positioner, and the content. Pass `portalled={false}` to render in place. To assemble the parts yourself, use `Popover.Positioner` and `Popover.Content` from `@kimak/headless-react`.
+
+The trigger has no look of its own. Spread `buttonAttrs()` onto it to make it look like a button: that swaps its `data-scope` / `data-slot` to the button anatomy, so button recipes apply and `[data-scope="popover"][data-slot="trigger"]` no longer matches. ARIA, ids, and `data-state` stay. Without `buttonAttrs()`, style the trigger through the popover selector.
+
+## Examples
+
+### Basic
+
+<PopoverDemo example="basic" />
+
+### Sides
+
+`side` is `top` | `right` | `bottom` | `left`. When the preferred side does not fit, the popover flips to the opposite side. `align` (`start` | `center` | `end`) sets the cross axis and follows `dir`.
+
+<PopoverDemo example="sides" />
+
+### Controlled
+
+Pass `open` and `onOpenChange`. Inside the content, `usePopover().setOpen(false)` closes without lifting state.
+
+<PopoverDemo example="controlled" />
+
+## Positioning
+
+The positioner is `position: fixed` and moved with `transform`. It re-measures on scroll, resize, and element resize. It exposes CSS variables for content sizing:
+
+| Variable | Value |
+| --- | --- |
+| `--kimak-available-width` | Room on the cross axis (or main axis for left/right), in px |
+| `--kimak-available-height` | Room on the main axis (or cross axis for left/right), in px |
+| `--kimak-anchor-width` | Trigger width, in px |
+| `--kimak-anchor-height` | Trigger height, in px |
+
+`data-side` and `data-align` on the positioner and content report the placement after collision handling.
+
+## API reference
+
+<SpecTable spec={popoverSpec} />

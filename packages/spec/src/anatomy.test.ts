@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buttonAnatomy, buttonSpec } from "./button";
+import { popoverAnatomy, popoverSpec } from "./popover";
 import type { ComponentSpec, PartContract } from "./types";
 
 function assertSpecIntegrity<TParts extends string>(
@@ -39,6 +40,24 @@ describe("anatomy contract", () => {
     expect(buttonSpec.keyboard).toEqual([
       expect.objectContaining({ code: "Enter", slot: "root" }),
       expect.objectContaining({ code: "Space", slot: "root" }),
+    ]);
+  });
+
+  it("names every popover part and marks positioner/content as presence parts", () => {
+    expect(popoverAnatomy.content.selector).toBe(
+      '[data-scope="popover"][data-slot="content"]',
+    );
+    const adapters = assertSpecIntegrity(popoverSpec, popoverAnatomy.parts);
+    expect(adapters).toEqual([]);
+    expect(popoverSpec.presence.parts).toEqual(["positioner", "content"]);
+  });
+
+  it("binds popover keyboard to trigger toggle and content dismiss", () => {
+    expect(popoverSpec.keyboard.map((binding) => [binding.code, binding.slot])).toEqual([
+      ["Enter", "trigger"],
+      ["Space", "trigger"],
+      ["Escape", "content"],
+      ["Tab", "content"],
     ]);
   });
 });

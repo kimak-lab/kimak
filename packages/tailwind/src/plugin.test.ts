@@ -1,5 +1,5 @@
 import { compile } from "@tailwindcss/node";
-import { buttonAnatomy, buttonGroupAnatomy, spinnerAnatomy } from "@kimak/spec";
+import { buttonAnatomy, buttonGroupAnatomy, popoverAnatomy, spinnerAnatomy } from "@kimak/spec";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -45,5 +45,11 @@ describe("@kimak/tailwind", () => {
     expect(css).toContain(spinnerAnatomy.root.selector);
     expect(css).toContain(buttonGroupAnatomy.root.selector);
     expect(css).toContain('[data-orientation="horizontal"]');
+    expect(css).toContain(popoverAnatomy.positioner.selector);
+    expect(css).toContain(popoverAnatomy.content.selector);
+    expect(css).toContain(popoverAnatomy.title.selector);
+    expect(css).toContain("kimak-popover-in");
+    expect(css).toContain("var(--popover)");
+    expect(css).toContain("var(--kimak-available-height");
   });
 });

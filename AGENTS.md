@@ -9,6 +9,7 @@ Headless, React-first, kernel plus thin adapter. Read this before adding a compo
 - The public styling API is `data-scope`, `data-slot`, and `data-state`. Treat those as semver. Visual size is `data-size` on the host (`xs` | `sm` | `md` | `lg` | `icon-xs` | `icon-sm` | `icon` | `icon-lg`); button look is `data-variant` (`default` | `secondary` | `outline` | `ghost` | `destructive` | `link`). Neither is a machine prop. Icon spacing is `data-icon="inline-start" | "inline-end"` on children.
 - React is the first adapter, not the source of behavior. State lives in `@kimak/core` machines. React hooks only bind `connect()`.
 - Vue and Svelte adapters now have Button. Keep Button in lockstep with React. Do not start Checkbox, Dialog, DatePicker, Command, or Toast until the form / disclosure / overlay / menu / selection families exist.
+- The overlay family has started with Popover, React only (`@kimak/headless-react`, `@kimak/ui-react`). Port it to Vue/Svelte once the React API is stable. Overlay behavior lives in core: `trackPopover()` wires dismiss, focus, and positioning so adapters only call it from a layout effect while open. Positioning is `computePosition` / `autoUpdate` in `@kimak/core` platform (flip + shift). Do not add floating-ui.
 
 ## Package graph
 

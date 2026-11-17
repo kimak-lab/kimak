@@ -1,0 +1,67 @@
+---
+title: Icons
+description: Bring any icon library. Kimak sizes and spaces icons from anatomy attributes.
+order: 35
+section: Guides
+---
+
+import ButtonDemo from "../../components/ButtonDemo.astro";
+import Callout from "../../components/Callout.astro";
+import PackageTabs from "../../components/PackageTabs.astro";
+import { IconLibraryPicker } from "../../components/IconLibraryPicker";
+import { ICON_LIBRARIES, iconLibraries } from "../../lib/icon-libraries";
+import { FRAMEWORKS } from "../../lib/nav";
+
+Kimak ships no icon library. Use the one your app already has. The docs examples follow the library you pick here (or in the header), and the choice is remembered.
+
+<div class="mb-6 flex items-center gap-3">
+  <span class="text-sm text-muted-foreground">Icon library</span>
+  <IconLibraryPicker client:load align="start" />
+</div>
+
+## Install
+
+The command below matches the selected icon library and framework.
+
+{ICON_LIBRARIES.map((library) =>
+  FRAMEWORKS.map((framework) => (
+    <div data-icon-lib={library} data-fw={framework}>
+      <PackageTabs packages={[...iconLibraries[library].packages[framework]]} />
+    </div>
+  )),
+)}
+
+## Contract
+
+The Tailwind plugin targets elements, not a library:
+
+- Every `svg` and every `[data-icon]` inside a button is sized from the button's `data-size`. A `size` prop on the icon is only a fallback for apps without the plugin.
+- `data-icon="inline-start"` or `data-icon="inline-end"` reserves spacing between the icon and the label.
+- Icon-only buttons (`size="icon"`, `"icon-sm"`, …) need an `aria-label` on the button.
+- Decorative icons next to a label get `aria-hidden="true"`.
+
+## Example
+
+<ButtonDemo example="icons" />
+
+## Edge cases
+
+<Callout title="The icon must forward data-icon">
+  Most icon components spread extra props onto their `<svg>`. If yours does not, wrap it: `<span data-icon="inline-start"><MyIcon /></span>`. The span is sized and spaced instead.
+</Callout>
+
+- **Icon fonts** (`<i class="ti ti-home">`) are not SVG. Add `data-icon` so they get spacing, and set `font-size` yourself because the recipe sizes `width` / `height`.
+- **Stroke width** differs per library. Lucide and Tabler default to 2; Hugeicons defaults to 1.5 and Phosphor may look lighter too. Set it on the icon or with CSS; it is look, not behavior.
+- **Hugeicons** uses one `HugeiconsIcon` component with icon data from `@hugeicons/core-free-icons`.
+- **Community packages**: `phosphor-svelte` and `svelte-remixicon` are maintained outside the icon sets' own orgs. `svelte-remixicon` still uses legacy Svelte syntax, so do not force `runes: true` on `node_modules`.
+- **Bundle size**: `@remixicon/vue` is a single module without pure annotations, so importing one icon bundles all of them (about 2.7 MB). In Vue apps that care about size, copy the SVG from remixicon.com or use the `remixicon` icon font instead. `@remixicon/react` tree-shakes normally.
+
+## Libraries
+
+| Library | React | Vue | Svelte |
+| --- | --- | --- | --- |
+| [Lucide](https://lucide.dev) | `lucide-react` | `@lucide/vue` | `@lucide/svelte` |
+| [Tabler Icons](https://tabler.io/icons) | `@tabler/icons-react` | `@tabler/icons-vue` | `@tabler/icons-svelte` |
+| [Hugeicons](https://hugeicons.com) | `@hugeicons/react` | `@hugeicons/vue` | `@hugeicons/svelte` |
+| [Phosphor Icons](https://phosphoricons.com) | `@phosphor-icons/react` | `@phosphor-icons/vue` | `phosphor-svelte` |
+| [Remix Icon](https://remixicon.com) | `@remixicon/react` | `@remixicon/vue` | `svelte-remixicon` |

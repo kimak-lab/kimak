@@ -11,7 +11,7 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
 ---
 
 <!doctype html>
-<html lang="en" class="motion-safe:scroll-smooth data-nav-open:overflow-hidden" data-framework="react">
+<html lang="en" class="motion-safe:scroll-smooth data-nav-open:overflow-hidden" data-framework="react" data-icon-library="lucide">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,6 +29,10 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
           const framework = localStorage.getItem("kimak.docs.framework");
           if (framework === "react" || framework === "vue" || framework === "svelte") {
             root.dataset.framework = framework;
+          }
+          const iconLibrary = localStorage.getItem("kimak.docs.iconLibrary");
+          if (["lucide", "tabler", "hugeicons", "phosphor", "remix"].includes(iconLibrary)) {
+            root.dataset.iconLibrary = iconLibrary;
           }
         } catch {
           /* private mode */

@@ -1,0 +1,15 @@
+---
+import FrameworkTabs from "./FrameworkTabs.astro";
+import { PopoverPreview } from "../demos/popover/PopoverPreview.tsx";
+import { popoverSnippets, type PopoverExample } from "../lib/snippets/popover";
+
+interface Props {
+  example?: PopoverExample;
+}
+
+const { example = "basic" } = Astro.props;
+---
+
+<FrameworkTabs snippets={popoverSnippets[example]}>
+  <PopoverPreview client:load example={example} slot="react" />
+</FrameworkTabs>

@@ -61,6 +61,14 @@ html[data-framework="svelte"] [data-fw]:not([data-fw="svelte"]) {
   display: none;
 }
 
+html[data-icon-library="lucide"] [data-icon-lib]:not([data-icon-lib="lucide"]),
+html[data-icon-library="tabler"] [data-icon-lib]:not([data-icon-lib="tabler"]),
+html[data-icon-library="hugeicons"] [data-icon-lib]:not([data-icon-lib="hugeicons"]),
+html[data-icon-library="phosphor"] [data-icon-lib]:not([data-icon-lib="phosphor"]),
+html[data-icon-library="remix"] [data-icon-lib]:not([data-icon-lib="remix"]) {
+  display: none;
+}
+
 :is(a, button)[data-scope="button"] {
   @apply cursor-pointer;
 }

@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "tsup";
 
-const entries = ["dist/index.js", "dist/button/index.js"];
+const entries = ["dist/index.js", "dist/button/index.js", "dist/popover/index.js"];
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/button/index.ts"],
+  entry: ["src/index.ts", "src/button/index.ts", "src/popover/index.ts"],
   format: ["esm"],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   clean: true,

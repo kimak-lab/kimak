@@ -82,6 +82,43 @@ function buildToc() {
   }
 
   if (root instanceof HTMLElement) root.hidden = headings.length === 0;
+  spyToc(headings.filter((h): h is HTMLElement => h instanceof HTMLElement), list);
+}
+
+/** Heading counts as "current" once its top passes below the sticky header. */
+const TOC_SPY_OFFSET = 96;
+
+function spyToc(headings: HTMLElement[], list: HTMLElement) {
+  if (headings.length === 0) return;
+  const links = new Map(
+    [...list.querySelectorAll("a")].map((link) => [link.getAttribute("href")?.slice(1), link]),
+  );
+  let frame = 0;
+
+  const update = () => {
+    frame = 0;
+    const atBottom =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    let active = headings[0];
+    if (atBottom) active = headings[headings.length - 1];
+    else {
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > TOC_SPY_OFFSET) break;
+        active = heading;
+      }
+    }
+    for (const [id, link] of links) {
+      if (id === active.id) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
+  };
+
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(update);
+  };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  update();
 }
 
 function visibleSnippet(block: Element) {
@@ -93,7 +130,10 @@ function visibleSnippet(block: Element) {
   }
 
   const framework = currentFramework();
-  const node = block.querySelector(`[data-fw="${framework}"][data-snippet]`);
+  const library = document.documentElement.dataset.iconLibrary ?? "lucide";
+  const node =
+    block.querySelector(`[data-fw="${framework}"][data-icon-lib="${library}"][data-snippet]`) ??
+    block.querySelector(`[data-fw="${framework}"]:not([data-icon-lib])[data-snippet]`);
   return node instanceof HTMLElement ? (node.dataset.snippet ?? "") : "";
 }
 

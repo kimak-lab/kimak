@@ -1,3 +1,6 @@
+import { DEFAULT_ICON_LIBRARY } from "../icon-libraries";
+import { iconSnippet, iconSnippetsByLibrary, type LibrarySnippets } from "./icons";
+
 export type ButtonExample =
   | "playground"
   | "variants"
@@ -62,51 +65,9 @@ import { Button } from "@kimak/ui-vue";
 <Button size="lg">Large</Button>`,
   },
   icons: {
-    react: `import { ChevronRight, Save, Settings } from "lucide-react";
-
-<Button>
-  <Save data-icon="inline-start" size={16} aria-hidden="true" />
-  Save
-</Button>
-<Button variant="outline">
-  Next
-  <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
-</Button>
-<Button size="icon" aria-label="Settings">
-  <Settings size={16} />
-</Button>`,
-    vue: `<script setup>
-import { ChevronRight, Save, Settings } from "@lucide/vue";
-</script>
-
-<Button>
-  <Save data-icon="inline-start" :size="16" aria-hidden="true" />
-  Save
-</Button>
-<Button variant="outline">
-  Next
-  <ChevronRight data-icon="inline-end" :size="16" aria-hidden="true" />
-</Button>
-<Button size="icon" aria-label="Settings">
-  <Settings :size="16" />
-</Button>`,
-    svelte: `<script>
-  import Save from "@lucide/svelte/icons/save";
-  import ChevronRight from "@lucide/svelte/icons/chevron-right";
-  import Settings from "@lucide/svelte/icons/settings";
-</script>
-
-<Button>
-  <Save data-icon="inline-start" size={16} aria-hidden="true" />
-  Save
-</Button>
-<Button variant="outline">
-  Next
-  <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
-</Button>
-<Button size="icon" aria-label="Settings">
-  <Settings size={16} />
-</Button>`,
+    react: iconSnippet("react", DEFAULT_ICON_LIBRARY),
+    vue: iconSnippet("vue", DEFAULT_ICON_LIBRARY),
+    svelte: iconSnippet("svelte", DEFAULT_ICON_LIBRARY),
   },
   loading: {
     react: `<Button loading>Saving</Button>
@@ -179,3 +140,8 @@ const look = buttonAttrs({ variant: "outline" });
   ButtonExample,
   { react: string; vue: string; svelte: string }
 >;
+
+/** Examples whose code changes with the selected icon library. */
+export const buttonLibrarySnippets: Partial<Record<ButtonExample, LibrarySnippets>> = {
+  icons: iconSnippetsByLibrary(),
+};

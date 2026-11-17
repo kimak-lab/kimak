@@ -1,7 +1,8 @@
 import { useState, type ReactNode } from "react";
-import { ChevronRight, Save, Settings } from "lucide-react";
 import { Button, buttonAttrs } from "@kimak/ui-react";
+import { useIconLibrary } from "../../components/IconLibraryPicker";
 import type { ButtonExample } from "../../lib/snippets/button";
+import { LibraryIcon } from "../icons/LibraryIcon";
 
 function LoadingButton() {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,25 @@ function LoadingButton() {
     >
       Save
     </Button>
+  );
+}
+
+function IconsRow() {
+  const library = useIconLibrary();
+  return (
+    <Row>
+      <Button>
+        <LibraryIcon library={library} role="save" data-icon="inline-start" aria-hidden="true" />
+        Save
+      </Button>
+      <Button variant="outline">
+        Next
+        <LibraryIcon library={library} role="next" data-icon="inline-end" aria-hidden="true" />
+      </Button>
+      <Button size="icon" aria-label="Settings">
+        <LibraryIcon library={library} role="settings" aria-hidden="true" />
+      </Button>
+    </Row>
   );
 }
 
@@ -52,21 +72,7 @@ export function ButtonPreview({ example = "playground" }: { example?: ButtonExam
         </Row>
       );
     case "icons":
-      return (
-        <Row>
-          <Button>
-            <Save data-icon="inline-start" size={16} aria-hidden="true" />
-            Save
-          </Button>
-          <Button variant="outline">
-            Next
-            <ChevronRight data-icon="inline-end" size={16} aria-hidden="true" />
-          </Button>
-          <Button size="icon" aria-label="Settings">
-            <Settings size={16} />
-          </Button>
-        </Row>
-      );
+      return <IconsRow />;
     case "loading":
       return (
         <Row>

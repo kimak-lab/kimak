@@ -1,6 +1,7 @@
 import plugin from "tailwindcss/plugin";
 import { buttonRecipe } from "./button.recipe";
 import { buttonGroupRecipe } from "./button-group.recipe";
+import { popoverRecipe } from "./popover.recipe";
 import { spinnerRecipe } from "./spinner.recipe";
 
 export default plugin(({ addBase }) => {
@@ -8,5 +9,6 @@ export default plugin(({ addBase }) => {
     ...buttonRecipe(),
     ...spinnerRecipe(),
     ...buttonGroupRecipe(),
+    ...popoverRecipe(),
   });
 });

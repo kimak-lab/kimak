@@ -18,12 +18,45 @@ catalogs:
     '@fontsource-variable/geist-mono':
       specifier: ^5.3.0
       version: 5.3.0
+    '@hugeicons/core-free-icons':
+      specifier: ^4.4.0
+      version: 4.4.0
+    '@hugeicons/react':
+      specifier: ^1.1.10
+      version: 1.1.10
+    '@hugeicons/svelte':
+      specifier: ^1.1.5
+      version: 1.1.5
+    '@hugeicons/vue':
+      specifier: ^1.0.8
+      version: 1.0.8
+    '@phosphor-icons/react':
+      specifier: ^2.1.10
+      version: 2.1.10
+    '@phosphor-icons/vue':
+      specifier: ^2.2.1
+      version: 2.2.1
+    '@remixicon/react':
+      specifier: ^4.9.0
+      version: 4.9.0
+    '@remixicon/vue':
+      specifier: ^4.9.0
+      version: 4.9.0
     '@sveltejs/package':
       specifier: ^2.5.0
       version: 2.5.8
     '@sveltejs/vite-plugin-svelte':
       specifier: ^6.2.0
       version: 6.2.4
+    '@tabler/icons-react':
+      specifier: ^3.52.0
+      version: 3.52.0
+    '@tabler/icons-svelte':
+      specifier: ^3.52.0
+      version: 3.52.0
+    '@tabler/icons-vue':
+      specifier: ^3.52.0
+      version: 3.52.0
     '@tailwindcss/node':
       specifier: ^4.1.13
       version: 4.3.3
@@ -63,6 +96,9 @@ catalogs:
     jsdom:
       specifier: ^27.0.0
       version: 27.4.0
+    phosphor-svelte:
+      specifier: ^3.1.1
+      version: 3.1.1
     react:
       specifier: ^19.2.0
       version: 19.3.0
@@ -75,6 +111,9 @@ catalogs:
     svelte-check:
       specifier: ^4.7.6
       version: 4.7.6
+    svelte-remixicon:
+      specifier: ^2.10.1
+      version: 2.10.1
     tailwindcss:
       specifier: ^4.1.13
       version: 4.3.3
@@ -122,6 +161,18 @@ importers:
       '@fontsource-variable/geist-mono':
         specifier: 'catalog:'
         version: 5.3.0
+      '@hugeicons/core-free-icons':
+        specifier: 'catalog:'
+        version: 4.4.0
+      '@hugeicons/react':
+        specifier: 'catalog:'
+        version: 1.1.10(react@19.3.0)
+      '@hugeicons/svelte':
+        specifier: 'catalog:'
+        version: 1.1.5(svelte@5.57.0)
+      '@hugeicons/vue':
+        specifier: 'catalog:'
+        version: 1.0.8(vue@3.5.42(typescript@6.0.3))
       '@kimak/headless-react':
         specifier: workspace:*
         version: link:../../packages/headless/react
@@ -152,9 +203,33 @@ importers:
       '@lucide/vue':
         specifier: ^1.47.0
         version: 1.47.0(vue@3.5.42(typescript@6.0.3))
+      '@phosphor-icons/react':
+        specifier: 'catalog:'
+        version: 2.1.10(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@phosphor-icons/vue':
+        specifier: 'catalog:'
+        version: 2.2.1(vue@3.5.42(typescript@6.0.3))
+      '@remixicon/react':
+        specifier: 'catalog:'
+        version: 4.9.0(react@19.3.0)
+      '@remixicon/vue':
+        specifier: 'catalog:'
+        version: 4.9.0(vue@3.5.42(typescript@6.0.3))
+      '@tabler/icons-react':
+        specifier: 'catalog:'
+        version: 3.52.0(react@19.3.0)
+      '@tabler/icons-svelte':
+        specifier: 'catalog:'
+        version: 3.52.0(svelte@5.57.0)
+      '@tabler/icons-vue':
+        specifier: 'catalog:'
+        version: 3.52.0(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: ^1.47.0
         version: 1.47.0(react@19.3.0)
+      phosphor-svelte:
+        specifier: 'catalog:'
+        version: 3.1.1(svelte@5.57.0)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       react:
         specifier: 'catalog:'
         version: 19.3.0
@@ -164,6 +239,9 @@ importers:
       svelte:
         specifier: 'catalog:'
         version: 5.57.0
+      svelte-remixicon:
+        specifier: 'catalog:'
+        version: 2.10.1(svelte@5.57.0)
       vue:
         specifier: 'catalog:'
         version: 3.5.42(typescript@6.0.3)
@@ -1339,6 +1417,24 @@ packages:
   '@fontsource-variable/geist@5.3.0':
     resolution: {integrity: sha512-j0m+vLQuG5XAYoHtGCVu0spvlGreR3EzpECUVzkFmI1mTVnAO38l/NEPDCFgZ177JxzYJCLSmTQibIiYPilGrA==}
 
+  '@hugeicons/core-free-icons@4.4.0':
+    resolution: {integrity: sha512-7Mz8bmGoY6tZ6l3C2TXwNMLVSr0I8HPwjjFIERAuJFj3rWwLxdF2ZLkDqdrVuEE1dx5b/VXyIsP4WoSU6Q40KQ==}
+
+  '@hugeicons/react@1.1.10':
+    resolution: {integrity: sha512-9tAsd92yMVVGP+E+d8cM+wc0VnXuYZHNbWQi7TOe8k2neawmhiaFmVFbzyruejhOMa197/LbgvSED32ayUo3ZA==}
+    peerDependencies:
+      react: '>=16.0.0'
+
+  '@hugeicons/svelte@1.1.5':
+    resolution: {integrity: sha512-aau7Z9kJWi3QtakeHeFBj+TqHl7NQBO6/BWbnBTete8On3+L/CD1iSmf4vFNs90fcpQeP+567hT4wImEMNd1Fg==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@hugeicons/vue@1.0.8':
+    resolution: {integrity: sha512-T1fNH9/+0QntvNsWJRpWj9AlSXpHkHPNdf35/UWcVWQpPzm2BbH1heW2pSIKRka6NoXSte2vzNRJmmriRPfxIQ==}
+    peerDependencies:
+      vue: ^2.6.0 || ^3.0.0
+
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
     engines: {node: '>=18'}
@@ -1562,12 +1658,35 @@ packages:
   '@oxc-project/types@0.150.0':
     resolution: {integrity: sha512-rDS5/31E9HfPl/CIzGrn0DOlvBbXFseQ5URJ9sYMfstbKLD/c6Gm9vmRzRGDdAXyOIL4zmO37lc9RIwYqVruZw==}
 
+  '@phosphor-icons/react@2.1.10':
+    resolution: {integrity: sha512-vt8Tvq8GLjheAZZYa+YG/pW7HDbov8El/MANW8pOAz4eGxrwhnbfrQZq0Cp4q8zBEu8NIhHdnr+r8thnfRSNYA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+
+  '@phosphor-icons/vue@2.2.1':
+    resolution: {integrity: sha512-3RNg1utc2Z5RwPKWFkW3eXI/0BfQAwXgtFxPUPeSzi55jGYUq16b+UqcgbKLazWFlwg5R92OCLKjDiJjeiJcnA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      vue: '>=3.2.39'
+
   '@pnpm/deps.graph-sequencer@1100.0.1':
     resolution: {integrity: sha512-pOr5+q1fLYKwFN3LAJuGZEnfXDcQ73zqgDHMtGy+K+uIoUqyY+6MeDCWFwfu+4EFuq76I5EPFofoNAI+Bmmq4A==}
     engines: {node: '>=22.13'}
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@remixicon/react@4.9.0':
+    resolution: {integrity: sha512-5/jLDD4DtKxH2B4QVXTobvV1C2uL8ab9D5yAYNtFt+w80O0Ys1xFOrspqROL3fjrZi+7ElFUWE37hBfaAl6U+Q==}
+    peerDependencies:
+      react: '>=18.2.0'
+
+  '@remixicon/vue@4.9.0':
+    resolution: {integrity: sha512-4P0MY5ScL+MRLnHu1iT3xHAsliBwOGDIgSgHCZhSj2wkLa5NzqiQ4SGD/04VoHM+BRr8+xjmF7ZemkOUlMDJ3A==}
+    peerDependencies:
+      vue: '>= 3'
 
   '@rolldown/binding-android-arm-eabi@1.2.9':
     resolution: {integrity: sha512-tNISae1QEf/vkb3xkRcjV5SEdzPE97We5IVaa2Z8jSszQPZ8U60B/YCYpw4QI7VidYsBtKavczXf+DyDs9WGxw==}
@@ -1877,6 +1996,24 @@ packages:
     peerDependencies:
       svelte: ^5.46.4
       vite: ^8.0.0-beta.7 || ^8.0.0
+
+  '@tabler/icons-react@3.52.0':
+    resolution: {integrity: sha512-tN22mz4KLVpR+psqu9bAsT4b1IdhKcPGA1fDhyQerIv+8azyowdWzf8e0hWxQSsIxDTfkipGfiL0/uHNmpbvgw==}
+    peerDependencies:
+      react: '>= 16'
+
+  '@tabler/icons-svelte@3.52.0':
+    resolution: {integrity: sha512-/hongV7uRHR+eWHdo7ez/gEmHNAuU9vugZ7CQKwLhXXT+yXgyeXGyx3FHjtkvwRcV3uQTL0m2nWKDV2fITZKKw==}
+    peerDependencies:
+      svelte: '>=3 <6 || >=5.0.0-next.0'
+
+  '@tabler/icons-vue@3.52.0':
+    resolution: {integrity: sha512-WMbpopRiPEjfQWMZPQUgKN7Xs3pegUV28JQ1TxP7W511blOxazW2IVjDlEgumUIXZwmG9i7nFSqjNDObtrAm+g==}
+    peerDependencies:
+      vue: '>=3.0.1'
+
+  '@tabler/icons@3.52.0':
+    resolution: {integrity: sha512-dldKlJNfO/gZnGLcIY0X2EFFKIMGwL/rEvTqglvBgAPFiwj9pZOCN5V3Sf0Gyjq6foX4VQmLdOmsS4w5FdWKAw==}
 
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
@@ -3252,6 +3389,15 @@ packages:
   perfect-debounce@2.1.0:
     resolution: {integrity: sha512-LjgdTytVFXeUgtHZr9WYViYSM/g8MkcTPYDlPa3cDqMirHjKiSZPYd6DoL7pK8AJQr+uWkQvCjHNdiMqsrJs+g==}
 
+  phosphor-svelte@3.1.1:
+    resolution: {integrity: sha512-M+CeN2s7YAFHWVxctLj41SyXsjWxoIoNi/rZ15XIYh9XEpbgJ2mE2hn54tA30l6WSagaBg2bA/OazlZJVDUkpQ==}
+    peerDependencies:
+      svelte: ^5.0.0 || ^5.0.0-next.96
+      vite: '>=5'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+
   piccolore@0.1.3:
     resolution: {integrity: sha512-o8bTeDWjE086iwKrROaDf31K0qC/BENdm15/uH9usSC/uZjJOKb2YGiVHfLY4GhwsERiPI1jmwI2XrA7ACOxVw==}
 
@@ -3516,6 +3662,11 @@ packages:
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: ^5.0.0 || ^6.0.0
+
+  svelte-remixicon@2.10.1:
+    resolution: {integrity: sha512-g0PpoZQ3nsMm46sW0mZYMx47EpZEZfXXow8rx7uSA3YxoFnmWDP07npJpB7bBi/3VQOMz9qJZodG8ltqOJJ+7A==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
 
   svelte2tsx@0.7.61:
     resolution: {integrity: sha512-EpQ/+UHITBULeUojx/LLD3uTYasZXcX1BrqlrzfLUnT9vdUhaOWK59a3ryWcFU8L0sY1SP+gRhJ2Beiis98+qw==}
@@ -4976,6 +5127,20 @@ snapshots:
 
   '@fontsource-variable/geist@5.3.0': {}
 
+  '@hugeicons/core-free-icons@4.4.0': {}
+
+  '@hugeicons/react@1.1.10(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@hugeicons/svelte@1.1.5(svelte@5.57.0)':
+    dependencies:
+      svelte: 5.57.0
+
+  '@hugeicons/vue@1.0.8(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
+
   '@img/colour@1.1.0':
     optional: true
 
@@ -5147,9 +5312,26 @@ snapshots:
 
   '@oxc-project/types@0.150.0': {}
 
+  '@phosphor-icons/react@2.1.10(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+
+  '@phosphor-icons/vue@2.2.1(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
+
   '@pnpm/deps.graph-sequencer@1100.0.1': {}
 
   '@polka/url@1.0.0-next.29': {}
+
+  '@remixicon/react@4.9.0(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@remixicon/vue@4.9.0(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
 
   '@rolldown/binding-android-arm-eabi@1.2.9':
     optional: true
@@ -5357,6 +5539,23 @@ snapshots:
       svelte: 5.57.0
       vite: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
       vitefu: 1.1.3(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  '@tabler/icons-react@3.52.0(react@19.3.0)':
+    dependencies:
+      '@tabler/icons': 3.52.0
+      react: 19.3.0
+
+  '@tabler/icons-svelte@3.52.0(svelte@5.57.0)':
+    dependencies:
+      '@tabler/icons': 3.52.0
+      svelte: 5.57.0
+
+  '@tabler/icons-vue@3.52.0(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      '@tabler/icons': 3.52.0
+      vue: 3.5.42(typescript@6.0.3)
+
+  '@tabler/icons@3.52.0': {}
 
   '@tailwindcss/node@4.3.3':
     dependencies:
@@ -6791,6 +6990,14 @@ snapshots:
 
   perfect-debounce@2.1.0: {}
 
+  phosphor-svelte@3.1.1(svelte@5.57.0)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)):
+    dependencies:
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+      svelte: 5.57.0
+    optionalDependencies:
+      vite: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
+
   piccolore@0.1.3: {}
 
   picocolors@1.1.1: {}
@@ -7100,6 +7307,10 @@ snapshots:
       typescript: 6.0.3
     transitivePeerDependencies:
       - picomatch
+
+  svelte-remixicon@2.10.1(svelte@5.57.0):
+    dependencies:
+      svelte: 5.57.0
 
   svelte2tsx@0.7.61(svelte@5.57.0)(typescript@6.0.3):
     dependencies:
