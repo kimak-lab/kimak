@@ -1,34 +1,41 @@
 import { chromeToggleVariant } from "../lib/chrome";
-import { isFramework, type Framework } from "../lib/nav";
+import { FRAMEWORK_EVENT, getFramework, setFramework } from "../lib/framework";
+import { isFramework } from "../lib/nav";
+import { watchSystemTheme } from "../lib/theme";
+import { initSearch } from "./search";
 
-const FRAMEWORK_KEY = "kimak.docs.framework";
-const THEME_KEY = "kimak.docs.theme";
+/** Mirrors `--breakpoint-nav` in global.css: below it the sidebar is a drawer. */
+const DRAWER_QUERY = window.matchMedia("(width < 53.75rem)");
 
-function currentFramework(): Framework {
-  return isFramework(document.documentElement.dataset.framework)
-    ? document.documentElement.dataset.framework
-    : "react";
+function isNavOpen() {
+  return "navOpen" in document.documentElement.dataset;
 }
 
-function setFramework(framework: Framework) {
-  document.documentElement.dataset.framework = framework;
-  localStorage.setItem(FRAMEWORK_KEY, framework);
-  syncFrameworkButtons();
-}
-
-function setTheme(theme: "light" | "dark") {
-  document.documentElement.classList.toggle("dark", theme === "dark");
-  localStorage.setItem(THEME_KEY, theme);
-  syncThemeButton();
-}
-
+/**
+ * Mobile drawer. While open, page content behind the backdrop is inert so Tab
+ * stays in header + drawer. On close, focus returns to the toggle if it was inside.
+ */
 function setNavOpen(open: boolean) {
+  if (open === isNavOpen()) return;
   const root = document.documentElement;
+  const drawer = document.getElementById("docs-nav");
+  const toggle = document.querySelector<HTMLElement>("[data-toggle-nav]");
+
   if (open) root.dataset.navOpen = "";
   else delete root.dataset.navOpen;
-  document.querySelectorAll("[data-toggle-nav]").forEach((el) => {
-    el.setAttribute("aria-expanded", String(open));
+  toggle?.setAttribute("aria-expanded", String(open));
+  document.querySelectorAll<HTMLElement>("[data-nav-inert]").forEach((el) => {
+    el.inert = open;
   });
+
+  if (open) {
+    const target =
+      drawer?.querySelector<HTMLElement>('[aria-current="page"]') ??
+      drawer?.querySelector<HTMLElement>("a[href], button");
+    target?.focus();
+  } else if (drawer?.contains(document.activeElement)) {
+    toggle?.focus();
+  }
 }
 
 function syncPressed(el: Element, pressed: boolean) {
@@ -39,17 +46,9 @@ function syncPressed(el: Element, pressed: boolean) {
 }
 
 function syncFrameworkButtons() {
-  const current = currentFramework();
+  const current = getFramework();
   document.querySelectorAll("[data-set-framework]").forEach((el) => {
     syncPressed(el, el.getAttribute("data-set-framework") === current);
-  });
-}
-
-function syncThemeButton() {
-  const dark = document.documentElement.classList.contains("dark");
-  document.querySelectorAll("[data-toggle-theme]").forEach((el) => {
-    el.setAttribute("aria-pressed", String(dark));
-    el.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
   });
 }
 
@@ -129,7 +128,7 @@ function visibleSnippet(block: Element) {
     return panel?.dataset.snippet ?? panel?.textContent ?? "";
   }
 
-  const framework = currentFramework();
+  const framework = getFramework();
   const library = document.documentElement.dataset.iconLibrary ?? "lucide";
   const node =
     block.querySelector(`[data-fw="${framework}"][data-icon-lib="${library}"][data-snippet]`) ??
@@ -168,16 +167,9 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  const themeButton = target.closest("[data-toggle-theme]");
-  if (themeButton) {
-    const next = document.documentElement.classList.contains("dark") ? "light" : "dark";
-    setTheme(next);
-    return;
-  }
-
   const navButton = target.closest("[data-toggle-nav]");
   if (navButton) {
-    setNavOpen(!("navOpen" in document.documentElement.dataset));
+    setNavOpen(!isNavOpen());
     return;
   }
 
@@ -212,10 +204,19 @@ document.addEventListener("click", (event) => {
   }
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") setNavOpen(false);
+// On window so it runs after document-level handlers (an open Popover in the
+// drawer handles Escape first and marks it defaultPrevented).
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !event.defaultPrevented && isNavOpen()) setNavOpen(false);
 });
 
+DRAWER_QUERY.addEventListener("change", (event) => {
+  if (!event.matches) setNavOpen(false);
+});
+
+// Demo tabs and the sidebar picker share one store; the event keeps tabs in sync.
+window.addEventListener(FRAMEWORK_EVENT, syncFrameworkButtons);
 syncFrameworkButtons();
-syncThemeButton();
+watchSystemTheme();
+initSearch({ beforeOpen: () => setNavOpen(false) });
 buildToc();

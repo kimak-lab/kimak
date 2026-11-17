@@ -74,13 +74,26 @@ html[data-icon-library="remix"] [data-icon-lib]:not([data-icon-lib="remix"]) {
 }
 
 @media (width < 53.75rem) {
+  /* Closed drawer is hidden (not just off-screen) so its links leave the tab order. */
   #docs-nav {
     translate: -105% 0;
-    transition: translate 160ms ease;
+    visibility: hidden;
+    transition:
+      translate 160ms ease,
+      visibility 0s linear 160ms;
   }
 
   html[data-nav-open] #docs-nav {
     translate: 0;
+    visibility: visible;
+    transition: translate 160ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #docs-nav,
+    html[data-nav-open] #docs-nav {
+      transition: none;
+    }
   }
 
   html[data-nav-open] [data-nav-backdrop] {

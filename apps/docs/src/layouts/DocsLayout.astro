@@ -26,7 +26,7 @@ const current = Astro.url.pathname.replace(/\/$/, "") || "/";
     class="mx-auto grid max-w-[88rem] grid-cols-[15rem_minmax(0,1fr)_13rem] items-start gap-4 px-5 pt-5 pb-16 max-toc:grid-cols-[14rem_minmax(0,1fr)] max-nav:grid-cols-1 max-nav:px-[0.85rem] max-nav:pt-4 max-nav:pb-12"
   >
     <Sidebar current={current} />
-    <div class="min-w-0">
+    <main id="main-content" tabindex="-1" class="min-w-0 outline-none" data-nav-inert>
       <article
         data-docs-article
         class:list={[
@@ -37,7 +37,7 @@ const current = Astro.url.pathname.replace(/\/$/, "") || "/";
         <slot />
         <PrevNext current={current} />
       </article>
-    </div>
+    </main>
     <Toc />
   </div>
 </BaseLayout>

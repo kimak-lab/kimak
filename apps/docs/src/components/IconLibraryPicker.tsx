@@ -26,7 +26,12 @@ export function IconLibraryPicker({ align = "end" }: { align?: "start" | "center
         aria-label={`Icon library: ${label}`}
         title="Icon library"
       >
-        {label}
+        {/* Every label is rendered; `html[data-icon-library]` CSS shows the active one before hydrate. */}
+        {ICON_LIBRARIES.map((library) => (
+          <span key={library} data-icon-lib={library}>
+            {iconLibraries[library].label}
+          </span>
+        ))}
         <ChevronDown data-icon="inline-end" aria-hidden="true" />
       </Popover.Trigger>
       <Popover.Content aria-label="Icon library" className="w-48 p-1">

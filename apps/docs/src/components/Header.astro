@@ -1,18 +1,28 @@
 ---
-import { buttonAttrs, buttonGroupAttrs } from "@kimak/ui-react";
-import { FRAMEWORKS } from "../lib/nav";
-import { chromeIdleVariant, chromeToggleVariant } from "../lib/chrome";
+import { buttonAttrs } from "@kimak/ui-react";
+import corePkg from "../../../../packages/core/package.json";
+import { nav } from "../lib/nav";
+import { chromeIdleVariant } from "../lib/chrome";
 import { IconLibraryPicker } from "./IconLibraryPicker";
+import SearchDialog from "./SearchDialog.astro";
+import { ThemePicker } from "./ThemePicker";
 
 interface Props {
   nav?: boolean;
 }
 
-const { nav = false } = Astro.props;
+const { nav: hasNav = false } = Astro.props;
 const github = "https://github.com/kimak-lab/kimak";
-const onDocs = Astro.url.pathname.startsWith("/docs");
+const releases = `${github}/releases`;
+const version = `v${corePkg.version}`;
+const pathname = Astro.url.pathname;
+const componentsHref =
+  nav.find((section) => section.title === "Components")?.items[0]?.href ?? "/docs/components/button";
+const onComponents = pathname.startsWith("/docs/components");
+const onDocs = pathname.startsWith("/docs") && !onComponents;
 const iconLook = buttonAttrs({ variant: chromeIdleVariant, size: "icon-sm" });
-const groupLook = buttonGroupAttrs();
+const primaryLink =
+  "text-[0.9rem] text-muted-foreground hover:text-foreground aria-[current=true]:text-foreground";
 ---
 
 <header
@@ -20,73 +30,104 @@ const groupLook = buttonGroupAttrs();
 >
   <div class="flex items-center gap-3">
     {
-      nav ? (
+      hasNav ? (
         <span class="hidden max-nav:inline-flex">
           <button
             type="button"
             {...iconLook}
+            class="group"
             data-toggle-nav
             aria-expanded="false"
             aria-controls="docs-nav"
+            aria-label="Docs navigation"
           >
-            <span class="sr-only">Open navigation</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg
+              class="group-aria-expanded:hidden"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
               <path d="M4 7h16M4 12h16M4 17h16"></path>
+            </svg>
+            <svg
+              class="hidden group-aria-expanded:block"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M6 6l12 12M18 6L6 18"></path>
             </svg>
           </button>
         </span>
       ) : null
     }
     <a class="font-[650] tracking-[-0.04em]" href="/">Kimak</a>
-    <nav class="flex items-center gap-3 max-nav:hidden" aria-label="Primary">
-      <a
-        class="text-[0.9rem] text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground"
-        href="/docs/getting-started"
-        aria-current={onDocs ? "page" : undefined}
-      >
+    <a
+      class="rounded-full border border-border px-2 py-px font-mono text-[0.7rem] text-muted-foreground hover:text-foreground"
+      href={releases}
+      title="Release notes"
+      aria-label={`Kimak ${version} release notes`}
+    >
+      {version}
+    </a>
+    <nav class="ml-2 flex items-center gap-4 max-nav:hidden" aria-label="Primary">
+      <a class={primaryLink} href="/docs/getting-started" aria-current={onDocs ? "true" : undefined}>
         Docs
+      </a>
+      <a class={primaryLink} href={componentsHref} aria-current={onComponents ? "true" : undefined}>
+        Components
       </a>
     </nav>
   </div>
-  <div class="flex items-center gap-3">
-    <div class="max-nav:hidden">
-      <IconLibraryPicker client:load />
-    </div>
-    <div class="max-nav:hidden">
-      <div {...groupLook} role="group" aria-label="Framework">
-        {
-          FRAMEWORKS.map((framework) => {
-            const pressed = framework === "react";
-            return (
-              <button
-                type="button"
-                {...buttonAttrs({ variant: chromeToggleVariant(pressed), size: "sm" })}
-                data-set-framework={framework}
-                aria-pressed={pressed}
-              >
-                {framework[0]?.toUpperCase() + framework.slice(1)}
-              </button>
-            );
-          })
-        }
-      </div>
-    </div>
-    <button type="button" {...iconLook} data-toggle-theme aria-pressed="false" aria-label="Switch to dark theme">
-      <svg class="dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"></path>
-      </svg>
+  <div class="flex items-center gap-3 max-nav:gap-2">
+    <button
+      type="button"
+      {...buttonAttrs({ variant: chromeIdleVariant, size: "sm" })}
+      class="w-52 justify-start font-normal text-muted-foreground max-toc:hidden"
+      data-open-search
+      aria-haspopup="dialog"
+      aria-keyshortcuts="Control+K Meta+K /"
+    >
       <svg
-        class="hidden dark:inline"
+        data-icon="inline-start"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
         aria-hidden="true"
       >
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"></path>
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.5-3.5"></path>
+      </svg>
+      Search docs…
+      <kbd
+        class="ml-auto rounded border border-border bg-muted px-1.5 font-mono text-[0.7rem] text-muted-foreground"
+        data-search-kbd
+        aria-hidden="true">Ctrl K</kbd
+      >
+    </button>
+    <button
+      type="button"
+      {...iconLook}
+      class="hidden max-toc:inline-flex"
+      data-open-search
+      aria-haspopup="dialog"
+      aria-keyshortcuts="Control+K Meta+K /"
+      aria-label="Search docs"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.5-3.5"></path>
       </svg>
     </button>
+    <div class="max-nav:hidden">
+      <IconLibraryPicker client:load />
+    </div>
+    <ThemePicker client:load />
     <a {...iconLook} href={github} aria-label="Kimak on GitHub">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
@@ -96,3 +137,4 @@ const groupLook = buttonGroupAttrs();
     </a>
   </div>
 </header>
+<SearchDialog />

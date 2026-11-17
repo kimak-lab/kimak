@@ -1,0 +1,53 @@
+---
+/**
+ * Docs chrome only: a native <dialog> (top layer, inert background, Escape) with an
+ * ARIA combobox + listbox. Not a Kimak Dialog/Command component. Behavior in scripts/search.ts.
+ */
+---
+
+<dialog
+  class="mx-auto mt-[12vh] w-[min(36rem,calc(100vw-1.5rem))] overflow-hidden rounded-[1.1rem] border border-border bg-docs-article p-0 text-foreground shadow-[0_24px_60px_-12px_oklch(0.2_0.02_264/35%)] backdrop:bg-[oklch(0.2_0.02_264/40%)] backdrop:backdrop-blur-[2px]"
+  aria-label="Search docs"
+  data-search-dialog
+>
+  <div class="flex items-center gap-2 border-b border-border px-4">
+    <svg
+      class="size-4 shrink-0 text-muted-foreground"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input
+      class="h-12 min-w-0 flex-1 bg-transparent text-[0.95rem] outline-none placeholder:text-muted-foreground"
+      type="text"
+      enterkeyhint="go"
+      placeholder="Search docs…"
+      autocomplete="off"
+      spellcheck="false"
+      role="combobox"
+      aria-label="Search docs"
+      aria-expanded="false"
+      aria-controls="search-results"
+      aria-autocomplete="list"
+      data-search-input
+    />
+    <kbd
+      class="rounded border border-border bg-muted px-1.5 font-mono text-[0.7rem] text-muted-foreground"
+      aria-hidden="true">Esc</kbd
+    >
+  </div>
+  <ul
+    id="search-results"
+    class="m-0 max-h-[min(24rem,60vh)] list-none overflow-auto p-1.5 empty:hidden"
+    role="listbox"
+    aria-label="Results"
+    data-search-results
+  ></ul>
+  <p class="m-0 px-4 py-6 text-center empty:hidden text-[0.9rem] text-muted-foreground" data-search-status aria-live="polite"
+  ></p>
+</dialog>

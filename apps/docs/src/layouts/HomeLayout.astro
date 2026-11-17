@@ -13,7 +13,7 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title} description={description}>
   <Header />
-  <main class="mx-auto max-w-[52rem] px-6 pt-14 pb-24">
+  <main id="main-content" tabindex="-1" class="mx-auto outline-none max-w-[52rem] px-6 pt-14 pb-24">
     <div
       class:list={[
         articleCard,

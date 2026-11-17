@@ -1,6 +1,8 @@
 ---
 import { nav } from "../lib/nav";
 import { articleCard } from "../lib/chrome";
+import { FrameworkPicker } from "./FrameworkPicker";
+import { IconLibraryPicker } from "./IconLibraryPicker";
 
 interface Props {
   current: string;
@@ -8,6 +10,8 @@ interface Props {
 
 const { current } = Astro.props;
 const normalized = current.replace(/\/$/, "") || "/";
+const sectionTitle =
+  "text-[0.7rem] font-[650] tracking-[0.08em] text-muted-foreground uppercase";
 ---
 
 <aside
@@ -18,13 +22,19 @@ const normalized = current.replace(/\/$/, "") || "/";
     "max-nav:fixed max-nav:top-14 max-nav:left-0 max-nav:z-40 max-nav:h-[calc(100vh-3.5rem)] max-nav:max-h-none max-nav:w-[min(18rem,86vw)] max-nav:rounded-none max-nav:border-y-0 max-nav:border-l-0 max-nav:shadow-none max-nav:px-4 max-nav:pt-[1.15rem] max-nav:pb-8",
   ]}
 >
+  <div class="mb-[1.35rem] flex flex-col gap-3 border-b border-border px-1 pb-[1.35rem]">
+    <FrameworkPicker client:load />
+    {/* Header hides the icon library picker below the nav breakpoint; the drawer is where mobile reaches it. */}
+    <div class="hidden flex-col items-start gap-2 max-nav:flex">
+      <span class="text-[0.8rem] text-muted-foreground" aria-hidden="true">Icon library</span>
+      <IconLibraryPicker client:load align="start" />
+    </div>
+  </div>
   <nav class="flex flex-col gap-[1.35rem]" aria-label="Docs">
     {
       nav.map((section) => (
         <div>
-          <p class="mb-[0.45rem] text-[0.7rem] font-[650] tracking-[0.08em] text-muted-foreground uppercase">
-            {section.title}
-          </p>
+          <p class:list={[sectionTitle, "mb-[0.45rem]"]}>{section.title}</p>
           {section.items.map((item) => (
             <a
               class="block rounded-full px-2.5 py-[0.35rem] text-[0.9rem] text-muted-foreground hover:bg-[color-mix(in_oklab,var(--docs-article)_70%,var(--accent))] hover:text-foreground aria-[current=page]:bg-[color-mix(in_oklab,var(--docs-article)_70%,var(--accent))] aria-[current=page]:text-foreground"

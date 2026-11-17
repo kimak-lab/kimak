@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import { buttonAttrs } from "@kimak/ui-react";
+import { chromeIdleVariant, chromePressedVariant } from "../lib/chrome";
+import { DEFAULT_FRAMEWORK } from "../lib/framework";
 
 interface Props {
   title: string;
@@ -17,14 +20,23 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <script is:inline>
+    <script
+      is:inline
+      define:vars={{
+        defaultFramework: DEFAULT_FRAMEWORK,
+        pressedVariant: chromePressedVariant,
+        idleVariant: chromeIdleVariant,
+      }}
+    >
       (() => {
         const root = document.documentElement;
         try {
-          const theme = localStorage.getItem("kimak.docs.theme");
+          const stored = localStorage.getItem("kimak.docs.theme");
+          const theme = stored === "light" || stored === "dark" ? stored : "system";
           const dark =
             theme === "dark" ||
-            (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          root.dataset.themePreference = theme;
           root.classList.toggle("dark", dark);
           const framework = localStorage.getItem("kimak.docs.framework");
           if (framework === "react" || framework === "vue" || framework === "svelte") {
@@ -37,12 +49,40 @@ const { title, description = "Headless UI primitives. React-first. Framework-agn
         } catch {
           /* private mode */
         }
+
+        // Framework toggles are server-rendered with the default pressed. Sync each
+        // one as the parser inserts it (mutation microtasks run before paint), so a
+        // stored Vue/Svelte choice never flashes React. prefs.ts takes over after load.
+        if (root.dataset.framework === defaultFramework) return;
+        const sync = (el) => {
+          const pressed = el.getAttribute("data-set-framework") === root.dataset.framework;
+          el.setAttribute("aria-pressed", String(pressed));
+          el.setAttribute("data-variant", pressed ? pressedVariant : idleVariant);
+        };
+        const observer = new MutationObserver((records) => {
+          for (const record of records) {
+            for (const node of record.addedNodes) {
+              if (!(node instanceof Element)) continue;
+              if (node.matches("[data-set-framework]")) sync(node);
+              node.querySelectorAll("[data-set-framework]").forEach(sync);
+            }
+          }
+        });
+        observer.observe(root, { childList: true, subtree: true });
+        document.addEventListener("DOMContentLoaded", () => observer.disconnect(), { once: true });
       })();
     </script>
   </head>
   <body
     class="min-h-screen bg-docs-canvas bg-[radial-gradient(var(--docs-dot)_0.85px,transparent_0.85px)] bg-size-[18px_18px] font-sans leading-relaxed text-foreground"
   >
+    <a
+      {...buttonAttrs({ variant: "default", size: "sm" })}
+      class="sr-only focus:not-sr-only focus:fixed! focus:top-2.5 focus:left-3 focus:z-50"
+      href="#main-content"
+    >
+      Skip to content
+    </a>
     <slot />
     <script src="../scripts/prefs.ts"></script>
   </body>
